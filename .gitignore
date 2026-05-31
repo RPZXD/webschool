@@ -3,3 +3,4 @@
 scratch/
 composer.phar
 skills-lock.json
+config/database.php

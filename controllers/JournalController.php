@@ -7,21 +7,10 @@ class JournalController {
 
     public function __construct() {
         try {
-            $host = getenv('DB_HOST') ?: '127.0.0.1';
-            $dbUser = getenv('DB_USER') ?: 'phichaia_stdcare';
-            $dbPass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '48dv_m64N';
-
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ];
-
-            // เชื่อมต่อฐานข้อมูล General และ Student
-            $this->pdo = new PDO("mysql:host={$host};dbname=phichaia_general;charset=utf8mb4", $dbUser, $dbPass, $options);
-            $this->pdoUsers = new PDO("mysql:host={$host};dbname=phichaia_student;charset=utf8mb4", $dbUser, $dbPass, $options);
-            
-        } catch (PDOException $e) {
+            // เชื่อมต่อฐานข้อมูล General และ Student ผ่าน Database class
+            $this->pdo = Database::connect('phichaia_general');
+            $this->pdoUsers = Database::connect('phichaia_student');
+        } catch (Exception $e) {
             error_log("JournalController DB Error: " . $e->getMessage());
             $this->pdo = null;
             $this->pdoUsers = null;

@@ -11,7 +11,7 @@ return [
     'obec' => 'เว็บไซต์ สพฐ.',
     'emis' => 'ระบบ EMIS สารสนเทศ',
     'gpa' => 'ระบบ GPA (ผลการเรียน)',
-    'admin_panel' => 'แผงแอดมิน / บุคลากร',
+    'admin_panel' => 'Login',
     'admin_dashboard' => 'ระบบแอดมิน',
     'logout' => 'ออกจากระบบ',
     'welcome_school' => 'ยินดีต้อนรับสู่สถานศึกษาของเรา',

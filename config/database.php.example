@@ -1,0 +1,65 @@
+<?php
+// config/database.php.example
+// Copy this file to config/database.php and adjust settings to match your database config
+
+class Database {
+    private static $host = '127.0.0.1';
+    private static $db_name = 'school_db';
+    private static $username = 'root'; // set your local db username (e.g. root)
+    private static $password = ''; // set your local db password
+    private static $conns = [];
+
+    /**
+     * Connects to the database and returns the PDO instance
+     * @param string|null $dbName Optional database name override
+     * @return PDO
+     */
+    public static function connect($dbName = null) {
+        $host = getenv('DB_HOST') ?: self::$host;
+        $targetDb = $dbName ?: (getenv('DB_NAME') ?: self::$db_name);
+
+        // Auto-detect environment based on server name / CLI
+        $is_local = in_array(
+            $_SERVER['SERVER_NAME'] ?? $_SERVER['HTTP_HOST'] ?? 'localhost',
+            ['localhost', '127.0.0.1']
+        ) || php_sapi_name() === 'cli';
+
+        $defaultUser = $is_local ? 'root' : 'phichaia_stdcare';
+        $defaultPass = $is_local ? '' : '48dv_m64N';
+
+        // Check environment vars first, then class static settings, then environment defaults
+        $dbUser = getenv('DB_USER') ?: (self::$username ?: $defaultUser);
+        $dbPass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : (self::$password !== null ? self::$password : $defaultPass);
+
+        $cacheKey = $host . '_' . $targetDb . '_' . $dbUser;
+        if (isset(self::$conns[$cacheKey])) {
+            return self::$conns[$cacheKey];
+        }
+
+        try {
+            $conn = new PDO(
+                "mysql:host=" . $host . ";dbname=" . $targetDb . ";charset=utf8mb4",
+                $dbUser,
+                $dbPass,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ]
+            );
+            self::$conns[$cacheKey] = $conn;
+            return $conn;
+        } catch (PDOException $e) {
+            // Write to system error log
+            error_log("Database Connection Error (" . $targetDb . "): " . $e->getMessage());
+            
+            // Show a user-friendly message
+            header('HTTP/1.1 500 Internal Server Error');
+            echo '<div style="font-family: sans-serif; text-align: center; padding: 50px;">';
+            echo '<h2 style="color: #e53e3e;">ขออภัย เกิดข้อผิดพลาดทางระบบ</h2>';
+            echo '<p>ไม่สามารถเชื่อมต่อฐานข้อมูลได้ในขณะนี้ กรุณาติดต่อผู้ดูแลระบบหรือลองใหม่อีกครั้ง</p>';
+            echo '</div>';
+            exit();
+        }
+    }
+}

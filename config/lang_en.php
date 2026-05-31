@@ -11,7 +11,7 @@ return [
     'obec' => 'OBEC Website',
     'emis' => 'EMIS Information System',
     'gpa' => 'GPA System (Binet)',
-    'admin_panel' => 'Staff / Admin Portal',
+    'admin_panel' => 'Login',
     'admin_dashboard' => 'Admin Dashboard',
     'logout' => 'Logout',
     'welcome_school' => 'Welcome to our institution',

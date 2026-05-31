@@ -14,38 +14,8 @@ class Student {
      * supporting environment configurations and XAMPP local fallbacks.
      */
     public static function connect() {
-        $host = getenv('DB_HOST') ?: '127.0.0.1';
-        $dbname = 'phichaia_student';
-
-        // Auto-detect environment based on server name / CLI
-        $is_local = in_array(
-            $_SERVER['SERVER_NAME'] ?? $_SERVER['HTTP_HOST'] ?? 'localhost',
-            ['localhost', '127.0.0.1']
-        ) || php_sapi_name() === 'cli';
-
-        if ($is_local) {
-            $username = 'root';
-            $password = '';
-        } else {
-            $username = 'phichaia_stdcare';
-            $password = '48dv_m64N';
-        }
-
-        // Support environment overrides
-        $dbUser = getenv('STUDENT_DB_USER') ?: $username;
-        $dbPass = getenv('STUDENT_DB_PASSWORD') !== false ? getenv('STUDENT_DB_PASSWORD') : $password;
-
         try {
-            return new PDO(
-                "mysql:host=" . $host . ";dbname=" . $dbname . ";charset=utf8mb4",
-                $dbUser,
-                $dbPass,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                ]
-            );
+            return Database::connect('phichaia_student');
         } catch (PDOException $e) {
             error_log("Student Database Connection Error: " . $e->getMessage());
             throw new Exception("Student Database Connection Error: " . $e->getMessage());

@@ -81,7 +81,7 @@
     </footer>
 
     <!-- PDPA Consent Modal/Banner (Glassmorphism layout) -->
-    <div id="pdpa-banner" class="fixed bottom-6 left-6 right-6 md:left-auto md:max-w-md bg-white/95 dark:bg-slate-900/80 backdrop-blur-2xl border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl z-50 transform translate-y-24 opacity-0 transition-all duration-700 ease-out">
+    <div id="pdpa-banner" class="hidden fixed bottom-6 left-6 right-6 md:left-auto md:max-w-md bg-white/95 dark:bg-slate-900/80 backdrop-blur-2xl border border-slate-200 dark:border-white/10 p-6 rounded-2xl shadow-2xl z-50 transform translate-y-24 opacity-0 transition-all duration-700 ease-out">
         <div class="space-y-4">
             <div class="flex items-start gap-3">
                 <div class="p-2.5 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-xl border border-indigo-500/20">
@@ -199,10 +199,13 @@
             // Check if user already consented
             if (!getCookie('pdpa_consent')) {
                 // Show banner with slide-up effect
-                setTimeout(() => {
-                    pdpaBanner.classList.remove('translate-y-24', 'opacity-0');
-                    pdpaBanner.classList.add('translate-y-0', 'opacity-100');
-                }, 1000);
+                if (pdpaBanner) {
+                    pdpaBanner.classList.remove('hidden');
+                    setTimeout(() => {
+                        pdpaBanner.classList.remove('translate-y-24', 'opacity-0');
+                        pdpaBanner.classList.add('translate-y-0', 'opacity-100');
+                    }, 100);
+                }
             }
 
             // Action: Accept All Cookies

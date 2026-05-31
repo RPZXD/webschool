@@ -198,6 +198,18 @@ $basicInfoMenu = [
     <meta name="description" content="เว็บไซต์และระบบเผยแพร่ข้อมูลการประเมินคุณธรรมและความโปร่งใส (ITA) ออนไลน์ ของ <?php echo SCHOOL_NAME; ?>">
     <title><?php echo $title ?? SCHOOL_NAME; ?></title>
     
+    <!-- Suppress Tailwind Play CDN production warning in console -->
+    <script>
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -383,13 +395,19 @@ $basicInfoMenu = [
     <!-- Mobile Drawer Menu -->
     <div id="mobile-menu" class="hidden fixed inset-0 z-50 flex justify-end">
             <!-- Backdrop Overlay -->
-            <div id="mobile-menu-backdrop" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 ease-out"></div>
+            <div id="mobile-menu-backdrop" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 ease-out z-10"></div>
             <!-- Content Panel -->
-            <div class="drawer-panel relative w-full max-w-[300px] sm:max-w-[320px] bg-slate-50 dark:bg-slate-900 border-l border-slate-200 dark:border-white/10 shadow-2xl h-full flex flex-col transform translate-x-full transition-transform duration-300 ease-out" onclick="event.stopPropagation()">
+            <div class="drawer-panel relative z-20 w-full max-w-[300px] sm:max-w-[320px] bg-slate-50 dark:bg-slate-900 border-l border-slate-200 dark:border-white/10 shadow-2xl h-full flex flex-col transform translate-x-full transition-transform duration-300 ease-out">
                 <!-- Drawer Header -->
                 <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950/50">
                     <div class="flex items-center gap-2">
-                        <img src="<?php echo BASE_URL; ?>assets/images/logo.png" alt="School Logo" class="w-8 h-8 object-contain" onerror="this.style.display='none'">
+                        <?php if (!empty(SCHOOL_LOGO)): ?>
+                            <img src="<?php echo UPLOAD_URL . SCHOOL_LOGO; ?>" alt="School Logo" class="w-8 h-8 rounded-lg object-cover border border-slate-200 dark:border-white/10" onerror="this.style.display='none'">
+                        <?php else: ?>
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center">
+                                <span class="text-white font-english font-black text-xs"><?php echo SCHOOL_SHORT_NAME; ?></span>
+                            </div>
+                        <?php endif; ?>
                         <span class="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider">เมนูหลัก / Menu</span>
                     </div>
                     <button id="mobile-menu-close" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors">
@@ -523,7 +541,7 @@ $basicInfoMenu = [
                 </div>
 
                 <!-- Admin Action Section (Drawer Footer) -->
-                <div class="p-4 border-t border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950/30">
+                <div class="p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] border-t border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950/30 relative z-30">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="space-y-2">
                             <p class="text-[10px] text-indigo-500 dark:text-indigo-400 font-bold mb-1 px-1">
