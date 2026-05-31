@@ -11,7 +11,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบหลังบ้านแอดมิน | <?php echo SCHOOL_NAME; ?></title>
     
-    <!-- Tailwind CSS & FontAwesome -->
+    <!-- Suppress Tailwind Play CDN production warning in console -->
+    <script>
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
+    <!-- Tailwind CSS, Bootstrap 5.3, FontAwesome & SweetAlert2 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -26,6 +38,9 @@
             }
         }
     </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>css/style.css">
 
@@ -46,25 +61,23 @@
         })();
     </script>
 </head>
-<body class="bg-gradient-mesh min-h-screen text-slate-800 dark:text-slate-100 font-sans flex flex-col transition-colors duration-300">
-
-    <!-- Admin Top Navbar -->
+<body class="bg-gradient-mesh min-h-screen text-slate-800 dark:text-slate-100 font-sans flex flex-co    <!-- Admin Top Navbar -->
     <nav class="sticky top-0 z-50 glass-nav shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Branding -->
-                <div class="flex items-center gap-3">
+                <a href="<?php echo BASE_URL; ?>admin" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center border border-indigo-400/20 shadow-md">
                         <span class="text-white font-english font-black text-sm"><?php echo SCHOOL_SHORT_NAME; ?></span>
                     </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm font-bold text-slate-900 dark:text-white tracking-wide leading-tight">ระบบบริหารจัดการหลังบ้าน</span>
-                        <span class="text-[9px] text-slate-500 dark:text-slate-400 font-english mt-0.5"><?php echo SCHOOL_NAME_EN; ?></span>
+                    <div class="flex flex-col text-left">
+                        <span class="text-sm font-bold text-slate-900 dark:text-white tracking-wide leading-tight">ระบบหลังบ้านแอดมิน</span>
+                        <span class="text-[9px] text-slate-550 dark:text-slate-400 font-english mt-0.5"><?php echo SCHOOL_NAME_EN; ?></span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Navigation Portal links -->
-                <div class="flex items-center gap-3">
+                <!-- Desktop Navigation Portal links -->
+                <div class="hidden md:flex items-center gap-3">
                     <a href="<?php echo BASE_URL; ?>admin/settings" class="px-4 py-2 bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/20 rounded-xl text-xs font-semibold text-indigo-600 dark:text-indigo-300 transition-all duration-300">
                         <i class="fa-solid fa-cog mr-1.5"></i>ตั้งค่าระบบ
                     </a>
@@ -83,8 +96,109 @@
                         <span class="text-xs text-slate-700 dark:text-slate-300 font-semibold bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-xl">
                             <i class="fa-solid fa-user text-indigo-500 dark:text-indigo-400 mr-1.5"></i><?php echo htmlspecialchars($_SESSION['fullname']); ?>
                         </span>
-                        <a href="<?php echo BASE_URL; ?>logout" class="px-4 py-2 bg-red-600/10 dark:bg-red-600/20 border border-red-500/20 dark:border-red-500/30 text-red-600 dark:text-red-300 hover:bg-red-600/20 dark:hover:bg-red-600/30 rounded-xl text-xs font-semibold transition-all duration-300">
+                        <a href="<?php echo BASE_URL; ?>logout" class="px-4 py-2 bg-red-600/10 dark:bg-red-600/20 border border-red-500/20 dark:border-red-500/30 text-red-600 dark:text-red-300 hover:bg-red-600/20 dark:hover:bg-red-600/30 rounded-xl text-xs font-semibold transition-all duration-300" onclick="confirmLogout(event)">
                             <i class="fa-solid fa-sign-out-alt mr-1.5"></i>ออกจากระบบ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile Header Actions -->
+                <div class="flex md:hidden items-center gap-2">
+                    <!-- Dark/Light Theme Switcher Button -->
+                    <button onclick="toggleDarkMode()" class="p-2.5 hover:bg-slate-200 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-white transition-all duration-200 flex items-center justify-center" title="สลับโหมด สีสว่าง/สีมืด">
+                        <i id="theme-icon-mobile" class="fa-solid fa-moon"></i>
+                    </button>
+                    
+                    <!-- Mobile Hamburger Button to open Offcanvas -->
+                    <button class="p-2.5 bg-slate-200/50 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 rounded-xl text-slate-700 dark:text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas">
+                        <i class="fa-solid fa-bars text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Offcanvas Sidebar Drawer (Bootstrap 5.3) -->
+    <div class="offcanvas offcanvas-start bg-slate-900 dark:bg-darkblue-950 text-white" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarOffcanvasLabel" style="width: 280px; border-right: 1px solid rgba(255,255,255,0.08);">
+        <div class="offcanvas-header border-b border-white/5 bg-slate-950/50 py-4 px-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <span class="text-white font-english font-black text-xs"><?php echo SCHOOL_SHORT_NAME; ?></span>
+                </div>
+                <span class="text-xs font-bold text-white uppercase tracking-wider font-english">Admin Portal</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white text-white text-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-3 space-y-4">
+            <div class="space-y-1.5">
+                <p class="px-3 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">เมนูจัดการข้อมูล</p>
+                
+                <a href="?tab=news" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'news' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-regular fa-newspaper text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'news' ? '!text-white' : ''; ?>"></i>
+                    <span>จัดการข่าวสารและกิจกรรม</span>
+                </a>
+                
+                <a href="?tab=ita" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'ita' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-chart-bar text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'ita' ? '!text-white' : ''; ?>"></i>
+                    <span>ประเมิน ITA Online</span>
+                </a>
+                
+                <a href="?tab=hero" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'hero' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-regular fa-images text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'hero' ? '!text-white' : ''; ?>"></i>
+                    <span>รูปสไลด์หน้าแรก (Hero)</span>
+                </a>
+                
+                <a href="?tab=ticker" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'ticker' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-bullhorn text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'ticker' ? '!text-white' : ''; ?>"></i>
+                    <span>ข่าวด่วนตัววิ่ง (Ticker)</span>
+                </a>
+                
+                <a href="?tab=about" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'about' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-info-circle text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'about' ? '!text-white' : ''; ?>"></i>
+                    <span>แนะนำโรงเรียน (About)</span>
+                </a>
+                
+                <a href="?tab=stats" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'stats' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-database text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'stats' ? '!text-white' : ''; ?>"></i>
+                    <span>สถิติและข้อมูลทั่วไป</span>
+                </a>
+                
+                <a href="?tab=schedules" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'schedules' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-calendar-days text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'schedules' ? '!text-white' : ''; ?>"></i>
+                    <span>จัดการตารางเรียน/สอน</span>
+                </a>
+                
+                <a href="?tab=documents" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'documents' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-folder-open text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'documents' ? '!text-white' : ''; ?>"></i>
+                    <span>จัดการไฟล์คู่มือและระเบียบ</span>
+                </a>
+                
+                <a href="?tab=feedback" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'feedback' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-comments text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'feedback' ? '!text-white' : ''; ?>"></i>
+                    <span>จัดการลิงก์รับฟังความคิดเห็น</span>
+                </a>
+                
+                <a href="?tab=complaints" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'complaints' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-circle-exclamation text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'complaints' ? '!text-white' : ''; ?>"></i>
+                    <span>จัดการลิงก์รับเรื่องร้องเรียน</span>
+                </a>
+            </div>
+
+            <hr class="border-white/5 my-3">
+
+            <div class="space-y-2.5 p-3 bg-slate-950/40 rounded-2xl border border-white/5 text-left">
+                <div class="flex items-center gap-2 px-1 text-slate-400">
+                    <i class="fa-solid fa-user-circle text-indigo-400 text-md"></i>
+                    <span class="text-xs truncate font-semibold"><?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1.5">
+                    <a href="<?php echo BASE_URL; ?>admin/settings" class="flex items-center justify-center py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold rounded-xl transition-all shadow-md"><i class="fa-solid fa-cog mr-1"></i>ตั้งค่าระบบ</a>
+                    <a href="<?php echo BASE_URL; ?>" target="_blank" class="flex items-center justify-center py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl border border-white/10 transition-all"><i class="fa-solid fa-globe mr-1"></i>เว็บหลัก</a>
+                </div>
+                <a href="<?php echo BASE_URL; ?>logout" class="w-full flex items-center justify-center py-2 bg-red-600/10 hover:bg-red-600/20 border border-red-500/20 text-red-400 text-[10px] font-bold rounded-xl transition-all" onclick="confirmLogout(event)"><i class="fa-solid fa-sign-out-alt mr-1"></i>ออกจากระบบ</a>
+            </div>
+        </div>
+    </div>s="fa-solid fa-sign-out-alt mr-1.5"></i>ออกจากระบบ
                         </a>
                     </div>
                 </div>
@@ -316,7 +430,7 @@
                                                 <button onclick="openEditNewsModal(<?php echo htmlspecialchars(json_encode($news)); ?>)" class="p-2 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-200" title="แก้ไข">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </button>
-                                                <a href="<?php echo BASE_URL; ?>admin/news/delete?id=<?php echo $news['id']; ?>" onclick="return confirm('คุณต้องการลบข่าวสารนี้ใช่หรือไม่?')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
+                                                <a href="<?php echo BASE_URL; ?>admin/news/delete?id=<?php echo $news['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบข่าวสารประชาสัมพันธ์นี้ใช่หรือไม่? ข้อมูลทั้งหมดรวมถึงรูปภาพจะถูกลบออกจากระบบอย่างถาวร')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </a>
                                             </div>
@@ -400,7 +514,7 @@
                                                 <button onclick="openEditItaModal(<?php echo htmlspecialchars(json_encode($item)); ?>)" class="p-2 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-200" title="แก้ไข">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </button>
-                                                <a href="<?php echo BASE_URL; ?>admin/ita/delete?code=<?php echo $item['code']; ?>" onclick="return confirm('คุณต้องการลบข้อมูลทั้งหมดของตัวชี้วัด <?php echo $item['code']; ?> ใช่หรือไม่?')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบข้อมูล">
+                                                <a href="<?php echo BASE_URL; ?>admin/ita/delete?code=<?php echo $item['code']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบไฟล์แนบและลิงก์เชื่อมโยงทั้งหมดของตัวชี้วัด <?php echo $item['code']; ?> ใช่หรือไม่?')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบข้อมูล">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </a>
                                             </div>
@@ -482,7 +596,7 @@
                                                 <button onclick="openEditHeroModal(<?php echo htmlspecialchars(json_encode($hero)); ?>)" class="p-2 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-200" title="แก้ไข">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </button>
-                                                <a href="<?php echo BASE_URL; ?>admin/hero/delete?id=<?php echo $hero['id']; ?>" onclick="return confirm('คุณต้องการลบรูปภาพสไลด์นี้ใช่หรือไม่?')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
+                                                <a href="<?php echo BASE_URL; ?>admin/hero/delete?id=<?php echo $hero['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบรูปภาพสไลด์แนะนำนี้ใช่หรือไม่? ไฟล์รูปภาพจะถูกลบออกจากเซิร์ฟเวอร์ด้วย')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </a>
                                             </div>
@@ -554,7 +668,7 @@
                                                 <button onclick="openEditTickerModal(<?php echo htmlspecialchars(json_encode($ticker)); ?>)" class="p-2 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-200" title="แก้ไข">
                                                     <i class="fa-solid fa-edit"></i>
                                                 </button>
-                                                <a href="<?php echo BASE_URL; ?>admin/ticker/delete?id=<?php echo $ticker['id']; ?>" onclick="return confirm('คุณต้องการลบข้อความข่าวด่วนนี้ใช่หรือไม่?')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
+                                                <a href="<?php echo BASE_URL; ?>admin/ticker/delete?id=<?php echo $ticker['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบข้อความวิ่งแจ้งเตือนข่าวด่วนนี้ใช่หรือไม่?')" class="p-2 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </a>
                                             </div>
@@ -1550,6 +1664,59 @@
             }
         }
 
+        // SweetAlert2 Theme Helper
+        function getSwalThemeOptions() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                background: isDark ? '#1e293b' : '#ffffff', // slate-800 or white
+                color: isDark ? '#f8fafc' : '#1e293b', // slate-50 or slate-800
+                confirmButtonColor: '#4f46e5', // indigo-600
+                cancelButtonColor: '#64748b' // slate-500
+            };
+        }
+
+        // SweetAlert2 Confirmation Dialogs
+        function confirmDelete(event, message) {
+            event.preventDefault();
+            const target = event.currentTarget;
+            const url = target.getAttribute('href');
+            const themeOpts = getSwalThemeOptions();
+            Swal.fire({
+                title: 'ยืนยันการลบข้อมูล?',
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ต้องการลบ!',
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#ef4444', // red-500
+                ...themeOpts
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+
+        function confirmLogout(event) {
+            event.preventDefault();
+            const target = event.currentTarget;
+            const url = target.getAttribute('href');
+            const themeOpts = getSwalThemeOptions();
+            Swal.fire({
+                title: 'ออกจากระบบ?',
+                text: 'คุณต้องการออกจากระบบบริหารจัดการใช่หรือไม่?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ออกจากระบบ',
+                cancelButtonText: 'ยกเลิก',
+                ...themeOpts
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+
         // Dark/Light Theme Switcher Handler
         const htmlDoc = document.documentElement;
 
@@ -1562,12 +1729,14 @@
 
         function updateThemeUI(theme) {
             const themeIconEl = document.getElementById('theme-icon');
-            if (!themeIconEl) return;
+            const themeIconMobileEl = document.getElementById('theme-icon-mobile');
             
             if (theme === 'dark') {
-                themeIconEl.className = 'fa-solid fa-sun text-yellow-400';
+                if (themeIconEl) themeIconEl.className = 'fa-solid fa-sun text-yellow-400';
+                if (themeIconMobileEl) themeIconMobileEl.className = 'fa-solid fa-sun text-yellow-400';
             } else {
-                themeIconEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-300';
+                if (themeIconEl) themeIconEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-350';
+                if (themeIconMobileEl) themeIconMobileEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-350';
             }
         }
 

@@ -8,7 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
     
-    <!-- Tailwind CSS & FontAwesome -->
+    <!-- Suppress Tailwind Play CDN production warning in console -->
+    <script>
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) {
+                    return;
+                }
+                originalWarn.apply(console, args);
+            };
+        })();
+    </script>
+    <!-- Tailwind CSS, Bootstrap 5.3, FontAwesome & SweetAlert2 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -23,6 +35,9 @@
             }
         }
     </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>css/style.css">
 
@@ -76,7 +91,7 @@
                         <span class="text-xs text-slate-700 dark:text-slate-300 font-semibold bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-xl">
                             <i class="fa-solid fa-user text-indigo-500 dark:text-indigo-400 mr-1.5"></i><?php echo htmlspecialchars($_SESSION['fullname']); ?>
                         </span>
-                        <a href="<?php echo BASE_URL; ?>logout" class="px-4 py-2 bg-red-600/10 dark:bg-red-600/20 border border-red-500/20 dark:border-red-500/30 text-red-600 dark:text-red-300 hover:bg-red-600/20 dark:hover:bg-red-600/30 rounded-xl text-xs font-semibold transition-all duration-300">
+                        <a href="<?php echo BASE_URL; ?>logout" onclick="confirmLogout(event)" class="px-4 py-2 bg-red-600/10 dark:bg-red-600/20 border border-red-500/20 dark:border-red-500/30 text-red-600 dark:text-red-300 hover:bg-red-600/20 dark:hover:bg-red-600/30 rounded-xl text-xs font-semibold transition-all duration-300">
                             <i class="fa-solid fa-sign-out-alt mr-1.5"></i>ออกจากระบบ
                         </a>
                     </div>
@@ -241,13 +256,17 @@
                         <!-- School Logo Upload -->
                         <div class="space-y-4">
                             <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block">โลโก้สถาบัน (School Logo)</label>
-                            <div class="p-4 border border-dashed border-slate-300 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 bg-slate-50/50 dark:bg-slate-950/20">
-                                <?php if (!empty($settings['school_logo'])): ?>
-                                    <img src="<?php echo UPLOAD_URL . $settings['school_logo']; ?>" alt="Logo Preview" class="w-20 h-20 object-cover rounded-xl border border-slate-200 dark:border-white/10 shadow-lg">
-                                <?php else: ?>
-                                    <span class="w-20 h-20 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 text-3xl"><i class="fa-solid fa-image"></i></span>
-                                <?php endif; ?>
-                                <input type="file" name="school_logo" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-[11px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-600 dark:file:bg-white/5 dark:file:text-white hover:file:bg-indigo-600/20 dark:hover:file:bg-white/10 cursor-pointer">
+                            <div class="relative p-6 border-2 border-dashed border-slate-300 dark:border-white/20 hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 bg-slate-50/50 dark:bg-slate-950/20 hover:bg-slate-100/50 dark:hover:bg-slate-900/30 transition-all duration-300 cursor-pointer">
+                                <input type="file" name="school_logo" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="previewImage(this, 'school_logo_preview')">
+                                <div class="flex flex-col items-center justify-center space-y-2.5 z-0" id="school_logo_preview_container">
+                                    <?php if (!empty($settings['school_logo'])): ?>
+                                        <img id="school_logo_preview" src="<?php echo UPLOAD_URL . $settings['school_logo']; ?>" alt="Logo Preview" class="w-20 h-20 object-cover rounded-xl border border-slate-200 dark:border-white/10 shadow-lg">
+                                    <?php else: ?>
+                                        <span id="school_logo_preview_placeholder" class="w-20 h-20 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 text-3xl"><i class="fa-solid fa-image"></i></span>
+                                        <img id="school_logo_preview" class="w-20 h-20 object-cover rounded-xl border border-slate-200 dark:border-white/10 shadow-lg hidden">
+                                    <?php endif; ?>
+                                    <span class="px-3 py-1.5 rounded-xl bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold hover:bg-indigo-600/20 transition-all"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>อัปโหลดโลโก้ใหม่</span>
+                                </div>
                             </div>
                             <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">รองรับไฟล์ภาพ .png, .jpg, .webp ขนาดไม่เกิน 5MB (แนะนำเป็นภาพพื้นหลังโปร่งใสแบบสี่เหลี่ยมจัตุรัส)</p>
                         </div>
@@ -255,13 +274,17 @@
                         <!-- Favicon Upload -->
                         <div class="space-y-4">
                             <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block">ไอคอนหน้าต่างเบราว์เซอร์ (Favicon)</label>
-                            <div class="p-4 border border-dashed border-slate-300 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 bg-slate-50/50 dark:bg-slate-950/20">
-                                <?php if (!empty($settings['school_favicon'])): ?>
-                                    <img src="<?php echo UPLOAD_URL . $settings['school_favicon']; ?>" alt="Favicon Preview" class="w-10 h-10 object-cover rounded-md border border-slate-200 dark:border-white/10 shadow-md">
-                                <?php else: ?>
-                                    <span class="w-10 h-10 rounded-md bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 text-xl"><i class="fa-solid fa-shapes"></i></span>
-                                <?php endif; ?>
-                                <input type="file" name="school_favicon" accept="image/x-icon, image/png, image/jpeg, image/gif" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-[11px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-600 dark:file:bg-white/5 dark:file:text-white hover:file:bg-indigo-600/20 dark:hover:file:bg-white/10 cursor-pointer">
+                            <div class="relative p-6 border-2 border-dashed border-slate-300 dark:border-white/20 hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 bg-slate-50/50 dark:bg-slate-950/20 hover:bg-slate-100/50 dark:hover:bg-slate-900/30 transition-all duration-300 cursor-pointer">
+                                <input type="file" name="school_favicon" accept="image/x-icon, image/png, image/jpeg, image/gif" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="previewImage(this, 'school_favicon_preview')">
+                                <div class="flex flex-col items-center justify-center space-y-2.5 z-0" id="school_favicon_preview_container">
+                                    <?php if (!empty($settings['school_favicon'])): ?>
+                                        <img id="school_favicon_preview" src="<?php echo UPLOAD_URL . $settings['school_favicon']; ?>" alt="Favicon Preview" class="w-10 h-10 object-cover rounded-md border border-slate-200 dark:border-white/10 shadow-md">
+                                    <?php else: ?>
+                                        <span id="school_favicon_preview_placeholder" class="w-10 h-10 rounded-md bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 text-xl"><i class="fa-solid fa-shapes"></i></span>
+                                        <img id="school_favicon_preview" class="w-10 h-10 object-cover rounded-md border border-slate-200 dark:border-white/10 shadow-md hidden">
+                                    <?php endif; ?>
+                                    <span class="px-3 py-1.5 rounded-xl bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold hover:bg-indigo-600/20 transition-all"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>อัปโหลดไอคอนใหม่</span>
+                                </div>
                             </div>
                             <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">รองรับไฟล์ .ico, .png, .jpg ขนาดไม่เกิน 2MB (ขนาดมาตรฐานควรเป็น 16x16 หรือ 32x32 พิกเซล)</p>
                         </div>
@@ -291,13 +314,17 @@
 
                         <div class="space-y-4">
                             <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block">รูปภาพผู้บริหาร (Executive Photo)</label>
-                            <div class="p-4 border border-dashed border-slate-300 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 bg-slate-50/50 dark:bg-slate-950/20">
-                                <?php if (!empty($settings['exec_image'])): ?>
-                                    <img src="<?php echo UPLOAD_URL . $settings['exec_image']; ?>" alt="Executive Preview" class="w-32 h-40 object-cover rounded-xl border border-slate-200 dark:border-white/10 shadow-lg animate-fade-in">
-                                <?php else: ?>
-                                    <span class="w-32 h-40 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 text-3xl"><i class="fa-solid fa-user"></i></span>
-                                <?php endif; ?>
-                                <input type="file" name="exec_image" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-4 file:py-1.5 file:px-3.5 file:rounded-xl file:border-0 file:text-[11px] file:font-semibold file:bg-indigo-600/10 file:text-indigo-600 dark:file:bg-white/5 dark:file:text-white hover:file:bg-indigo-600/20 dark:hover:file:bg-white/10 cursor-pointer">
+                            <div class="relative p-6 border-2 border-dashed border-slate-300 dark:border-white/20 hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl flex flex-col items-center justify-center text-center space-y-3 bg-slate-50/50 dark:bg-slate-950/20 hover:bg-slate-100/50 dark:hover:bg-slate-900/30 transition-all duration-300 cursor-pointer">
+                                <input type="file" name="exec_image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-10" onchange="previewImage(this, 'exec_image_preview')">
+                                <div class="flex flex-col items-center justify-center space-y-2.5 z-0" id="exec_image_preview_container">
+                                    <?php if (!empty($settings['exec_image'])): ?>
+                                        <img id="exec_image_preview" src="<?php echo UPLOAD_URL . $settings['exec_image']; ?>" alt="Executive Preview" class="w-32 h-40 object-cover rounded-xl border border-slate-200 dark:border-white/10 shadow-lg animate-fade-in">
+                                    <?php else: ?>
+                                        <span id="exec_image_preview_placeholder" class="w-32 h-40 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-600 text-3xl"><i class="fa-solid fa-user"></i></span>
+                                        <img id="exec_image_preview" class="w-32 h-40 object-cover rounded-xl border border-slate-200 dark:border-white/10 shadow-lg animate-fade-in hidden">
+                                    <?php endif; ?>
+                                    <span class="px-3 py-1.5 rounded-xl bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold hover:bg-indigo-600/20 transition-all"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>อัปโหลดรูปผู้บริหารใหม่</span>
+                                </div>
                             </div>
                             <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">รองรับไฟล์ภาพ .png, .jpg, .webp ขนาดไม่เกิน 5MB (แนะนำรูปแนวตั้ง หรือรูปครึ่งตัวของผู้บริหาร)</p>
                         </div>
@@ -366,7 +393,7 @@
 
             <!-- Submit Button Row -->
             <div class="flex items-center justify-end gap-3 pt-2">
-                <a href="<?php echo BASE_URL; ?>admin" class="px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all">ยกเลิกดึงข้อมูล</a>
+                <a href="<?php echo BASE_URL; ?>admin" onclick="confirmCancel(event)" class="px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all">ยกเลิกการแก้ไข</a>
                 <button type="submit" class="px-7 py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-xl hover:shadow-indigo-500/20 transition-all flex items-center gap-2">
                     <i class="fa-solid fa-save text-sm"></i> บันทึกการตั้งค่าทั้งหมด
                 </button>
@@ -384,6 +411,14 @@
 
     <!-- Interactive script switching logic -->
     <script>
+        // Track unsaved changes
+        let formChanged = false;
+        const formEl = document.querySelector('form');
+        if (formEl) {
+            formEl.addEventListener('input', () => formChanged = true);
+            formEl.addEventListener('change', () => formChanged = true);
+        }
+
         function switchSettingTab(panelId) {
             // Hide all panels
             document.querySelectorAll('.setting-panel-pane').forEach(pane => {
@@ -413,6 +448,80 @@
             localStorage.setItem('active_setting_tab', panelId);
         }
 
+        // Live image uploads preview
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(previewId);
+                    const placeholder = document.getElementById(previewId + '_placeholder');
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                    if (placeholder) {
+                        placeholder.classList.add('hidden');
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+                formChanged = true;
+            }
+        }
+
+        // SweetAlert2 Theme Options
+        function getSwalThemeOptions() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                background: isDark ? '#1e293b' : '#ffffff', // slate-800 or white
+                color: isDark ? '#f8fafc' : '#1e293b', // slate-50 or slate-800
+                confirmButtonColor: '#4f46e5', // indigo-600
+                cancelButtonColor: '#64748b' // slate-500
+            };
+        }
+
+        // Confirm Cancel / Discard Changes
+        function confirmCancel(event) {
+            if (formChanged) {
+                event.preventDefault();
+                const url = event.currentTarget.getAttribute('href');
+                const themeOpts = getSwalThemeOptions();
+                Swal.fire({
+                    title: 'ละทิ้งการเปลี่ยนแปลง?',
+                    text: 'คุณมีรายละเอียดการตั้งค่าที่ยังไม่ได้กดบันทึก ต้องการย้อนกลับโดยละทิ้งการแก้ไขหรือไม่?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ใช่, ละทิ้งการแก้ไข',
+                    cancelButtonText: 'ยกเลิก',
+                    confirmButtonColor: '#ef4444', // red-500
+                    ...themeOpts
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            }
+        }
+
+        // Confirm Logout
+        function confirmLogout(event) {
+            event.preventDefault();
+            const url = event.currentTarget.getAttribute('href');
+            const themeOpts = getSwalThemeOptions();
+            Swal.fire({
+                title: 'ออกจากระบบ?',
+                text: 'คุณต้องการออกจากระบบบริหารจัดการใช่หรือไม่?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ออกจากระบบ',
+                cancelButtonText: 'ยกเลิก',
+                ...themeOpts
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+
         // Dark/Light Theme Switcher Handler
         const htmlDoc = document.documentElement;
 
@@ -430,7 +539,7 @@
             if (theme === 'dark') {
                 themeIconEl.className = 'fa-solid fa-sun text-yellow-400';
             } else {
-                themeIconEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-300';
+                themeIconEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-350';
             }
         }
 
