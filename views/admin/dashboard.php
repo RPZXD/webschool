@@ -1,6 +1,6 @@
-<!-- views/admin/dashboard.php -->
-<!-- Administrative Control Panel View -->
-
+<?php
+$activeTab = $_GET['tab'] ?? 'news';
+?>
 <!-- views/admin/dashboard.php -->
 <!-- Administrative Control Panel View -->
 
@@ -265,9 +265,6 @@
         </div>
 
         <!-- Tab Navigation & Content Layout Grid -->
-        <?php
-        $activeTab = $_GET['tab'] ?? 'news';
-        ?>
         
         <!-- Mobile Dropdown Selector Menu -->
         <div class="lg:hidden w-full bg-slate-100/80 dark:bg-slate-900/60 border border-slate-200/50 dark:border-white/10 p-4 rounded-2xl flex items-center justify-between gap-3 shadow-lg backdrop-blur-md mb-6 transition-all duration-300">
