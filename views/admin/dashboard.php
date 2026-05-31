@@ -61,7 +61,8 @@
         })();
     </script>
 </head>
-<body class="bg-gradient-mesh min-h-screen text-slate-800 dark:text-slate-100 font-sans flex flex-co    <!-- Admin Top Navbar -->
+<body class="bg-gradient-mesh min-h-screen text-slate-800 dark:text-slate-100 font-sans flex flex-col transition-colors duration-300">
+    <!-- Admin Top Navbar -->
     <nav class="sticky top-0 z-50 glass-nav shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
