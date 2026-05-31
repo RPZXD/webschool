@@ -512,8 +512,6 @@
 
             </div>
 
-                </div>
-
                 <!-- Submit Button Row -->
                 <div class="flex items-center justify-end gap-3 pt-2">
                     <a href="<?php echo BASE_URL; ?>admin" onclick="confirmCancel(event)" class="inline-flex items-center justify-center px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all whitespace-nowrap">ยกเลิกการแก้ไข</a>
