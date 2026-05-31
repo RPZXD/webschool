@@ -378,9 +378,10 @@ $basicInfoMenu = [
                 </div>
             </div>
         </div>
+    </header>
 
-        <!-- Mobile Drawer Menu -->
-        <div id="mobile-menu" class="hidden fixed inset-0 z-50 flex justify-end">
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-50 flex justify-end">
             <!-- Backdrop Overlay -->
             <div id="mobile-menu-backdrop" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 ease-out"></div>
             <!-- Content Panel -->
@@ -545,7 +546,6 @@ $basicInfoMenu = [
                 </div>
             </div>
         </div>
-    </header>
 
     <!-- 3. Non-sticky Main Menu Bar (Below header, above news ticker) -->
     <div class="hidden md:block bg-[#f8fafc] dark:bg-slate-900 border-b-[3px] border-amber-500 py-2.5 px-4 sm:px-6 lg:px-8 shadow-sm">
