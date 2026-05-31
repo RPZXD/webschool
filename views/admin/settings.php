@@ -516,8 +516,8 @@
 
                 <!-- Submit Button Row -->
                 <div class="flex items-center justify-end gap-3 pt-2">
-                    <a href="<?php echo BASE_URL; ?>admin" onclick="confirmCancel(event)" class="px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all">ยกเลิกการแก้ไข</a>
-                    <button type="submit" class="px-7 py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-xl hover:shadow-indigo-500/20 transition-all flex items-center gap-2">
+                    <a href="<?php echo BASE_URL; ?>admin" onclick="confirmCancel(event)" class="px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all whitespace-nowrap">ยกเลิกการแก้ไข</a>
+                    <button type="submit" class="px-7 py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-xl hover:shadow-indigo-500/20 transition-all flex items-center gap-2 whitespace-nowrap">
                         <i class="fa-solid fa-save text-sm"></i> บันทึกการตั้งค่าทั้งหมด
                     </button>
                 </div>
