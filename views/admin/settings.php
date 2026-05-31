@@ -60,22 +60,21 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Branding -->
-                <div class="flex items-center gap-3">
+                <a href="<?php echo BASE_URL; ?>admin" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center border border-indigo-400/20 shadow-md">
                         <span class="text-white font-english font-black text-sm"><?php echo SCHOOL_SHORT_NAME; ?></span>
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex-col text-left">
                         <span class="text-sm font-bold text-slate-900 dark:text-white tracking-wide leading-tight">ระบบตั้งค่าเว็บไซต์</span>
                         <span class="text-[9px] text-slate-500 dark:text-slate-400 font-english mt-0.5"><?php echo SCHOOL_NAME_EN; ?></span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Navigation Portal links -->
-                <div class="flex items-center gap-3">
+                <!-- Desktop Navigation Portal links -->
+                <div class="hidden md:flex items-center gap-3">
                     <a href="<?php echo BASE_URL; ?>admin" class="px-4 py-2 bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/20 rounded-xl text-xs font-semibold text-indigo-600 dark:text-indigo-300 transition-all duration-300">
                         <i class="fa-solid fa-gauge mr-1.5"></i>กลับสู่หน้าแดชบอร์ด
                     </a>
-                    
                     <a href="<?php echo BASE_URL; ?>" target="_blank" class="px-4 py-2 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 hover:border-slate-400 dark:hover:border-white/20 rounded-xl text-xs font-semibold text-slate-700 dark:text-white transition-all duration-300">
                         <i class="fa-solid fa-globe mr-1.5"></i>ดูหน้าเว็บหลัก
                     </a>
@@ -91,17 +90,112 @@
                         <span class="text-xs text-slate-700 dark:text-slate-300 font-semibold bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 px-3 py-1.5 rounded-xl">
                             <i class="fa-solid fa-user text-indigo-500 dark:text-indigo-400 mr-1.5"></i><?php echo htmlspecialchars($_SESSION['fullname']); ?>
                         </span>
-                        <a href="<?php echo BASE_URL; ?>logout" onclick="confirmLogout(event)" class="px-4 py-2 bg-red-600/10 dark:bg-red-600/20 border border-red-500/20 dark:border-red-500/30 text-red-600 dark:text-red-300 hover:bg-red-600/20 dark:hover:bg-red-600/30 rounded-xl text-xs font-semibold transition-all duration-300">
+                        <a href="<?php echo BASE_URL; ?>logout" class="px-4 py-2 bg-red-600/10 dark:bg-red-600/20 border border-red-500/20 dark:border-red-500/30 text-red-600 dark:text-red-300 hover:bg-red-600/20 dark:hover:bg-red-600/30 rounded-xl text-xs font-semibold transition-all duration-300" onclick="confirmLogout(event)">
                             <i class="fa-solid fa-sign-out-alt mr-1.5"></i>ออกจากระบบ
                         </a>
                     </div>
+                </div>
+
+                <!-- Mobile Header Actions -->
+                <div class="flex md:hidden items-center gap-2">
+                    <!-- Dark/Light Theme Switcher Button -->
+                    <button onclick="toggleDarkMode()" class="p-2.5 hover:bg-slate-200 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-white transition-all duration-200 flex items-center justify-center" title="สลับโหมด สีสว่าง/สีมืด">
+                        <i id="theme-icon-mobile" class="fa-solid fa-moon"></i>
+                    </button>
+                    
+                    <!-- Mobile Hamburger Button to open Offcanvas -->
+                    <button class="p-2.5 bg-slate-200/50 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 rounded-xl text-slate-700 dark:text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas">
+                        <i class="fa-solid fa-bars text-sm"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
+    <!-- Mobile Offcanvas Sidebar Drawer (Bootstrap 5.3) -->
+    <div class="offcanvas offcanvas-start bg-slate-900 dark:bg-darkblue-950 text-white" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarOffcanvasLabel" style="width: 280px; border-right: 1px solid rgba(255,255,255,0.08);">
+        <div class="offcanvas-header border-b border-white/5 bg-slate-950/50 py-4 px-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <span class="text-white font-english font-black text-xs"><?php echo SCHOOL_SHORT_NAME; ?></span>
+                </div>
+                <span class="text-xs font-bold text-white uppercase tracking-wider font-english">Admin Portal</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white text-white text-sm" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-3 space-y-4">
+            <div class="space-y-1.5">
+                <p class="px-3 text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">เมนูจัดการข้อมูล</p>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=news" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-regular fa-newspaper text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>จัดการข่าวสารและกิจกรรม</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=ita" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-chart-bar text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>ประเมิน ITA Online</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=hero" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-regular fa-images text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>รูปสไลด์หน้าแรก (Hero)</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=ticker" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-bullhorn text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>ข่าวด่วนตัววิ่ง (Ticker)</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=about" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-info-circle text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>แนะนำโรงเรียน (About)</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=stats" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-database text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>สถิติและข้อมูลทั่วไป</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=schedules" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-calendar-days text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>จัดการตารางเรียน/สอน</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=documents" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-folder-open text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>จัดการไฟล์คู่มือและระเบียบ</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=feedback" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-comments text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>จัดการลิงก์รับฟังความคิดเห็น</span>
+                </a>
+                
+                <a href="<?php echo BASE_URL; ?>admin?tab=complaints" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                    <i class="fa-solid fa-circle-exclamation text-sm shrink-0 w-5 text-center text-indigo-400"></i>
+                    <span>จัดการลิงก์รับเรื่องร้องเรียน</span>
+                </a>
+            </div>
+
+            <hr class="border-white/5 my-3">
+
+            <div class="space-y-2.5 p-3 bg-slate-950/40 rounded-2xl border border-white/5 text-left">
+                <div class="flex items-center gap-2 px-1 text-slate-400">
+                    <i class="fa-solid fa-user-circle text-indigo-400 text-md"></i>
+                    <span class="text-xs truncate font-semibold"><?php echo htmlspecialchars($_SESSION['fullname']); ?></span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1.5">
+                    <a href="<?php echo BASE_URL; ?>admin" class="flex items-center justify-center py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold rounded-xl transition-all shadow-md"><i class="fa-solid fa-gauge mr-1"></i>แดชบอร์ด</a>
+                    <a href="<?php echo BASE_URL; ?>" target="_blank" class="flex items-center justify-center py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold rounded-xl border border-white/10 transition-all"><i class="fa-solid fa-globe mr-1"></i>เว็บหลัก</a>
+                </div>
+                <a href="<?php echo BASE_URL; ?>logout" class="w-full flex items-center justify-center py-2 bg-red-600/10 hover:bg-red-600/20 border border-red-500/20 text-red-400 text-[10px] font-bold rounded-xl transition-all" onclick="confirmLogout(event)"><i class="fa-solid fa-sign-out-alt mr-1"></i>ออกจากระบบ</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Container -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full space-y-8 animate-fade-in-up">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full space-y-8 animate-fade-in-up">
         
         <!-- Headers Section -->
         <div>
@@ -126,30 +220,57 @@
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
+        <!-- Mobile Dropdown Selector Menu -->
+        <div class="lg:hidden w-full bg-slate-100/80 dark:bg-slate-900/60 border border-slate-200/50 dark:border-white/10 p-4 rounded-2xl flex items-center justify-between gap-3 shadow-lg backdrop-blur-md mb-6 transition-all duration-300">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300"><i class="fa-solid fa-cog mr-2 text-indigo-500 animate-pulse"></i>เลือกประเภทตั้งค่า</span>
+            <select onchange="switchSettingTab(this.value)" id="mobile-tab-select" class="glass-input rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold cursor-pointer">
+                <option value="general">ℹ️ ข้อมูลทั่วไป</option>
+                <option value="contact">📞 ข้อมูลติดต่อ</option>
+                <option value="social">🔗 โซเชียลมีเดีย</option>
+                <option value="assets">🖼️ โลโก้ & Favicon</option>
+                <option value="exec_stats">👤 สารจากผู้บริหาร & สถิติ</option>
+            </select>
+        </div>
+
         <!-- Form and Tab Layout -->
-        <form action="<?php echo BASE_URL; ?>admin/settings/update" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <form action="<?php echo BASE_URL; ?>admin/settings/update" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Category Tabs Menu -->
-            <div class="flex overflow-x-auto bg-slate-200/80 dark:bg-slate-900/60 border border-slate-300 dark:border-white/10 p-1 rounded-2xl w-full scrollbar-none">
-                <button type="button" onclick="switchSettingTab('general')" id="tab-btn-general" class="setting-tab-btn flex-1 py-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-circle-info"></i> ข้อมูลทั่วไป
-                </button>
-                <button type="button" onclick="switchSettingTab('contact')" id="tab-btn-contact" class="setting-tab-btn flex-1 py-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-address-book"></i> ข้อมูลติดต่อ
-                </button>
-                <button type="button" onclick="switchSettingTab('social')" id="tab-btn-social" class="setting-tab-btn flex-1 py-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-share-nodes"></i> โซเชียลมีเดีย
-                </button>
-                <button type="button" onclick="switchSettingTab('assets')" id="tab-btn-assets" class="setting-tab-btn flex-1 py-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-image"></i> โลโก้ & Favicon
-                </button>
-                <button type="button" onclick="switchSettingTab('exec_stats')" id="tab-btn-exec_stats" class="setting-tab-btn flex-1 py-3 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-user-tie"></i> สารจากผู้บริหาร & สถิติ
-                </button>
+            <!-- Desktop Left Sidebar -->
+            <div class="hidden lg:block lg:col-span-3 space-y-4 sticky top-28 transition-all duration-300">
+                <div class="glass-card p-4 rounded-3xl shadow-xl border border-slate-900/5 dark:border-white/10 space-y-1 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl">
+                    <p class="px-3 text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">การตั้งค่าระบบ</p>
+                    
+                    <button type="button" onclick="switchSettingTab('general')" id="tab-btn-general" class="setting-tab-btn w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 border border-transparent text-left">
+                        <i class="fa-solid fa-circle-info text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400"></i>
+                        <span>ข้อมูลทั่วไป</span>
+                    </button>
+                    
+                    <button type="button" onclick="switchSettingTab('contact')" id="tab-btn-contact" class="setting-tab-btn w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 border border-transparent text-left">
+                        <i class="fa-solid fa-address-book text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400"></i>
+                        <span>ข้อมูลติดต่อ</span>
+                    </button>
+
+                    <button type="button" onclick="switchSettingTab('social')" id="tab-btn-social" class="setting-tab-btn w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 border border-transparent text-left">
+                        <i class="fa-solid fa-share-nodes text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400"></i>
+                        <span>โซเชียลมีเดีย</span>
+                    </button>
+
+                    <button type="button" onclick="switchSettingTab('assets')" id="tab-btn-assets" class="setting-tab-btn w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 border border-transparent text-left">
+                        <i class="fa-solid fa-image text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400"></i>
+                        <span>โลโก้ & Favicon</span>
+                    </button>
+
+                    <button type="button" onclick="switchSettingTab('exec_stats')" id="tab-btn-exec_stats" class="setting-tab-btn w-full flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 border border-transparent text-left">
+                        <i class="fa-solid fa-user-tie text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400"></i>
+                        <span>สารจากผู้บริหาร & สถิติ</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Content Card -->
-            <div class="glass-card p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+            <!-- Content Column -->
+            <div class="lg:col-span-9 space-y-6 w-full">
+                <!-- Content Card -->
+                <div class="glass-card p-8 rounded-3xl shadow-2xl relative overflow-hidden">
 
                 <!-- Tab 1: General Info -->
                 <div id="setting-panel-general" class="setting-panel-pane space-y-6 hidden">
@@ -391,12 +512,15 @@
 
             </div>
 
-            <!-- Submit Button Row -->
-            <div class="flex items-center justify-end gap-3 pt-2">
-                <a href="<?php echo BASE_URL; ?>admin" onclick="confirmCancel(event)" class="px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all">ยกเลิกการแก้ไข</a>
-                <button type="submit" class="px-7 py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-xl hover:shadow-indigo-500/20 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-save text-sm"></i> บันทึกการตั้งค่าทั้งหมด
-                </button>
+                </div>
+
+                <!-- Submit Button Row -->
+                <div class="flex items-center justify-end gap-3 pt-2">
+                    <a href="<?php echo BASE_URL; ?>admin" onclick="confirmCancel(event)" class="px-5 py-3 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all">ยกเลิกการแก้ไข</a>
+                    <button type="submit" class="px-7 py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-xl hover:shadow-indigo-500/20 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-save text-sm"></i> บันทึกการตั้งค่าทั้งหมด
+                    </button>
+                </div>
             </div>
             
         </form>
@@ -427,8 +551,12 @@
 
             // Reset all tab button styles
             document.querySelectorAll('.setting-tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg');
-                btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-white');
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg', 'shadow-indigo-500/20', 'transform', '-translate-y-0.5', 'scale-[1.02]');
+                btn.classList.add('text-slate-650', 'dark:text-slate-400', 'hover:text-slate-950', 'dark:hover:text-white', 'hover:bg-slate-200/50', 'dark:hover:bg-white/5');
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('!text-white');
+                }
             });
 
             // Show selected panel
@@ -440,8 +568,18 @@
             // Style active tab button
             const activeBtn = document.getElementById(`tab-btn-${panelId}`);
             if (activeBtn) {
-                activeBtn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-white');
-                activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
+                activeBtn.classList.remove('text-slate-650', 'dark:text-slate-400', 'hover:text-slate-950', 'dark:hover:text-white', 'hover:bg-slate-200/50', 'dark:hover:bg-white/5');
+                activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-lg', 'shadow-indigo-500/20', 'transform', '-translate-y-0.5', 'scale-[1.02]');
+                const icon = activeBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.add('!text-white');
+                }
+            }
+
+            // Update mobile select element if it exists
+            const mobileSelect = document.getElementById('mobile-tab-select');
+            if (mobileSelect) {
+                mobileSelect.value = panelId;
             }
 
             // Save active tab inside temporary state
@@ -534,12 +672,14 @@
 
         function updateThemeUI(theme) {
             const themeIconEl = document.getElementById('theme-icon');
-            if (!themeIconEl) return;
+            const themeIconMobileEl = document.getElementById('theme-icon-mobile');
             
             if (theme === 'dark') {
-                themeIconEl.className = 'fa-solid fa-sun text-yellow-400';
+                if (themeIconEl) themeIconEl.className = 'fa-solid fa-sun text-yellow-400';
+                if (themeIconMobileEl) themeIconMobileEl.className = 'fa-solid fa-sun text-yellow-400';
             } else {
-                themeIconEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-350';
+                if (themeIconEl) themeIconEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-350';
+                if (themeIconMobileEl) themeIconMobileEl.className = 'fa-solid fa-moon text-slate-600 dark:text-slate-350';
             }
         }
 
