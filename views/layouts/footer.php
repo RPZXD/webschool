@@ -107,16 +107,72 @@
 
     <!-- Core Script Controls -->
     <script>
-        // Mobile menu drawer toggle
-        const menuBtn = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (menuBtn && mobileMenu) {
-            menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const svgIcon = menuBtn.querySelector('svg');
-                svgIcon.classList.toggle('rotate-90');
-            });
-        }
+        // Mobile drawer UI/UX controller
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu) return;
+
+            const backdrop = document.getElementById('mobile-menu-backdrop');
+            const drawerPanel = mobileMenu.querySelector('.drawer-panel');
+            const closeBtn = document.getElementById('mobile-menu-close');
+
+            function openDrawer() {
+                mobileMenu.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                
+                // Force a browser reflow/repaint to ensure transitions animate
+                void mobileMenu.offsetHeight;
+
+                if (backdrop) {
+                    backdrop.classList.remove('opacity-0');
+                    backdrop.classList.add('opacity-100');
+                }
+                if (drawerPanel) {
+                    drawerPanel.classList.remove('translate-x-full');
+                    drawerPanel.classList.add('translate-x-0');
+                }
+            }
+
+            function closeDrawer() {
+                if (backdrop) {
+                    backdrop.classList.remove('opacity-100');
+                    backdrop.classList.add('opacity-0');
+                }
+                if (drawerPanel) {
+                    drawerPanel.classList.remove('translate-x-0');
+                    drawerPanel.classList.add('translate-x-full');
+                }
+                document.body.style.removeProperty('overflow');
+                
+                // Wait for the transition to finish before hiding the container
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+            }
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openDrawer();
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeDrawer();
+                });
+            }
+
+            if (backdrop) {
+                backdrop.addEventListener('click', (e) => {
+                    closeDrawer();
+                });
+            }
+        });
 
         // PDPA Cookie Consent Manager
         document.addEventListener('DOMContentLoaded', () => {

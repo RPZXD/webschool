@@ -380,104 +380,165 @@ $basicInfoMenu = [
         </div>
 
         <!-- Mobile Drawer Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-900/5 dark:border-white/5 bg-slate-100/95 dark:bg-slate-900/90 backdrop-blur-xl transition-all duration-300">
-            <div class="px-4 pt-4 pb-6 space-y-3">
-                <!-- Mobile Search Input -->
-                <div class="mb-4 bg-white/50 dark:bg-white/5 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
-                    <form action="<?php echo BASE_URL; ?>search" method="GET" class="relative">
-                        <input type="text" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>" placeholder="ค้นหาข่าวสารหรือประกาศ..." class="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-all">
-                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"><i class="fa-solid fa-magnifying-glass text-xs"></i></span>
-                    </form>
-                    <div class="flex flex-wrap gap-2 mt-2 px-1 text-[9px]">
-                        <span class="text-slate-400">ค้นหาด่วน:</span>
-                        <a href="<?php echo BASE_URL; ?>search?search=จัดซื้อจัดจ้าง" class="text-indigo-600 dark:text-indigo-400 underline">#จัดซื้อจัดจ้าง</a>
-                        <a href="<?php echo BASE_URL; ?>news?filter=activity" class="text-indigo-600 dark:text-indigo-400 underline">#ข่าวกิจกรรม</a>
-                        <a href="<?php echo BASE_URL; ?>news?filter=announcement" class="text-indigo-600 dark:text-indigo-400 underline">#ประชาสัมพันธ์</a>
-                        <a href="<?php echo BASE_URL; ?>news?filter=award" class="text-indigo-600 dark:text-indigo-400 underline">#ผลงานเด่น</a>
+        <div id="mobile-menu" class="hidden fixed inset-0 z-50 flex justify-end">
+            <!-- Backdrop Overlay -->
+            <div id="mobile-menu-backdrop" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 ease-out"></div>
+            <!-- Content Panel -->
+            <div class="drawer-panel relative w-full max-w-[300px] sm:max-w-[320px] bg-slate-50 dark:bg-slate-900 border-l border-slate-200 dark:border-white/10 shadow-2xl h-full flex flex-col transform translate-x-full transition-transform duration-300 ease-out" onclick="event.stopPropagation()">
+                <!-- Drawer Header -->
+                <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950/50">
+                    <div class="flex items-center gap-2">
+                        <img src="<?php echo BASE_URL; ?>assets/images/logo.png" alt="School Logo" class="w-8 h-8 object-contain" onerror="this.style.display='none'">
+                        <span class="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider">เมนูหลัก / Menu</span>
                     </div>
+                    <button id="mobile-menu-close" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors">
+                        <i class="fa-solid fa-times text-sm"></i>
+                    </button>
                 </div>
 
-                <a href="<?php echo BASE_URL; ?>" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isHomeActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
-                    <?php echo __('home'); ?>
-                </a>
+                <!-- Drawer Content -->
+                <div class="flex-grow overflow-y-auto p-4 space-y-4">
+                    <!-- Mobile Search Input -->
+                    <div class="bg-white dark:bg-slate-950/30 p-3 rounded-2xl border border-slate-200 dark:border-white/5">
+                        <form action="<?php echo BASE_URL; ?>search" method="GET" class="relative">
+                            <input type="text" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>" placeholder="ค้นหาข่าวสารหรือประกาศ..." class="w-full pl-10 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-all">
+                            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"><i class="fa-solid fa-magnifying-glass text-xs"></i></span>
+                        </form>
+                        <div class="flex flex-wrap gap-1.5 mt-2 px-1 text-[8px]">
+                            <span class="text-slate-400">ค้นหาด่วน:</span>
+                            <a href="<?php echo BASE_URL; ?>search?search=จัดซื้อจัดจ้าง" class="text-indigo-600 dark:text-indigo-400 underline">#จัดซื้อจัดจ้าง</a>
+                            <a href="<?php echo BASE_URL; ?>news?filter=activity" class="text-indigo-600 dark:text-indigo-400 underline">#ข่าวกิจกรรม</a>
+                        </div>
+                    </div>
 
-                <!-- About School Mobile Submenu -->
-                <div class="border-t border-slate-900/5 dark:border-white/5 my-2 pt-2">
-                    <p class="px-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5"><?php echo __('about_school'); ?></p>
-                    <a href="<?php echo BASE_URL; ?>about?tab=history" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('history'); ?></a>
-                    <a href="<?php echo BASE_URL; ?>about?tab=vision_mission" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('vision_mission'); ?></a>
-                    <a href="<?php echo BASE_URL; ?>about?tab=symbol" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('symbol'); ?></a>
-                    <a href="<?php echo BASE_URL; ?>about?tab=colors" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('colors'); ?></a>
-                    <a href="<?php echo BASE_URL; ?>about?tab=song" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('song'); ?></a>
-                    <a href="<?php echo BASE_URL; ?>about?tab=executives" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('executives'); ?></a>
-                    <a href="<?php echo BASE_URL; ?>about?tab=structure" class="block px-4 py-2 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5"><?php echo __('structure'); ?></a>
-                </div>
+                    <!-- Menu List -->
+                    <div class="space-y-1.5">
+                        <!-- Home Link -->
+                        <a href="<?php echo BASE_URL; ?>" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isHomeActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
+                            <i class="fa-solid fa-home text-sm w-4 text-center shrink-0"></i>
+                            <span><?php echo __('home'); ?></span>
+                        </a>
 
-                <!-- Basic Info Mobile Submenu -->
-                <div class="border-t border-slate-900/5 dark:border-white/5 my-2 pt-2">
-                    <p class="px-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5"><?php echo __('basic_info'); ?></p>
-                    <div class="px-4 space-y-3 max-h-[300px] overflow-y-auto pr-1 text-left">
-                        <?php foreach ($basicInfoMenu as $catKey => $cat): ?>
-                            <div>
-                                <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide flex items-center gap-1 mb-1">
-                                    <i class="fa-solid <?php echo $cat['icon']; ?>"></i>
-                                    <span><?php echo __($cat['title_key']); ?></span>
-                                </p>
-                                <div class="pl-2.5 border-l border-slate-200 dark:border-white/5 space-y-1">
-                                    <?php foreach ($cat['items'] as $item): ?>
-                                        <a href="<?php echo htmlspecialchars($item['url']); ?>" <?php echo !empty($item['target']) ? 'target="'.$item['target'].'" rel="noopener"' : ''; ?> class="block py-1 text-[10px] text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __($item['title_key']); ?></a>
-                                    <?php endforeach; ?>
+                        <!-- About School Accordion -->
+                        <div class="space-y-0.5">
+                            <button onclick="toggleMobileAccordion('acc-about')" class="w-full flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 rounded-xl transition-all">
+                                <span class="flex items-center gap-3">
+                                    <i class="fa-solid fa-graduation-cap text-sm w-4 text-center shrink-0"></i>
+                                    <span><?php echo __('about_school'); ?></span>
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300" id="acc-about-icon"></i>
+                            </button>
+                            <div id="acc-about" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out overflow-hidden">
+                                <div class="min-h-0 pl-8 pr-2 mt-0.5 space-y-1 border-l border-slate-200 dark:border-white/5 ml-6 pb-1">
+                                <a href="<?php echo BASE_URL; ?>about?tab=history" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('history'); ?></a>
+                                <a href="<?php echo BASE_URL; ?>about?tab=vision_mission" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('vision_mission'); ?></a>
+                                <a href="<?php echo BASE_URL; ?>about?tab=symbol" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('symbol'); ?></a>
+                                <a href="<?php echo BASE_URL; ?>about?tab=colors" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('colors'); ?></a>
+                                <a href="<?php echo BASE_URL; ?>about?tab=song" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('song'); ?></a>
+                                <a href="<?php echo BASE_URL; ?>about?tab=executives" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('executives'); ?></a>
+                                <a href="<?php echo BASE_URL; ?>about?tab=structure" class="block px-3 py-2 rounded-xl text-[11px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __('structure'); ?></a>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
+                        </div>
+
+                        <!-- Basic Info Accordion -->
+                        <div class="space-y-0.5">
+                            <button onclick="toggleMobileAccordion('acc-basic')" class="w-full flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 rounded-xl transition-all">
+                                <span class="flex items-center gap-3">
+                                    <i class="fa-solid fa-circle-info text-sm w-4 text-center shrink-0"></i>
+                                    <span><?php echo __('basic_info'); ?></span>
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300" id="acc-basic-icon"></i>
+                            </button>
+                            <div id="acc-basic" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out overflow-hidden">
+                                <div class="min-h-0 pl-4 mt-0.5 space-y-3 border-l border-slate-200 dark:border-white/5 ml-6 pb-2">
+                                <?php foreach ($basicInfoMenu as $cat): ?>
+                                    <div class="space-y-1">
+                                        <p class="text-[9px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide flex items-center gap-1.5 px-3">
+                                            <i class="fa-solid <?php echo $cat['icon']; ?>"></i>
+                                            <span><?php echo __($cat['title_key']); ?></span>
+                                        </p>
+                                        <div class="pl-3 border-l border-slate-200 dark:border-white/5 ml-4 space-y-0.5">
+                                            <?php foreach ($cat['items'] as $item): ?>
+                                                <a href="<?php echo htmlspecialchars($item['url']); ?>" <?php echo !empty($item['target']) ? 'target="'.$item['target'].'" rel="noopener"' : ''; ?> class="block py-1.5 px-2 text-[10px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400"><?php echo __($item['title_key']); ?></a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- News Link -->
+                        <a href="<?php echo BASE_URL; ?>news" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isNewsActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
+                            <i class="fa-solid fa-bullhorn text-sm w-4 text-center shrink-0"></i>
+                            <span>ข่าวสารและประกาศ</span>
+                        </a>
+
+                        <!-- Journal Link -->
+                        <a href="<?php echo BASE_URL; ?>journal" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo (strpos($route, '/journal') === 0) ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
+                            <i class="fa-solid fa-book-open text-sm w-4 text-center shrink-0"></i>
+                            <span><?php echo __('school_journal'); ?></span>
+                        </a>
+
+                        <!-- ITA Link -->
+                        <a href="<?php echo BASE_URL; ?>ita" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isItaActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
+                            <i class="fa-solid fa-square-poll-horizontal text-sm w-4 text-center shrink-0"></i>
+                            <span>ข้อมูล ITA Online</span>
+                        </a>
+
+                        <!-- Contact Link -->
+                        <a href="<?php echo BASE_URL; ?>contact" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isContactActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
+                            <i class="fa-solid fa-phone text-sm w-4 text-center shrink-0"></i>
+                            <span>ติดต่อเรา</span>
+                        </a>
+
+                        <!-- Online Portals Accordion -->
+                        <div class="space-y-0.5">
+                            <button onclick="toggleMobileAccordion('acc-portals')" class="w-full flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-white/5 rounded-xl transition-all">
+                                <span class="flex items-center gap-3">
+                                    <i class="fa-solid fa-server text-sm w-4 text-center shrink-0"></i>
+                                    <span>ระบบสารสนเทศ</span>
+                                </span>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300" id="acc-portals-icon"></i>
+                            </button>
+                            <div id="acc-portals" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out overflow-hidden">
+                                <div class="min-h-0 pl-2 pr-2 mt-1 border-l border-slate-200 dark:border-white/5 ml-6 pb-2">
+                                <div class="grid grid-cols-2 gap-1">
+                                    <?php foreach ($onlinePortals as $portal): 
+                                        $url = $portal['url'];
+                                        $target = ($url !== '#') ? 'target="_blank"' : '';
+                                    ?>
+                                        <a href="<?php echo htmlspecialchars($url); ?>" <?php echo $target; ?> class="flex items-center gap-1.5 p-2 rounded-xl text-[9px] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 font-semibold">
+                                            <i class="fa-solid <?php echo htmlspecialchars($portal['icon']); ?> text-indigo-500 shrink-0"></i>
+                                            <span class="truncate"><?php echo htmlspecialchars($portal['title']); ?></span>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <a href="<?php echo BASE_URL; ?>news" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isNewsActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
-                    ข่าวสารและประกาศ
-                </a>
-                <a href="<?php echo BASE_URL; ?>journal" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo (strpos($route, '/journal') === 0) ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
-                    <?php echo __('school_journal'); ?>
-                </a>
-
-                <a href="<?php echo BASE_URL; ?>ita" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isItaActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
-                    ข้อมูล ITA Online
-                </a>
-
-                <a href="<?php echo BASE_URL; ?>contact" class="block px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 <?php echo $isContactActive ? 'text-indigo-600 dark:text-indigo-400 bg-slate-200/50 dark:bg-white/5 border border-slate-900/5 dark:border-white/5' : ''; ?>">
-                    ติดต่อเรา
-                </a>
-                
-                <div class="border-t border-slate-900/5 dark:border-white/5 my-2 pt-2">
-                    <p class="px-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">ระบบสารสนเทศ</p>
-                    <div class="grid grid-cols-2 gap-1.5 px-4 max-h-[250px] overflow-y-auto pr-1">
-                        <?php foreach ($onlinePortals as $portal): 
-                            $url = $portal['url'];
-                            $target = ($url !== '#') ? 'target="_blank"' : '';
-                        ?>
-                            <a href="<?php echo htmlspecialchars($url); ?>" <?php echo $target; ?> class="flex items-center gap-1.5 p-2 rounded-xl text-[10px] text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 font-semibold">
-                                <i class="fa-solid <?php echo htmlspecialchars($portal['icon']); ?> text-indigo-500 shrink-0"></i>
-                                <span class="truncate"><?php echo htmlspecialchars($portal['title']); ?></span>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <div class="border-t border-slate-900/5 dark:border-white/5 my-2 pt-4">
+                <!-- Admin Action Section (Drawer Footer) -->
+                <div class="p-4 border-t border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950/30">
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <div class="space-y-2 px-4">
-                            <p class="text-xs text-indigo-500 dark:text-indigo-400 font-semibold mb-1">
+                        <div class="space-y-2">
+                            <p class="text-[10px] text-indigo-500 dark:text-indigo-400 font-bold mb-1 px-1">
                                 <i class="fa-solid fa-user-circle mr-1"></i><?php echo htmlspecialchars($_SESSION['fullname']); ?>
                             </p>
-                            <a href="<?php echo BASE_URL; ?>admin" class="w-full flex items-center justify-center py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition-all duration-200">
-                                <i class="fa-solid fa-gauge mr-1.5"></i><?php echo __('admin_dashboard'); ?>
-                            </a>
-                            <a href="<?php echo BASE_URL; ?>logout" class="w-full flex items-center justify-center py-2.5 bg-red-900/30 hover:bg-red-900/50 text-red-300 rounded-xl text-xs font-semibold border border-red-500/20 transition-all duration-200">
-                                <i class="fa-solid fa-sign-out-alt mr-1.5"></i><?php echo __('logout'); ?>
-                            </a>
+                            <div class="grid grid-cols-2 gap-2">
+                                <a href="<?php echo BASE_URL; ?>admin" class="flex items-center justify-center py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[10px] font-bold transition-all shadow-md">
+                                    <i class="fa-solid fa-gauge mr-1.5"></i>แผงควบคุม
+                                </a>
+                                <a href="<?php echo BASE_URL; ?>logout" class="flex items-center justify-center py-2.5 bg-red-600/10 hover:bg-red-600/20 text-red-600 dark:text-red-400 rounded-xl text-[10px] font-bold border border-red-500/20 transition-all">
+                                    <i class="fa-solid fa-sign-out-alt mr-1.5"></i>ออกจากระบบ
+                                </a>
+                            </div>
                         </div>
                     <?php else: ?>
-                        <a href="<?php echo BASE_URL; ?>login" class="w-full flex items-center justify-center py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg transition-all duration-200">
+                        <a href="<?php echo BASE_URL; ?>login" class="w-full flex items-center justify-center py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg transition-all">
                             <i class="fa-solid fa-lock mr-1.5"></i><?php echo __('admin_panel'); ?>
                         </a>
                     <?php endif; ?>
@@ -708,6 +769,24 @@ $basicInfoMenu = [
                 themeIconEl.className = 'fa-solid fa-sun text-yellow-400';
             } else {
                 themeIconEl.className = 'fa-solid fa-moon text-slate-400 dark:text-slate-300';
+            }
+        }
+
+        // Mobile Accordion Toggle
+        function toggleMobileAccordion(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (el) {
+                const isOpen = el.classList.contains('grid-rows-[1fr]');
+                if (isOpen) {
+                    el.classList.remove('grid-rows-[1fr]');
+                    el.classList.add('grid-rows-[0fr]');
+                    if (icon) icon.classList.remove('rotate-180');
+                } else {
+                    el.classList.remove('grid-rows-[0fr]');
+                    el.classList.add('grid-rows-[1fr]');
+                    if (icon) icon.classList.add('rotate-180');
+                }
             }
         }
 
