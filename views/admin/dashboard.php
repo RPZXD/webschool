@@ -199,13 +199,7 @@
                 <a href="<?php echo BASE_URL; ?>logout" class="w-full flex items-center justify-center py-2 bg-red-600/10 hover:bg-red-600/20 border border-red-500/20 text-red-400 text-[10px] font-bold rounded-xl transition-all" onclick="confirmLogout(event)"><i class="fa-solid fa-sign-out-alt mr-1"></i>ออกจากระบบ</a>
             </div>
         </div>
-    </div>s="fa-solid fa-sign-out-alt mr-1.5"></i>ออกจากระบบ
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    </div>
 
     <!-- Main Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full space-y-8">
@@ -369,7 +363,7 @@
 
                 <!-- News Grid / Table List -->
                 <div class="glass-card rounded-3xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
@@ -444,6 +438,61 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- News Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php if (empty($allNews)): ?>
+                            <div class="text-center py-12">
+                                <i class="fa-regular fa-folder-open text-3xl text-slate-400 mb-2"></i>
+                                <p class="text-slate-500 dark:text-slate-400 text-xs">ยังไม่มีรายการข่าวสารที่สร้างไว้ในระบบ</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($allNews as $news): 
+                                $catLabel = 'ทั่วไป';
+                                $catColor = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20';
+                                if ($news['category'] === 'announcement') {
+                                    $catLabel = 'ประกาศ';
+                                    $catColor = 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
+                                } elseif ($news['category'] === 'activity') {
+                                    $catLabel = 'กิจกรรม';
+                                    $catColor = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+                                }
+                            ?>
+                                <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-14 h-14 rounded-xl bg-slate-200 dark:bg-slate-950 border border-slate-300 dark:border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center shadow-inner">
+                                            <?php if (!empty($news['image_url'])): ?>
+                                                <img src="<?php echo htmlspecialchars($news['image_url']); ?>" alt="thumbnail" class="w-full h-full object-cover">
+                                            <?php else: ?>
+                                                <i class="fa-regular fa-image text-slate-400 dark:text-slate-600 text-lg"></i>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="flex-grow min-w-0">
+                                            <div class="flex items-center justify-between">
+                                                <span class="px-2 py-0.5 rounded text-[9px] font-semibold border <?php echo $catColor; ?>">
+                                                    <?php echo $catLabel; ?>
+                                                </span>
+                                                <span class="text-[9px] text-slate-400 dark:text-slate-500 font-english">
+                                                    <?php echo date('d/m/Y H:i', strtotime($news['created_at'])); ?>
+                                                </span>
+                                            </div>
+                                            <h4 class="font-bold text-slate-800 dark:text-white text-xs truncate mt-2" title="<?php echo htmlspecialchars($news['title']); ?>">
+                                                <?php echo htmlspecialchars($news['title']); ?>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                                        <button onclick="openEditNewsModal(<?php echo htmlspecialchars(json_encode($news)); ?>)" class="px-3 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="แก้ไข">
+                                            <i class="fa-solid fa-edit text-xs"></i> แก้ไข
+                                        </button>
+                                        <a href="<?php echo BASE_URL; ?>admin/news/delete?id=<?php echo $news['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบข่าวสารประชาสัมพันธ์นี้ใช่หรือไม่? ข้อมูลทั้งหมดรวมถึงรูปภาพจะถูกลบออกจากระบบอย่างถาวร')" class="px-3 py-1.5 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="ลบ">
+                                            <i class="fa-solid fa-trash text-xs"></i> ลบ
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
@@ -457,7 +506,7 @@
                 </div>
 
                 <div class="glass-card rounded-3xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
@@ -525,6 +574,56 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- ITA Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php foreach ($itaItems as $item): ?>
+                            <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                <div class="flex items-start justify-between gap-2.5">
+                                    <span class="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-black px-2.5 py-1 border border-indigo-500/20 rounded-lg font-english shrink-0">
+                                        <?php echo htmlspecialchars($item['code']); ?>
+                                    </span>
+                                    <div class="flex-grow min-w-0">
+                                        <h4 class="font-bold text-slate-800 dark:text-white text-xs leading-normal">
+                                            <?php echo htmlspecialchars($item['name']); ?>
+                                        </h4>
+                                        <div class="mt-2 space-y-1">
+                                            <?php if (!empty($item['file_path'])): ?>
+                                                <div class="flex items-center gap-1 text-[10px] text-red-500 dark:text-red-400">
+                                                    <i class="fa-regular fa-file-pdf shrink-0"></i>
+                                                    <span class="truncate max-w-[180px]"><?php echo basename($item['file_path']); ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($item['link_url'])): ?>
+                                                <div class="flex items-center gap-1 text-[10px] text-indigo-600 dark:text-indigo-400">
+                                                    <i class="fa-solid fa-link shrink-0"></i>
+                                                    <span class="truncate max-w-[180px]"><?php echo htmlspecialchars($item['link_url']); ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (empty($item['file_path']) && empty($item['link_url'])): ?>
+                                                <span class="text-slate-400 dark:text-slate-500 italic text-[10px]">ยังไม่ได้อัปโหลดข้อมูล</span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <?php if ($item['status'] === 'published'): ?>
+                                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[9px] font-semibold">เผยแพร่</span>
+                                        <?php else: ?>
+                                            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[9px] font-semibold">ฉบับร่าง</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                                    <button onclick="openEditItaModal(<?php echo htmlspecialchars(json_encode($item)); ?>)" class="px-3 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="แก้ไข">
+                                        <i class="fa-solid fa-edit text-xs"></i> แก้ไข
+                                    </button>
+                                    <a href="<?php echo BASE_URL; ?>admin/ita/delete?code=<?php echo $item['code']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบไฟล์แนบและลิงก์เชื่อมโยงทั้งหมดของตัวชี้วัด <?php echo $item['code']; ?> ใช่หรือไม่?')" class="px-3 py-1.5 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="ลบข้อมูล">
+                                        <i class="fa-solid fa-trash text-xs"></i> ลบ
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
@@ -545,7 +644,7 @@
 
                 <!-- Hero Grid / Table List -->
                 <div class="glass-card rounded-3xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
@@ -610,6 +709,47 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Hero Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php if (empty($allHeroes)): ?>
+                            <div class="text-center py-12">
+                                <i class="fa-regular fa-images text-3xl text-slate-400 mb-2"></i>
+                                <p class="text-slate-500 dark:text-slate-400 text-xs">ยังไม่มีข้อมูลรูปภาพสไลด์ในระบบ</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($allHeroes as $hero): ?>
+                                <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-24 h-12 rounded-lg bg-slate-200 dark:bg-slate-950 border border-slate-300 dark:border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center shadow-inner">
+                                            <img src="<?php echo htmlspecialchars($hero['image_url']); ?>" alt="slide thumbnail" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="flex-grow min-w-0">
+                                            <h4 class="font-bold text-slate-800 dark:text-white text-xs truncate">
+                                                <?php echo !empty($hero['title']) ? htmlspecialchars($hero['title']) : '<span class="text-slate-400 italic">ไม่ระบุชื่อสไลด์</span>'; ?>
+                                            </h4>
+                                            <div class="flex items-center justify-between mt-2">
+                                                <span class="text-[10px] text-slate-500 dark:text-slate-450 font-semibold font-english">
+                                                    ลำดับ: <?php echo (int)$hero['display_order']; ?>
+                                                </span>
+                                                <a href="<?php echo BASE_URL; ?>admin/hero/toggle?id=<?php echo $hero['id']; ?>" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[9px] font-bold border transition-all duration-300 <?php echo $hero['status'] === 'active' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20'; ?>">
+                                                    <?php echo $hero['status'] === 'active' ? 'แสดงผล' : 'ซ่อน'; ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                                        <button onclick="openEditHeroModal(<?php echo htmlspecialchars(json_encode($hero)); ?>)" class="px-3 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="แก้ไข">
+                                            <i class="fa-solid fa-edit text-xs"></i> แก้ไข
+                                        </button>
+                                        <a href="<?php echo BASE_URL; ?>admin/hero/delete?id=<?php echo $hero['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบรูปภาพสไลด์แนะนำนี้ใช่หรือไม่? ไฟล์รูปภาพจะถูกลบออกจากเซิร์ฟเวอร์ด้วย')" class="px-3 py-1.5 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="ลบ">
+                                            <i class="fa-solid fa-trash text-xs"></i> ลบ
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
@@ -628,7 +768,7 @@
                 </div>
 
                 <div class="glass-card rounded-3xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
@@ -682,6 +822,46 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Ticker Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php if (empty($allTickers)): ?>
+                            <div class="text-center py-12">
+                                <i class="fa-solid fa-bullhorn text-3xl text-slate-400 mb-2"></i>
+                                <p class="text-slate-500 dark:text-slate-400 text-xs">ยังไม่มีข้อมูลข้อความข่าวด่วนในระบบ</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($allTickers as $ticker): ?>
+                                <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                    <div class="space-y-1.5">
+                                        <h4 class="font-bold text-slate-800 dark:text-white text-xs leading-normal">
+                                            <?php echo htmlspecialchars($ticker['message']); ?>
+                                        </h4>
+                                        <?php if (!empty($ticker['link_url'])): ?>
+                                            <p class="text-[10px] text-indigo-500 truncate mt-1">
+                                                <i class="fa-solid fa-link mr-1"></i>
+                                                <a href="<?php echo htmlspecialchars($ticker['link_url']); ?>" target="_blank" class="hover:underline"><?php echo htmlspecialchars($ticker['link_url']); ?></a>
+                                            </p>
+                                        <?php endif; ?>
+                                        <div class="flex items-center justify-between pt-1.5">
+                                            <span class="text-[9px] text-slate-400">สถานะการแสดงผล:</span>
+                                            <a href="<?php echo BASE_URL; ?>admin/ticker/toggle?id=<?php echo $ticker['id']; ?>" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[9px] font-bold border transition-all duration-300 <?php echo (int)$ticker['is_active'] === 1 ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20'; ?>">
+                                                <?php echo (int)$ticker['is_active'] === 1 ? 'แสดงผล' : 'ซ่อน'; ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                                        <button onclick="openEditTickerModal(<?php echo htmlspecialchars(json_encode($ticker)); ?>)" class="px-3 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="แก้ไข">
+                                            <i class="fa-solid fa-edit text-xs"></i> แก้ไข
+                                        </button>
+                                        <a href="<?php echo BASE_URL; ?>admin/ticker/delete?id=<?php echo $ticker['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบข้อความวิ่งแจ้งเตือนข่าวด่วนนี้ใช่หรือไม่?')" class="px-3 py-1.5 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="ลบ">
+                                            <i class="fa-solid fa-trash text-xs"></i> ลบ
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
@@ -697,7 +877,7 @@
 
                 <!-- About Info Table List -->
                 <div class="glass-card rounded-3xl overflow-hidden shadow-xl">
-                    <div class="overflow-x-auto">
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
@@ -764,6 +944,44 @@
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- About Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php if (!empty($aboutSections)): ?>
+                            <?php foreach ($aboutSections as $section):
+                                $key = $section['section_key'];
+                                $title = $sectionNames[$key] ?? $key;
+                            ?>
+                                <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-white text-xs leading-normal">
+                                            <?php echo htmlspecialchars($title); ?>
+                                        </h4>
+                                        <span class="text-[9px] text-slate-400 font-mono"><?php echo htmlspecialchars($key); ?></span>
+                                    </div>
+                                    <div class="space-y-1.5 text-[11px] text-slate-600 dark:text-slate-300">
+                                        <div>
+                                            <span class="text-indigo-600 dark:text-indigo-400 font-bold mr-1">TH:</span>
+                                            <span class="line-clamp-2"><?php echo htmlspecialchars(mb_strimwidth(strip_tags($section['content_th']), 0, 100, '...')); ?></span>
+                                        </div>
+                                        <div class="text-slate-400">
+                                            <span class="text-indigo-400/80 font-bold mr-1">EN:</span>
+                                            <span class="line-clamp-2"><?php echo htmlspecialchars(mb_strimwidth(strip_tags($section['content_en']), 0, 100, '...')); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-1 text-[10px] text-slate-400 font-mono">
+                                        <span>แก้ไขล่าสุด:</span>
+                                        <span><?php echo date('d/m/Y H:i', strtotime($section['updated_at'])); ?></span>
+                                    </div>
+                                    <div class="flex justify-end pt-2 border-t border-slate-100 dark:border-white/5">
+                                        <button onclick="openEditAboutModal(<?php echo htmlspecialchars(json_encode(['key' => $key, 'title' => $title])); ?>)" class="w-full py-2 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center gap-1" title="แก้ไขข้อมูล">
+                                            <i class="fa-solid fa-edit text-xs"></i> แก้ไขข้อมูลแนะนำ
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -983,7 +1201,7 @@
                 </div>
 
                 <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-900/5 dark:border-white/10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl">
-                    <div class="overflow-x-auto">
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
@@ -1043,6 +1261,52 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Documents Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php foreach ($documentsList as $key => $doc): 
+                            $filePath = UPLOAD_DIR . $doc['filename'];
+                            $fileExists = file_exists($filePath);
+                            $fileSize = $fileExists ? round(filesize($filePath) / (1024 * 1024), 2) . ' MB' : '-';
+                            $fileTime = $fileExists ? date('d/m/Y H:i', filemtime($filePath)) : 'ไม่มีไฟล์';
+                        ?>
+                            <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-xs leading-normal">
+                                        <?php echo htmlspecialchars($doc['label']); ?>
+                                    </h4>
+                                    <p class="text-[9px] text-slate-450 dark:text-slate-500 mt-1"><?php echo htmlspecialchars($doc['desc']); ?></p>
+                                    <a href="<?php echo BASE_URL . $doc['route']; ?>" target="_blank" class="inline-flex items-center gap-1 text-[9px] text-indigo-500 hover:underline mt-1 font-bold">
+                                        <i class="fa-solid fa-external-link text-[8px]"></i> ดูหน้าเว็บหลัก
+                                    </a>
+                                </div>
+                                <div class="p-3 bg-slate-50 dark:bg-slate-950/50 rounded-xl space-y-1">
+                                    <span class="text-[9px] text-slate-450 block">ไฟล์ปัจจุบัน:</span>
+                                    <?php if ($fileExists): ?>
+                                        <div class="flex items-center gap-1.5 text-slate-700 dark:text-slate-350 text-[10px]">
+                                            <i class="fa-regular fa-file-pdf text-red-500 text-sm"></i>
+                                            <span class="font-mono truncate max-w-[180px]"><?php echo htmlspecialchars($doc['filename']); ?></span>
+                                        </div>
+                                        <div class="text-[9px] text-slate-400 dark:text-slate-500">
+                                            ขนาด: <span class="font-bold font-english"><?php echo $fileSize; ?></span> | ล่าสุด: <span class="font-mono"><?php echo $fileTime; ?></span>
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-rose-500 font-bold italic text-[10px]">ไม่พบไฟล์ในระบบ</span>
+                                    <?php endif; ?>
+                                </div>
+                                <form action="<?php echo BASE_URL; ?>admin/documents/upload" method="POST" enctype="multipart/form-data" class="space-y-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                                    <input type="hidden" name="document_key" value="<?php echo htmlspecialchars($key); ?>">
+                                    <div class="space-y-1">
+                                        <label class="text-[9px] text-slate-400 font-semibold">อัปโหลดอัปเดตไฟล์ใหม่ (.pdf):</label>
+                                        <input type="file" name="pdf_file" accept=".pdf" required class="block w-full text-[9px] text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[9px] file:font-semibold file:bg-indigo-500/10 file:text-indigo-600 dark:file:text-indigo-400 hover:file:bg-indigo-500/20 cursor-pointer">
+                                    </div>
+                                    <button type="submit" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[10px] shadow-sm hover:shadow active:scale-95 transition-all flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> อัปโหลดไฟล์ใหม่
+                                    </button>
+                                </form>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
