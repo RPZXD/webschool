@@ -28,8 +28,21 @@ class Database {
         $defaultPass = $is_local ? '' : '48dv_m64N';
 
         // Check environment vars first, then class static settings, then environment defaults
-        $dbUser = getenv('DB_USER') ?: (self::$username ?: $defaultUser);
-        $dbPass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : (self::$password !== null ? self::$password : $defaultPass);
+        // On production, we ignore 'root' and empty password class properties to avoid overriding the production defaults.
+        $configuredUser = self::$username;
+        $configuredPass = self::$password;
+
+        if (!$is_local) {
+            if ($configuredUser === 'root') {
+                $configuredUser = null;
+            }
+            if ($configuredPass === '') {
+                $configuredPass = null;
+            }
+        }
+
+        $dbUser = getenv('DB_USER') ?: ($configuredUser ?: $defaultUser);
+        $dbPass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : ($configuredPass !== null ? $configuredPass : $defaultPass);
 
         $cacheKey = $host . '_' . $targetDb . '_' . $dbUser;
         if (isset(self::$conns[$cacheKey])) {

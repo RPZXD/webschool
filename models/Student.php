@@ -68,7 +68,7 @@ class Student {
      */
     public function getAdvisors($class, $room) {
         try {
-            $sql = "SELECT Teach_id, Teach_name, Teach_photo 
+            $sql = "SELECT Teach_id, Teach_name, Teach_photo, Teach_major 
                     FROM teacher 
                     WHERE Teach_class = :class 
                       AND Teach_room = :room 

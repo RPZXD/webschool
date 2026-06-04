@@ -1135,8 +1135,8 @@
         document.getElementById('modalHeaderTitle').textContent = 'โปรไฟล์และข้อมูลครูที่ปรึกษา';
         document.getElementById('modalStudentName').textContent = adv.Teach_name;
         document.getElementById('modalStudentClassRoom').textContent = `ครูที่ปรึกษาประจำชั้น มัธยมศึกษาปีที่ ${selectedClass}/${selectedRoom}`;
-        document.getElementById('modalLabelId').textContent = 'รหัสประจำตัวครู';
-        document.getElementById('modalStudentId').textContent = adv.Teach_id || '-';
+        document.getElementById('modalLabelId').textContent = 'กลุ่มสาระ';
+        document.getElementById('modalStudentId').textContent = adv.Teach_major || '-';
         
         document.getElementById('modalNoContainer').style.display = 'block';
         document.getElementById('modalLabelNo').textContent = 'ตำแหน่ง';

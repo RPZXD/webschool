@@ -195,11 +195,11 @@ $internalGroups = [
         'title' => 'กลุ่มบริหาร',
         'icon' => 'fa-building-columns',
         'items' => [
-            ['title' => 'กลุ่มบริหารงานบุคคล', 'url' => '#', 'icon' => 'fa-users-gear'],
-            ['title' => 'กลุ่มบริหารวิชาการ', 'url' => '#', 'icon' => 'fa-book-open-reader'],
-            ['title' => 'กลุ่มบริหารกิจการนักเรียน', 'url' => '#', 'icon' => 'fa-children'],
-            ['title' => 'กลุ่มบริหารงบประมาณและแผนงาน', 'url' => '#', 'icon' => 'fa-coins'],
-            ['title' => 'กลุ่มบริหารทั่วไป', 'url' => '#', 'icon' => 'fa-briefcase'],
+            ['title' => 'กลุ่มบริหารงานบุคคล', 'url' => 'https://sites.google.com/phichai.ac.th/phichaipersonal', 'icon' => 'fa-users-gear'],
+            ['title' => 'กลุ่มบริหารวิชาการ', 'url' => 'https://sites.google.com/unc.ac.th/phichai-school-academic/%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%81', 'icon' => 'fa-book-open-reader'],
+            ['title' => 'กลุ่มบริหารกิจการนักเรียน', 'url' => 'https://sites.google.com/phichai.ac.th/std-af/', 'icon' => 'fa-children'],
+            ['title' => 'กลุ่มบริหารงบประมาณและแผนงาน', 'url' => 'https://sites.google.com/phichai.ac.th/budget/home', 'icon' => 'fa-coins'],
+            ['title' => 'กลุ่มบริหารทั่วไป', 'url' => 'https://sites.google.com/phichai.ac.th/gadphichai/home', 'icon' => 'fa-briefcase'],
         ]
     ],
     'subjects' => [
