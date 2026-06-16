@@ -51,8 +51,8 @@ define_setting('STAT_TEACHERS', 'stat_teachers', '120', $dbSettings);
 define_setting('STAT_TEACHERS_SUB', 'stat_teachers_sub', 'ครูและบุคลากร', $dbSettings);
 define_setting('STAT_AWARDS', 'stat_awards', '50+', $dbSettings);
 define_setting('STAT_AWARDS_SUB', 'stat_awards_sub', 'รางวัลแห่งความสำเร็จ', $dbSettings);
-define_setting('STAT_ADMISSION', 'stat_admission', '100%', $dbSettings);
-define_setting('STAT_ADMISSION_SUB', 'stat_admission_sub', 'อัตราการศึกษาต่อ', $dbSettings);
+define_setting('STAT_CLASSROOMS', 'stat_classrooms', '45', $dbSettings);
+define_setting('STAT_CLASSROOMS_SUB', 'stat_classrooms_sub', 'ห้องเรียนทั้งหมด', $dbSettings);
 
 define_setting('EXEC_NAME', 'exec_name', 'ดร.สมชาย ใจดี', $dbSettings);
 define_setting('EXEC_POSITION', 'exec_position', 'ผู้อำนวยการโรงเรียน', $dbSettings);

@@ -535,16 +535,16 @@
                                 </div>
                             </div>
 
-                            <!-- Stat 4: Admissions -->
+                            <!-- Stat 4: Classrooms -->
                             <div class="p-4 bg-slate-100/50 dark:bg-slate-950/20 border border-slate-200 dark:border-white/5 rounded-2xl space-y-3">
-                                <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5"><i class="fa-solid fa-percent"></i> อัตราการศึกษาต่อ</span>
+                                <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5"><i class="fa-solid fa-graduation-cap"></i> จำนวนห้องเรียนทั้งหมด</span>
                                 <div class="space-y-1.5">
-                                    <label class="text-[10px] font-semibold text-slate-600 dark:text-slate-400">ตัวเลขหลัก (เช่น 100%)</label>
-                                    <input type="text" name="stat_admission" value="<?php echo htmlspecialchars($settings['stat_admission'] ?? ''); ?>" class="w-full glass-input rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500">
+                                    <label class="text-[10px] font-semibold text-slate-600 dark:text-slate-400">ตัวเลขหลัก (เช่น 45)</label>
+                                    <input type="text" name="stat_classrooms" value="<?php echo htmlspecialchars($settings['stat_classrooms'] ?? ''); ?>" class="w-full glass-input rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500">
                                 </div>
                                 <div class="space-y-1.5">
-                                    <label class="text-[10px] font-semibold text-slate-600 dark:text-slate-400">คำอธิบายเพิ่มเติม (เช่น เข้าศึกษาต่อในระดับอุดมศึกษา)</label>
-                                    <input type="text" name="stat_admission_sub" value="<?php echo htmlspecialchars($settings['stat_admission_sub'] ?? 'เข้าศึกษาต่อในระดับอุดมศึกษา'); ?>" class="w-full glass-input rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500">
+                                    <label class="text-[10px] font-semibold text-slate-600 dark:text-slate-400">คำอธิบายเพิ่มเติม (เช่น ห้องเรียนทั้งหมด)</label>
+                                    <input type="text" name="stat_classrooms_sub" value="<?php echo htmlspecialchars($settings['stat_classrooms_sub'] ?? 'ห้องเรียนทั้งหมด'); ?>" class="w-full glass-input rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500">
                                 </div>
                             </div>
                         </div>

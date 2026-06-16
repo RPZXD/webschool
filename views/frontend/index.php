@@ -97,30 +97,30 @@
         <div class="absolute w-[300px] h-[300px] bg-purple-500/20 blur-[80px] rounded-full bottom-[-50px] right-[-50px]"></div>
 
         <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y lg:divide-y-0 lg:divide-x divide-white/10">
-            <!-- Stat 1 -->
-            <div class="pt-6 first:pt-0 lg:pt-0 flex flex-col justify-center items-center space-y-2">
-                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-user-graduate"></i></span>
+            <!-- Stat 1: Students -->
+            <a href="<?php echo BASE_URL; ?>info" class="pt-6 first:pt-0 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
+                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-user-graduate"></i></span>
                 <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_STUDENTS); ?></span>
                 <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_STUDENTS_SUB); ?></span>
-            </div>
-            <!-- Stat 2 -->
-            <div class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2">
-                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-chalkboard-user"></i></span>
+            </a>
+            <!-- Stat 2: Teachers -->
+            <a href="<?php echo BASE_URL; ?>info" class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
+                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-chalkboard-user"></i></span>
                 <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_TEACHERS); ?></span>
                 <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_TEACHERS_SUB); ?></span>
-            </div>
-            <!-- Stat 3 -->
-            <div class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2">
-                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-trophy"></i></span>
+            </a>
+            <!-- Stat 3: Awards -->
+            <a href="<?php echo BASE_URL; ?>awards" class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
+                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-trophy"></i></span>
                 <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_AWARDS); ?></span>
                 <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_AWARDS_SUB); ?></span>
-            </div>
-            <!-- Stat 4 -->
-            <div class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2">
-                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner"><i class="fa-solid fa-graduation-cap"></i></span>
-                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_ADMISSION); ?></span>
-                <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_ADMISSION_SUB); ?></span>
-            </div>
+            </a>
+            <!-- Stat 4: Classrooms -->
+            <a href="<?php echo BASE_URL; ?>info" class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
+                <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-door-open"></i></span>
+                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_CLASSROOMS); ?></span>
+                <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_CLASSROOMS_SUB); ?></span>
+            </a>
         </div>
     </div>
 </section>
