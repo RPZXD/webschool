@@ -206,6 +206,37 @@ class NewsController {
         } catch (Exception $e) {
             error_log("NewsController index fetch journals error: " . $e->getMessage());
         }
+        // Compute live statistics from database for homepage stats banner
+        $liveStudentCount = 0;
+        $liveTeacherCount = 0;
+        $liveAwardCount = 0;
+        try {
+            $pdo = Database::connect();
+            // Active students
+            $stmt = $pdo->query("SELECT COUNT(*) as cnt FROM phichaia_student.student WHERE Stu_status = 1");
+            $liveStudentCount = (int)$stmt->fetch(PDO::FETCH_ASSOC)['cnt'];
+            // Active teachers
+            $stmt = $pdo->query("SELECT COUNT(*) as cnt FROM phichaia_student.teacher WHERE Teach_status = 1");
+            $liveTeacherCount = (int)$stmt->fetch(PDO::FETCH_ASSOC)['cnt'];
+        } catch (Exception $e) {
+            error_log("NewsController live stats (student/teacher) error: " . $e->getMessage());
+        }
+        try {
+            // Teacher awards
+            $pdoPerson = Database::connect('phichaia_person');
+            $stmt = $pdoPerson->query("SELECT COUNT(*) as cnt FROM tb_award");
+            $liveAwardCount += (int)$stmt->fetch(PDO::FETCH_ASSOC)['cnt'];
+        } catch (Exception $e) {
+            error_log("NewsController live stats (teacher awards) error: " . $e->getMessage());
+        }
+        try {
+            // Student certificates
+            $pdoCktech = Database::connect('phichaia_cktech');
+            $stmt = $pdoCktech->query("SELECT COUNT(*) as cnt FROM certificates");
+            $liveAwardCount += (int)$stmt->fetch(PDO::FETCH_ASSOC)['cnt'];
+        } catch (Exception $e) {
+            error_log("NewsController live stats (student certs) error: " . $e->getMessage());
+        }
 
         // Render main landing page
         $title = SCHOOL_NAME . " | หน้าแรก";

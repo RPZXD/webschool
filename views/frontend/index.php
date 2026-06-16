@@ -100,19 +100,19 @@
             <!-- Stat 1: Students -->
             <a href="<?php echo BASE_URL; ?>info" class="pt-6 first:pt-0 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
                 <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-user-graduate"></i></span>
-                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_STUDENTS); ?></span>
+                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo number_format($liveStudentCount); ?></span>
                 <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_STUDENTS_SUB); ?></span>
             </a>
             <!-- Stat 2: Teachers -->
             <a href="<?php echo BASE_URL; ?>info" class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
                 <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-chalkboard-user"></i></span>
-                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_TEACHERS); ?></span>
+                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo number_format($liveTeacherCount); ?></span>
                 <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_TEACHERS_SUB); ?></span>
             </a>
             <!-- Stat 3: Awards -->
             <a href="<?php echo BASE_URL; ?>awards" class="pt-6 lg:pt-0 flex flex-col justify-center items-center space-y-2 group hover:scale-105 transition-transform duration-300">
                 <span class="w-11 h-11 rounded-2xl bg-white/10 text-white flex items-center justify-center text-lg shadow-inner group-hover:bg-white/20 transition-colors"><i class="fa-solid fa-trophy"></i></span>
-                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo htmlspecialchars(STAT_AWARDS); ?></span>
+                <span class="text-3xl font-extrabold text-white tracking-tight font-english"><?php echo number_format($liveAwardCount); ?></span>
                 <span class="text-xs text-blue-100 font-semibold"><?php echo htmlspecialchars(STAT_AWARDS_SUB); ?></span>
             </a>
             <!-- Stat 4: Classrooms -->
