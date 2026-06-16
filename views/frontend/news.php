@@ -1,7 +1,7 @@
 <!-- views/frontend/news.php -->
 <!-- News & Announcements List Page -->
 <?php
-$allMergedNews = array_merge($announcements ?? [], $activities ?? [], $generalNews ?? [], $awards ?? []);
+$allMergedNews = array_merge($announcements ?? [], $activities ?? [], $generalNews ?? [], $awards ?? [], $procurements ?? []);
 usort($allMergedNews, function($a, $b) {
     return strtotime($b['created_at']) - strtotime($a['created_at']);
 });
@@ -21,7 +21,7 @@ if ($hasSearch) {
 
 // Detect category filter from GET parameter
 $initialFilter = trim($_GET['filter'] ?? 'all');
-if (!in_array($initialFilter, ['all', 'general', 'activity', 'announcement', 'award'])) {
+if (!in_array($initialFilter, ['all', 'general', 'activity', 'announcement', 'award', 'procurement'])) {
     $initialFilter = 'all';
 }
 ?>
@@ -52,14 +52,17 @@ if (!in_array($initialFilter, ['all', 'general', 'activity', 'announcement', 'aw
             <button onclick="changeNewsFilter('all')" id="tab-all" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
                 <?php echo __('all'); ?>
             </button>
+            <button onclick="changeNewsFilter('announcement')" id="tab-announcement" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
+                <?php echo __('announcement'); ?>
+            </button>
             <button onclick="changeNewsFilter('general')" id="tab-general" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
                 <?php echo __('general'); ?>
             </button>
+            <button onclick="changeNewsFilter('procurement')" id="tab-procurement" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
+                <?php echo __('procurement'); ?>
+            </button>
             <button onclick="changeNewsFilter('activity')" id="tab-activity" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
                 <?php echo __('activity'); ?>
-            </button>
-            <button onclick="changeNewsFilter('announcement')" id="tab-announcement" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
-                <?php echo __('announcement'); ?>
             </button>
             <button onclick="changeNewsFilter('award')" id="tab-award" class="category-tab px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer">
                 รางวัลและผลงาน
@@ -78,9 +81,12 @@ if (!in_array($initialFilter, ['all', 'general', 'activity', 'announcement', 'aw
             foreach ($allMergedNews as $item):
                 $catLabel = __('general');
                 $catColor = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20';
-                if ($item['category'] === 'announcement') {
-                    $catLabel = __('announcement');
+                if ($item['category'] === 'procurement') {
+                    $catLabel = __('procurement');
                     $catColor = 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
+                } elseif ($item['category'] === 'announcement') {
+                    $catLabel = __('announcement');
+                    $catColor = 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20';
                 } elseif ($item['category'] === 'activity') {
                     $catLabel = __('activity');
                     $catColor = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
@@ -104,7 +110,7 @@ if (!in_array($initialFilter, ['all', 'general', 'activity', 'announcement', 'aw
                         <?php echo $catLabel; ?>
                     </span>
 
-                    <?php if ($item['category'] === 'announcement' && !empty($item['doc_number'])): ?>
+                    <?php if ($item['category'] === 'procurement' && !empty($item['doc_number'])): ?>
                         <span class="absolute bottom-4 right-4 bg-red-600 text-white border border-red-500/30 text-[8px] font-bold px-2 py-1 rounded shadow-md font-english">
                             <?php echo htmlspecialchars($item['doc_number']); ?>
                         </span>

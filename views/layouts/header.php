@@ -427,9 +427,9 @@ $internalGroups = [
                             <span class="text-slate-400 dark:text-slate-500 font-medium">ค้นหาด่วน:</span>
                             <a href="<?php echo BASE_URL; ?>search?search=จัดซื้อจัดจ้าง" class="text-indigo-600 dark:text-indigo-400 hover:underline">#จัดซื้อจัดจ้าง</a>
                             <span class="text-slate-300 dark:text-slate-700">|</span>
-                            <a href="<?php echo BASE_URL; ?>news?filter=activity" class="text-indigo-600 dark:text-indigo-400 hover:underline">#ข่าวกิจกรรม</a>
+                            <a href="<?php echo BASE_URL; ?>news?filter=announcement" class="text-indigo-600 dark:text-indigo-400 hover:underline">#ประกาศ</a>
                             <span class="text-slate-300 dark:text-slate-700">|</span>
-                            <a href="<?php echo BASE_URL; ?>news?filter=announcement" class="text-indigo-600 dark:text-indigo-400 hover:underline">#ประชาสัมพันธ์</a>
+                            <a href="<?php echo BASE_URL; ?>news?filter=general" class="text-indigo-600 dark:text-indigo-400 hover:underline">#ประชาสัมพันธ์</a>
                             <span class="text-slate-300 dark:text-slate-700">|</span>
                             <a href="<?php echo BASE_URL; ?>news?filter=award" class="text-indigo-600 dark:text-indigo-400 hover:underline">#ผลงานเด่น</a>
                         </div>

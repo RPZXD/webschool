@@ -17,8 +17,8 @@ class NewsController {
     public function index() {
         // Fetch news for frontend showcase
         $announcements = $this->newsModel->getAll('announcement', 4);
-        $activities = $this->newsModel->getAll('activity', 4);
         $generalNews = $this->newsModel->getAll('general', 4);
+        $procurements = $this->newsModel->getAll('procurement', 4);
         
         // Fetch latest combined awards (Students & Teachers) for homepage showcase
         $awards = array();
@@ -223,6 +223,7 @@ class NewsController {
         $activities = $this->newsModel->getAll('activity');
         $generalNews = $this->newsModel->getAll('general');
         $awards = $this->newsModel->getAll('award');
+        $procurements = $this->newsModel->getAll('procurement');
 
         $title = "ข่าวสารและประกาศ | " . SCHOOL_NAME;
         require ROOT_PATH . 'views/layouts/header.php';

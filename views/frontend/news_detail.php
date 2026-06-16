@@ -3,9 +3,12 @@
 <?php
 $catLabel = __('general');
 $catColor = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20';
-if ($newsItem['category'] === 'announcement') {
-    $catLabel = __('announcement');
+if ($newsItem['category'] === 'procurement') {
+    $catLabel = __('procurement');
     $catColor = 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
+} elseif ($newsItem['category'] === 'announcement') {
+    $catLabel = __('announcement');
+    $catColor = 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20';
 } elseif ($newsItem['category'] === 'activity') {
     $catLabel = __('activity');
     $catColor = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
@@ -48,7 +51,7 @@ if ($newsItem['category'] === 'announcement') {
     <?php endif; ?>
 
     <!-- Procurement Special Block -->
-    <?php if ($newsItem['category'] === 'announcement' && (!empty($newsItem['doc_number']) || !empty($newsItem['budget']))): ?>
+    <?php if ($newsItem['category'] === 'procurement' && (!empty($newsItem['doc_number']) || !empty($newsItem['budget']))): ?>
         <div class="glass-card p-6 rounded-3xl border border-red-500/20 shadow-lg mb-8 relative overflow-hidden">
             <div class="absolute left-0 top-0 bottom-0 w-2 bg-red-500/80"></div>
             <h3 class="text-sm font-bold text-red-600 dark:text-red-400 mb-4 flex items-center gap-2">

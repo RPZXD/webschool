@@ -433,14 +433,20 @@ $activeTab = $_GET['tab'] ?? 'news';
                                     </tr>
                                 <?php else: 
                                     foreach ($allNews as $news): 
-                                        $catLabel = 'ทั่วไป';
+                                        $catLabel = 'ประชาสัมพันธ์';
                                         $catColor = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20';
-                                        if ($news['category'] === 'announcement') {
-                                            $catLabel = 'ประกาศ';
+                                        if ($news['category'] === 'procurement') {
+                                            $catLabel = 'จัดซื้อจัดจ้าง';
                                             $catColor = 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
+                                        } elseif ($news['category'] === 'announcement') {
+                                            $catLabel = 'ประกาศ';
+                                            $catColor = 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20';
                                         } elseif ($news['category'] === 'activity') {
                                             $catLabel = 'กิจกรรม';
                                             $catColor = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+                                        } elseif ($news['category'] === 'award') {
+                                            $catLabel = 'รางวัล/ผลงาน';
+                                            $catColor = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
                                         }
                                 ?>
                                     <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
@@ -497,14 +503,20 @@ $activeTab = $_GET['tab'] ?? 'news';
                             </div>
                         <?php else: ?>
                             <?php foreach ($allNews as $news): 
-                                $catLabel = 'ทั่วไป';
+                                $catLabel = 'ประชาสัมพันธ์';
                                 $catColor = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20';
-                                if ($news['category'] === 'announcement') {
-                                    $catLabel = 'ประกาศ';
+                                if ($news['category'] === 'procurement') {
+                                    $catLabel = 'จัดซื้อจัดจ้าง';
                                     $catColor = 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
+                                } elseif ($news['category'] === 'announcement') {
+                                    $catLabel = 'ประกาศ';
+                                    $catColor = 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20';
                                 } elseif ($news['category'] === 'activity') {
                                     $catLabel = 'กิจกรรม';
                                     $catColor = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+                                } elseif ($news['category'] === 'award') {
+                                    $catLabel = 'รางวัล/ผลงาน';
+                                    $catColor = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
                                 }
                             ?>
                                 <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
@@ -1676,9 +1688,10 @@ $activeTab = $_GET['tab'] ?? 'news';
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ประเภทข่าวสาร</label>
                     <select name="category" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                        <option value="general">ทั่วไป / ประชาสัมพันธ์</option>
+                        <option value="general">ประชาสัมพันธ์</option>
+                        <option value="announcement">ประกาศ</option>
+                        <option value="procurement">จัดซื้อจัดจ้าง</option>
                         <option value="activity">ภาพข่าวกิจกรรม</option>
-                        <option value="announcement">ประกาศจัดซื้อจัดจ้าง</option>
                         <option value="award">ผลงานและรางวัล (Award)</option>
                     </select>
                 </div>
@@ -1738,9 +1751,10 @@ $activeTab = $_GET['tab'] ?? 'news';
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ประเภทข่าวสาร</label>
                     <select name="category" id="edit-news-category" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                        <option value="general">ทั่วไป / ประชาสัมพันธ์</option>
+                        <option value="general">ประชาสัมพันธ์</option>
+                        <option value="announcement">ประกาศ</option>
+                        <option value="procurement">จัดซื้อจัดจ้าง</option>
                         <option value="activity">ภาพข่าวกิจกรรม</option>
-                        <option value="announcement">ประกาศจัดซื้อจัดจ้าง</option>
                         <option value="award">ผลงานและรางวัล (Award)</option>
                     </select>
                 </div>
@@ -2216,7 +2230,7 @@ $activeTab = $_GET['tab'] ?? 'news';
         function toggleProcurementFields(prefix, category) {
             const container = document.getElementById(`${prefix}-news-procurement-fields`);
             if (container) {
-                if (category === 'announcement') {
+                if (category === 'procurement') {
                     container.classList.remove('hidden');
                 } else {
                     container.classList.add('hidden');

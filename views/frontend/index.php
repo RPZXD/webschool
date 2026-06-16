@@ -205,25 +205,25 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- Column 1: PR News (ทั่วไป / ประชาสัมพันธ์) -->
+        <!-- Column 1: Announcements (ประกาศ) -->
         <div class="space-y-6">
             <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10">
-                <span class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-bullhorn text-indigo-500"></i> ข่าวประชาสัมพันธ์</span>
-                <a href="<?php echo BASE_URL; ?>news?filter=general" class="text-[10px] text-indigo-500 hover:underline">ดูทั้งหมด</a>
+                <span class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-regular fa-bell text-indigo-500"></i> ประกาศ</span>
+                <a href="<?php echo BASE_URL; ?>news?filter=announcement" class="text-[10px] text-indigo-500 hover:underline">ดูทั้งหมด</a>
             </div>
             
             <div class="space-y-4">
-                <?php if (empty($generalNews)): ?>
-                    <div class="p-6 text-center text-xs text-slate-400 italic">ไม่มีข้อมูลข่าวสารประชาสัมพันธ์</div>
+                <?php if (empty($announcements)): ?>
+                    <div class="p-6 text-center text-xs text-slate-400 italic">ไม่มีข้อมูลประกาศ</div>
                 <?php else: 
-                    foreach ($generalNews as $item): 
+                    foreach ($announcements as $item): 
                 ?>
                     <div onclick="location.href='<?php echo BASE_URL; ?>news/detail?id=<?php echo $item['id']; ?>'" class="glass-card p-4 rounded-2xl border border-slate-200 dark:border-white/5 hover:border-indigo-500/30 transition-all duration-300 shadow-md cursor-pointer flex gap-4 hover:-translate-y-0.5">
                         <div class="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-950 overflow-hidden shrink-0 border border-slate-200 dark:border-white/10">
                             <?php if (!empty($item['image_url'])): ?>
                                 <img src="<?php echo htmlspecialchars($item['image_url']); ?>" class="w-full h-full object-cover">
                             <?php else: ?>
-                                <div class="w-full h-full bg-gradient-to-tr from-indigo-500/10 to-indigo-500/20 text-indigo-500 flex items-center justify-center"><i class="fa-solid fa-newspaper text-lg"></i></div>
+                                <div class="w-full h-full bg-gradient-to-tr from-indigo-500/10 to-indigo-500/20 text-indigo-500 flex items-center justify-center"><i class="fa-solid fa-bullhorn text-lg"></i></div>
                             <?php endif; ?>
                         </div>
                         <div class="space-y-1 flex-grow min-w-0">
@@ -239,25 +239,25 @@
             </div>
         </div>
 
-        <!-- Column 2: School Activities (ภาพข่าวกิจกรรม) -->
+        <!-- Column 2: Public Relations (ประชาสัมพันธ์) -->
         <div class="space-y-6">
             <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10">
-                <span class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-camera-retro text-emerald-500"></i> ภาพกิจกรรม</span>
-                <a href="<?php echo BASE_URL; ?>news?filter=activity" class="text-[10px] text-emerald-500 hover:underline">ดูทั้งหมด</a>
+                <span class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-bullhorn text-emerald-500"></i> ข่าวประชาสัมพันธ์</span>
+                <a href="<?php echo BASE_URL; ?>news?filter=general" class="text-[10px] text-emerald-500 hover:underline">ดูทั้งหมด</a>
             </div>
 
             <div class="space-y-4">
-                <?php if (empty($activities)): ?>
-                    <div class="p-6 text-center text-xs text-slate-400 italic">ไม่มีข้อมูลข่าวกิจกรรม</div>
+                <?php if (empty($generalNews)): ?>
+                    <div class="p-6 text-center text-xs text-slate-400 italic">ไม่มีข้อมูลข่าวประชาสัมพันธ์</div>
                 <?php else: 
-                    foreach ($activities as $item): 
+                    foreach ($generalNews as $item): 
                 ?>
                     <div onclick="location.href='<?php echo BASE_URL; ?>news/detail?id=<?php echo $item['id']; ?>'" class="glass-card p-4 rounded-2xl border border-slate-200 dark:border-white/5 hover:border-emerald-500/30 transition-all duration-300 shadow-md cursor-pointer flex gap-4 hover:-translate-y-0.5">
                         <div class="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-950 overflow-hidden shrink-0 border border-slate-200 dark:border-white/10">
                             <?php if (!empty($item['image_url'])): ?>
                                 <img src="<?php echo htmlspecialchars($item['image_url']); ?>" class="w-full h-full object-cover">
                             <?php else: ?>
-                                <div class="w-full h-full bg-gradient-to-tr from-emerald-500/10 to-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-images text-lg"></i></div>
+                                <div class="w-full h-full bg-gradient-to-tr from-emerald-500/10 to-emerald-500/20 text-emerald-500 flex items-center justify-center"><i class="fa-regular fa-newspaper text-lg"></i></div>
                             <?php endif; ?>
                         </div>
                         <div class="space-y-1 flex-grow min-w-0">
@@ -273,18 +273,18 @@
             </div>
         </div>
 
-        <!-- Column 3: Procurement Announcements (ประกาศจัดซื้อจัดจ้าง) -->
+        <!-- Column 3: Procurement (จัดซื้อจัดจ้าง) -->
         <div class="space-y-6">
             <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/10">
                 <span class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar text-red-500"></i> จัดซื้อจัดจ้าง</span>
-                <a href="<?php echo BASE_URL; ?>news?filter=announcement" class="text-[10px] text-red-500 hover:underline">ดูทั้งหมด</a>
+                <a href="<?php echo BASE_URL; ?>news?filter=procurement" class="text-[10px] text-red-500 hover:underline">ดูทั้งหมด</a>
             </div>
 
             <div class="space-y-4">
-                <?php if (empty($announcements)): ?>
+                <?php if (empty($procurements)): ?>
                     <div class="p-6 text-center text-xs text-slate-400 italic">ไม่มีประกาศจัดซื้อจัดจ้าง</div>
                 <?php else: 
-                    foreach ($announcements as $item): 
+                    foreach ($procurements as $item): 
                 ?>
                     <div onclick="location.href='<?php echo BASE_URL; ?>news/detail?id=<?php echo $item['id']; ?>'" class="glass-card p-4 rounded-2xl border border-slate-200 dark:border-white/5 hover:border-red-500/30 transition-all duration-300 shadow-md cursor-pointer hover:-translate-y-0.5 relative overflow-hidden">
                         <!-- Invoice-style left status bar -->
@@ -781,7 +781,7 @@
         const procContainer = document.getElementById('modal-procurement-container');
         const docLabel = document.getElementById('modal-doc-number');
         const budgetLabel = document.getElementById('modal-budget');
-        if (item.category === 'announcement' && (item.doc_number || item.budget)) {
+        if (item.category === 'procurement' && (item.doc_number || item.budget)) {
             procContainer.classList.remove('hidden');
             docLabel.innerText = item.doc_number || 'ไม่ระบุ';
             budgetLabel.innerText = item.budget ? parseFloat(item.budget).toLocaleString('th-TH', { minimumFractionDigits: 2 }) + ' บาท' : 'ไม่ระบุ';
@@ -790,11 +790,13 @@
         }
 
         const tag = document.getElementById('modal-tag');
-        tag.innerText = item.category === 'announcement' ? 'ประกาศจัดซื้อจัดจ้าง' : (item.category === 'activity' ? '<?php echo __('activity'); ?>' : (item.category === 'award' ? 'รางวัลและผลงาน' : '<?php echo __('general'); ?>'));
+        tag.innerText = item.category === 'procurement' ? '<?php echo __('procurement'); ?>' : (item.category === 'announcement' ? '<?php echo __('announcement'); ?>' : (item.category === 'activity' ? '<?php echo __('activity'); ?>' : (item.category === 'award' ? 'รางวัลและผลงาน' : '<?php echo __('general'); ?>')));
         
         tag.className = "px-2.5 py-1 rounded-md text-[10px] font-semibold border inline-block ";
-        if (item.category === 'announcement') {
+        if (item.category === 'procurement') {
             tag.classList.add('bg-red-500/10', 'text-red-600', 'dark:text-red-400', 'border-red-500/20');
+        } else if (item.category === 'announcement') {
+            tag.classList.add('bg-indigo-500/10', 'text-indigo-600', 'dark:text-indigo-400', 'border-indigo-500/20');
         } else if (item.category === 'activity') {
             tag.classList.add('bg-emerald-500/10', 'text-emerald-600', 'dark:text-emerald-400', 'border-emerald-500/20');
         } else if (item.category === 'award') {
