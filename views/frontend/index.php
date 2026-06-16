@@ -6,14 +6,14 @@
     <?php if (empty($slides)): ?>
         <!-- Slide Fallback -->
         <div class="slide absolute inset-0 w-full h-full opacity-100 transition-opacity duration-1000 ease-in-out">
-            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop" alt="Default School Slide" class="w-full h-full object-cover object-center">
+            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1600&auto=format&fit=crop" alt="Default School Slide" class="w-full h-full object-cover object-center" fetchpriority="high">
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/30 to-slate-950/20"></div>
         </div>
     <?php else: ?>
         <?php foreach ($slides as $index => $slide): ?>
             <!-- Slide <?php echo $index + 1; ?> -->
             <div class="slide absolute inset-0 w-full h-full <?php echo $index === 0 ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'; ?> transition-all duration-1000 ease-in-out">
-                <img src="<?php echo htmlspecialchars($slide['image_url']); ?>" alt="<?php echo htmlspecialchars($slide['title'] ?? 'Slide image'); ?>" class="w-full h-full object-cover object-center">
+                <img src="<?php echo htmlspecialchars($slide['image_url']); ?>" alt="<?php echo htmlspecialchars($slide['title'] ?? 'Slide image'); ?>" class="w-full h-full object-cover object-center" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/15 to-slate-950/30"></div>
             </div>
         <?php endforeach; ?>
@@ -54,36 +54,36 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Card 1 -->
-            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-indigo-500/10 hover:border-indigo-500/30 transition-all duration-300 hover:-translate-y-1.5 group">
+            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-indigo-500/10 hover:border-indigo-500/30 transition-all duration-300 hover:-translate-y-1.5 group h-full flex flex-col">
                 <span class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center text-xl mb-5 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-graduation-cap"></i>
                 </span>
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Academic Excellence</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">เน้นการจัดการเรียนรู้อย่างเข้มข้น ส่งเสริมความเป็นเลิศทางวิชาการและเตรียมพร้อมสู่ระดับอุดมศึกษา</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-grow">เน้นการจัดการเรียนรู้อย่างเข้มข้น ส่งเสริมความเป็นเลิศทางวิชาการและเตรียมพร้อมสู่ระดับอุดมศึกษา</p>
             </div>
             <!-- Card 2 -->
-            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 hover:-translate-y-1.5 group">
+            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 hover:-translate-y-1.5 group h-full flex flex-col">
                 <span class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-xl mb-5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-microscope"></i>
                 </span>
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Modern Innovation</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">ประยุกต์ใช้สื่อและเทคโนโลยีการสอนที่ทันสมัย เสริมสร้างทักษะการวิจัย คิดวิเคราะห์ และสร้างนวัตกรรมใหม่</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-grow">ประยุกต์ใช้สื่อและเทคโนโลยีการสอนที่ทันสมัย เสริมสร้างทักษะการวิจัย คิดวิเคราะห์ และสร้างนวัตกรรมใหม่</p>
             </div>
             <!-- Card 3 -->
-            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-amber-500/10 hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-1.5 group">
+            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-amber-500/10 hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-1.5 group h-full flex flex-col">
                 <span class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center text-xl mb-5 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-handshake-angle"></i>
                 </span>
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Virtue & Morality</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">ปลูกฝังคุณธรรม จริยธรรม ระเบียบวินัย และจิตสาธารณะ เพื่อเติบโตเป็นบุคลากรที่มีคุณภาพของสังคม</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-grow">ปลูกฝังคุณธรรม จริยธรรม ระเบียบวินัย และจิตสาธารณะ เพื่อเติบโตเป็นบุคลากรที่มีคุณภาพของสังคม</p>
             </div>
             <!-- Card 4 -->
-            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-rose-500/10 hover:border-rose-500/30 transition-all duration-300 hover:-translate-y-1.5 group">
+            <div class="glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-rose-500/10 hover:border-rose-500/30 transition-all duration-300 hover:-translate-y-1.5 group h-full flex flex-col">
                 <span class="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-500 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center text-xl mb-5 group-hover:bg-rose-600 group-hover:text-white transition-all duration-300">
                     <i class="fa-solid fa-earth-americas"></i>
                 </span>
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Global Connectivity</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">เสริมสร้างความรู้ทักษะชีวิต ภาษาต่างประเทศเพื่อการสื่อสาร และเตรียมตัวก้าวสู่สากล</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-grow">เสริมสร้างความรู้ทักษะชีวิต ภาษาต่างประเทศเพื่อการสื่อสาร และเตรียมตัวก้าวสู่สากล</p>
             </div>
         </div>
     </div>

@@ -346,6 +346,7 @@ $status_labels = [
                     <!-- Dropdown Filter -->
                     <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-slate-800 shadow-sm">
                         <i class="fas fa-filter text-indigo-500 text-xs"></i>
+                        <label for="classFilter" class="sr-only">ระดับชั้นเรียน</label>
                         <select id="classFilter" class="bg-transparent border-none focus:ring-0 text-slate-700 dark:text-slate-200 font-bold text-xs cursor-pointer p-0">
                             <option value="">ทุกระดับชั้น</option>
                             <?php
@@ -364,6 +365,7 @@ $status_labels = [
                     <!-- Text Search input -->
                     <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-slate-800 shadow-sm">
                         <i class="fas fa-search text-slate-400 text-xs"></i>
+                        <label for="tableSearch" class="sr-only">ค้นหาห้องเรียน</label>
                         <input type="text" id="tableSearch" placeholder="ค้นหาห้อง..." class="bg-transparent border-none focus:ring-0 text-slate-700 dark:text-slate-200 font-semibold text-xs p-0 w-24 sm:w-32">
                     </div>
                 </div>

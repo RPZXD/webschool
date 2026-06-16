@@ -114,16 +114,19 @@ $totalJournals = count($journals);
                         }
                     ?>
                     <a href="<?php echo BASE_URL; ?>journal/detail?id=<?php echo $j['id']; ?>" 
-                       class="journal-card group bg-white dark:bg-slate-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-slate-600"
+                       class="journal-card group glass-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all h-full flex flex-col"
                        data-title="<?php echo strtolower($searchTitle); ?>"
                        data-date="<?php echo $j['news_date'] ?? $j['created_at'] ?? ''; ?>"
                        data-views="<?php echo $views; ?>">
                         
-                        <div class="aspect-[4/3] bg-gray-100 dark:bg-slate-600 overflow-hidden relative">
+                        <div class="aspect-[4/3] bg-gray-100 dark:bg-slate-800 overflow-hidden relative">
                             <?php if ($imageUrl): ?>
                                 <img src="<?php echo htmlspecialchars($imageUrl); ?>" 
                                      alt="<?php echo $searchTitle; ?>"
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                     loading="<?php echo $idx < 4 ? 'eager' : 'lazy'; ?>"
+                                     decoding="async"
+                                     fetchpriority="<?php echo $idx < 4 ? 'high' : 'low'; ?>"
                                      onerror="this.onerror=null; this.src=''; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br <?php echo $colorClass; ?>\'><span class=\'text-5xl\'>📰</span></div>'">
                             <?php else: ?>
                                 <div class="w-full h-full flex items-center justify-center bg-gradient-to-br <?php echo $colorClass; ?>">
@@ -136,11 +139,11 @@ $totalJournals = count($journals);
                             </div>
                         </div>
 
-                        <div class="p-4">
+                        <div class="p-4 flex-grow flex flex-col justify-between">
                             <h3 class="font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3rem] text-sm md:text-base">
                                 <?php echo htmlspecialchars($j['title'] ?? 'ไม่มีชื่อ'); ?>
                             </h3>
-                            <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center justify-between text-sm mt-auto">
                                 <span class="text-gray-500 dark:text-gray-400 text-xs">
                                     <i class="far fa-calendar-alt"></i> <?php echo $date; ?>
                                 </span>

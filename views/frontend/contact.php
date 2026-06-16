@@ -111,29 +111,29 @@ $lang = getActiveLang();
                 <form onsubmit="event.preventDefault(); alert('<?php echo $lang === 'th' ? 'ระบบได้รับข้อความจำลองแล้ว ขอขอบพระคุณสำหรับข้อมูลติดต่อครับ' : 'Mock message received successfully!'; ?>')" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'ชื่อ-นามสกุล' : 'Full Name'; ?></label>
-                            <input type="text" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="John Doe">
+                            <label for="contact_fullname" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'ชื่อ-นามสกุล' : 'Full Name'; ?></label>
+                            <input type="text" id="contact_fullname" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="John Doe">
                         </div>
                         <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'อีเมลผู้ติดต่อ' : 'Email Address'; ?></label>
-                            <input type="email" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="example@mail.com">
+                            <label for="contact_email" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'อีเมลผู้ติดต่อ' : 'Email Address'; ?></label>
+                            <input type="email" id="contact_email" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="example@mail.com">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'เบอร์โทรศัพท์' : 'Phone Number'; ?></label>
-                            <input type="text" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="089-xxxxxxx">
+                            <label for="contact_phone" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'เบอร์โทรศัพท์' : 'Phone Number'; ?></label>
+                            <input type="text" id="contact_phone" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="089-xxxxxxx">
                         </div>
                         <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'หัวข้อติดต่อ' : 'Subject'; ?></label>
-                            <input type="text" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="สอบถามข้อมูลทั่วไป">
+                            <label for="contact_subject" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'หัวข้อติดต่อ' : 'Subject'; ?></label>
+                            <input type="text" id="contact_subject" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="สอบถามข้อมูลทั่วไป">
                         </div>
                     </div>
 
                     <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'รายละเอียดข้อความ' : 'Message Details'; ?></label>
-                        <textarea rows="4" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="กรอกรายละเอียดข้อความ..."></textarea>
+                        <label for="contact_message" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><?php echo $lang === 'th' ? 'รายละเอียดข้อความ' : 'Message Details'; ?></label>
+                        <textarea id="contact_message" rows="4" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all" placeholder="กรอกรายละเอียดข้อความ..."></textarea>
                     </div>
 
                     <div class="pt-2 flex justify-end">
@@ -156,7 +156,7 @@ $lang = getActiveLang();
 
         <div class="w-full h-[400px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10 relative">
             <?php if (!empty(GOOGLE_MAP_EMBED)): ?>
-                <iframe src="<?php echo htmlspecialchars(GOOGLE_MAP_EMBED); ?>" class="w-full h-full border-0 grayscale dark:invert-[90%] dark:hue-rotate-180" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="<?php echo htmlspecialchars(GOOGLE_MAP_EMBED); ?>" class="w-full h-full border-0 grayscale dark:invert-[90%] dark:hue-rotate-180" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="แผนที่ตั้งโรงเรียนพิชัยบน Google Maps"></iframe>
             <?php else: ?>
                 <div class="w-full h-full bg-slate-100 dark:bg-slate-900 flex flex-col items-center justify-center text-center space-y-2">
                     <i class="fa-solid fa-map-pin text-3xl text-slate-400"></i>

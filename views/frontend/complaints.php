@@ -26,7 +26,7 @@
         <!-- Toolbar -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
             <div class="space-y-1">
-                <h2 class="text-base sm:text-lg font-bold text-slate-850 dark:text-white flex items-center gap-2">
+                <h2 class="text-base sm:text-lg font-bold text-slate-855 dark:text-white flex items-center gap-2">
                     <i class="fa-solid fa-circle-exclamation text-red-500"></i>
                     <span>ระบบรับเรื่องร้องเรียนทุจริตและประพฤติมิชอบ</span>
                 </h2>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-                <a href="<?php echo htmlspecialchars($complaintsUrl); ?>" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-4 py-2.5 bg-red-650 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold shadow-md hover:shadow-red-500/20 transition-all duration-200">
+                <a href="<?php echo htmlspecialchars($complaintsUrl); ?>" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold shadow-md hover:shadow-red-500/20 transition-all duration-200">
                     <i class="fa-solid fa-up-right-from-square mr-2"></i>เปิดแบบฟอร์มในหน้าต่างใหม่
                 </a>
             </div>
@@ -44,8 +44,8 @@
 
         <!-- Google Form Embed Container -->
         <?php if (!empty($complaintsUrl)): ?>
-            <div class="relative w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner" style="height: 90vh;" id="form-container">
-                <iframe src="<?php echo htmlspecialchars($complaintsUrl); ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy">
+            <div class="relative w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner" style="height: 80dvh; min-height: 500px; max-height: 800px;" id="form-container">
+                <iframe src="<?php echo htmlspecialchars($complaintsUrl); ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy" title="แบบฟอร์มรับเรื่องร้องเรียนทุจริตและประพฤติมิชอบออนไลน์ของโรงเรียนพิชัย">
                     กำลังโหลดแบบฟอร์ม...
                 </iframe>
             </div>
@@ -65,7 +65,7 @@
 
         <!-- Support Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-red-500/5 border border-red-500/10">
+            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-red-500/5 border border-red-500/10 h-full">
                 <div class="p-2.5 rounded-xl bg-red-500/10 text-red-500 dark:text-red-400 shrink-0">
                     <i class="fa-solid fa-user-shield text-base"></i>
                 </div>
@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 h-full">
                 <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 shrink-0">
                     <i class="fa-solid fa-gavel text-base"></i>
                 </div>
@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-amber-500/5 border border-amber-500/10">
+            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-amber-500/5 border border-amber-500/10 h-full">
                 <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 dark:text-amber-400 shrink-0">
                     <i class="fa-solid fa-circle-question text-base"></i>
                 </div>

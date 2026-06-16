@@ -77,7 +77,7 @@
 
             <!-- PDF Viewer Embed Frame -->
             <div class="relative w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-900 shadow-inner animate-pulse" style="height: 75vh;" id="pdf-container">
-                <iframe src="<?php echo htmlspecialchars($embedUrl); ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy" onload="document.getElementById('pdf-container').classList.remove('animate-pulse')"></iframe>
+                <iframe src="<?php echo htmlspecialchars($embedUrl); ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy" title="<?php echo htmlspecialchars($scheduleType === 'student' ? 'ตารางเรียนนักเรียน' : 'ตารางสอนครู'); ?>" onload="document.getElementById('pdf-container').classList.remove('animate-pulse')"></iframe>
             </div>
 
             <!-- Supporting Information / Instruction Tips -->

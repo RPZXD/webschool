@@ -26,15 +26,15 @@ body, header, footer, table, tr, td, th, input, select, textarea {
 .bg-gradient-mesh {
     background-color: #f8fafc;
     background-image: 
-        radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.04) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, rgba(14, 165, 233, 0.04) 0px, transparent 50%);
+        radial-gradient(at 10% 20%, rgba(190, 18, 60, 0.04) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(217, 119, 6, 0.04) 0px, transparent 50%);
 }
 
 .dark .bg-gradient-mesh {
     background-color: #0b0f19;
     background-image: 
-        radial-gradient(at 10% 20%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, rgba(14, 165, 233, 0.1) 0px, transparent 50%);
+        radial-gradient(at 10% 20%, rgba(190, 18, 60, 0.08) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(217, 119, 6, 0.08) 0px, transparent 50%);
 }
 
 /* Glassmorphism Styles */
@@ -65,15 +65,15 @@ body, header, footer, table, tr, td, th, input, select, textarea {
 
 .glass-card:hover {
     background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(99, 102, 241, 0.25);
-    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 20px 0px rgba(99, 102, 241, 0.04);
+    border-color: rgba(190, 18, 60, 0.25);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 20px 0px rgba(190, 18, 60, 0.04);
     transform: translateY(-4px);
 }
 
 .dark .glass-card:hover {
     background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(99, 102, 241, 0.35);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px 0px rgba(99, 102, 241, 0.15);
+    border-color: rgba(190, 18, 60, 0.35);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px 0px rgba(190, 18, 60, 0.15);
 }
 
 .glass-modal {
@@ -113,8 +113,8 @@ body, header, footer, table, tr, td, th, input, select, textarea {
 
 .glass-input:focus {
     background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(99, 102, 241, 0.5);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+    border-color: rgba(190, 18, 60, 0.5);
+    box-shadow: 0 0 0 2px rgba(190, 18, 60, 0.25);
     outline: none;
 }
 
@@ -124,35 +124,35 @@ body, header, footer, table, tr, td, th, input, select, textarea {
 
 /* Custom Gradients and Glows */
 .text-gradient-primary {
-    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #4338ca 100%);
+    background: linear-gradient(135deg, #9f1239 0%, #be123c 50%, #881337 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .dark .text-gradient-primary {
-    background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #4338ca 100%);
+    background: linear-gradient(135deg, #fecdd3 0%, #be123c 50%, #881337 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-secondary {
-    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .dark .text-gradient-secondary {
-    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .glow-indigo {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 40px rgba(190, 18, 60, 0.15);
 }
 
 .dark .glow-indigo {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 0 40px rgba(190, 18, 60, 0.25);
 }
 
 /* Custom Scrollbar */

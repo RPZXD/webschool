@@ -33,6 +33,47 @@ $activeTab = $_GET['tab'] ?? 'news';
                     fontFamily: {
                         sans: ['Sarabun', 'sans-serif'],
                         english: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        indigo: {
+                            50: '#fff5f5',
+                            100: '#ffe3e3',
+                            200: '#ffc9c9',
+                            300: '#ffa8a8',
+                            400: '#ff8787',
+                            500: '#ff6b6b',
+                            600: '#be123c', // Refined Crimson (Primary Red)
+                            700: '#9f1239',
+                            800: '#881337',
+                            900: '#4c0519',
+                            950: '#3f0412',
+                        },
+                        purple: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Refined Gold (Accent Yellow)
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        },
+                        violet: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Map violet to Gold for gradient consistency
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        }
                     }
                 }
             }

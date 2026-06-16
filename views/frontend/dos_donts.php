@@ -137,7 +137,7 @@
 
         <?php if ($fileExists): ?>
             <div class="relative w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 shadow-inner" style="height: 80vh;">
-                <iframe src="<?php echo $pdfUrl; ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy"></iframe>
+                <iframe src="<?php echo $pdfUrl; ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy" title="<?php echo htmlspecialchars(__('info_dos_donts') ?: 'เอกสารประกาศแนวปฏิบัติ Do\'s & Don\'ts อย่างเป็นทางการ'); ?>"></iframe>
             </div>
         <?php else: ?>
             <div class="max-w-2xl mx-auto bg-slate-50/50 dark:bg-slate-950/20 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center space-y-6 shadow-inner">

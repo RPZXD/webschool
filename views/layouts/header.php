@@ -261,6 +261,45 @@ $internalGroups = [
                         darkblue: {
                             900: '#0b0f19',
                             950: '#05070d',
+                        },
+                        indigo: {
+                            50: '#fff5f5',
+                            100: '#ffe3e3',
+                            200: '#ffc9c9',
+                            300: '#ffa8a8',
+                            400: '#ff8787',
+                            500: '#ff6b6b',
+                            600: '#be123c', // Refined Crimson (Primary Red)
+                            700: '#9f1239',
+                            800: '#881337',
+                            900: '#4c0519',
+                            950: '#3f0412',
+                        },
+                        purple: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Refined Gold (Accent Yellow)
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        },
+                        violet: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Map violet to Gold for gradient consistency
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
                         }
                     }
                 }
@@ -313,36 +352,36 @@ $internalGroups = [
             </div>
 
             <!-- Right Side: Accessibility, Theme & Language Toggles -->
-            <div class="flex items-center gap-4 justify-between w-full sm:w-auto ml-auto">
+            <div class="flex items-center gap-3 sm:gap-4 justify-between w-full sm:w-auto ml-auto">
                 <!-- Font Resizing Controls -->
-                <div class="flex items-center gap-1.5">
-                    <span class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold tracking-wider mr-1">A A A</span>
-                    <button id="fs-btn-small" onclick="setFontSize('small')" class="font-size-btn px-2.5 py-0.5 rounded bg-slate-200 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 text-[10px] font-bold transition-all" title="ลดขนาดตัวอักษร (Zoom Out)">
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 tracking-wider mr-1">A A A</span>
+                    <button id="fs-btn-small" onclick="setFontSize('small')" class="font-size-btn w-10 h-10 rounded-xl bg-slate-200 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 text-xs font-bold transition-all flex items-center justify-center focus:ring-2 focus:ring-indigo-500 focus:outline-none" title="ลดขนาดตัวอักษร (Zoom Out)">
                         ก-
                     </button>
-                    <button id="fs-btn-normal" onclick="setFontSize('normal')" class="font-size-btn px-2.5 py-0.5 rounded bg-indigo-600 text-white text-[10px] font-bold transition-all" title="ขนาดตัวอักษรปกติ (Normal Size)">
+                    <button id="fs-btn-normal" onclick="setFontSize('normal')" class="font-size-btn w-10 h-10 rounded-xl bg-indigo-600 text-white text-xs font-bold transition-all flex items-center justify-center focus:ring-2 focus:ring-indigo-500 focus:outline-none" title="ขนาดตัวอักษรปกติ (Normal Size)">
                         ก
                     </button>
-                    <button id="fs-btn-large" onclick="setFontSize('large')" class="font-size-btn px-2.5 py-0.5 rounded bg-slate-200 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 text-[10px] font-bold transition-all" title="เพิ่มขนาดตัวอักษร (Zoom In)">
+                    <button id="fs-btn-large" onclick="setFontSize('large')" class="font-size-btn w-10 h-10 rounded-xl bg-slate-200 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 text-xs font-bold transition-all flex items-center justify-center focus:ring-2 focus:ring-indigo-500 focus:outline-none" title="เพิ่มขนาดตัวอักษร (Zoom In)">
                         ก+
                     </button>
                 </div>
                 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
                     <!-- Theme Toggle Button -->
-                    <button onclick="toggleDarkMode()" class="hover:text-indigo-600 dark:hover:text-white transition-colors flex items-center gap-1.5" title="สลับโหมด สีสว่าง/สีมืด">
+                    <button onclick="toggleDarkMode()" class="p-2 sm:p-2.5 rounded-xl hover:bg-slate-200 dark:hover:bg-white/5 hover:text-indigo-600 dark:hover:text-white transition-colors flex items-center justify-center gap-1.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none" title="สลับโหมด สีสว่าง/สีมืด">
                         <i id="theme-icon" class="fa-solid fa-moon"></i>
-                        <span class="text-[10px] hidden sm:inline font-bold">สลับโหมด / Theme</span>
+                        <span class="text-[10px] hidden sm:inline font-bold">สลับโหมด/Theme</span>
                     </button>
                     
-                    <span class="text-slate-300 dark:text-white/10">|</span>
+                    <span class="text-slate-200 dark:text-white/10">|</span>
                     
                     <!-- Language Selection -->
-                    <div class="flex items-center gap-1">
+                    <div class="flex items-center gap-1.5">
                         <?php $activeLang = getActiveLang(); ?>
-                        <a href="?lang=th" class="px-2 py-0.5 rounded transition-all text-[10px] font-black <?php echo $activeLang === 'th' ? 'bg-indigo-600 text-white' : 'hover:text-slate-800 dark:hover:text-white'; ?>">TH</a>
-                        <span class="text-slate-300 dark:text-slate-600 text-[10px]">|</span>
-                        <a href="?lang=en" class="px-2 py-0.5 rounded transition-all text-[10px] font-black <?php echo $activeLang === 'en' ? 'bg-indigo-600 text-white' : 'hover:text-slate-800 dark:hover:text-white'; ?>">EN</a>
+                        <a href="?lang=th" class="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-xs font-black focus:ring-2 focus:ring-indigo-500 focus:outline-none <?php echo $activeLang === 'th' ? 'bg-indigo-600 text-white shadow-md' : 'hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/5'; ?>">TH</a>
+                        <span class="text-slate-200 dark:text-slate-600 text-[10px]">|</span>
+                        <a href="?lang=en" class="w-10 h-10 rounded-xl flex items-center justify-center transition-all text-xs font-black focus:ring-2 focus:ring-indigo-500 focus:outline-none <?php echo $activeLang === 'en' ? 'bg-indigo-600 text-white shadow-md' : 'hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/5'; ?>">EN</a>
                     </div>
                 </div>
             </div>

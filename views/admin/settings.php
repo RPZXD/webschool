@@ -30,6 +30,47 @@
                     fontFamily: {
                         sans: ['Sarabun', 'sans-serif'],
                         english: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        indigo: {
+                            50: '#fff5f5',
+                            100: '#ffe3e3',
+                            200: '#ffc9c9',
+                            300: '#ffa8a8',
+                            400: '#ff8787',
+                            500: '#ff6b6b',
+                            600: '#be123c', // Refined Crimson (Primary Red)
+                            700: '#9f1239',
+                            800: '#881337',
+                            900: '#4c0519',
+                            950: '#3f0412',
+                        },
+                        purple: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Refined Gold (Accent Yellow)
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        },
+                        violet: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b', // Map violet to Gold for gradient consistency
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        }
                     }
                 }
             }
@@ -278,35 +319,35 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่อโรงเรียน (ภาษาไทย)</label>
-                            <input type="text" name="school_name" value="<?php echo htmlspecialchars($settings['school_name'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                            <label for="school_name" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่อโรงเรียน (ภาษาไทย)</label>
+                            <input type="text" id="school_name" name="school_name" value="<?php echo htmlspecialchars($settings['school_name'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่อโรงเรียน (ภาษาอังกฤษ)</label>
-                            <input type="text" name="school_name_en" value="<?php echo htmlspecialchars($settings['school_name_en'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                            <label for="school_name_en" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่อโรงเรียน (ภาษาอังกฤษ)</label>
+                            <input type="text" id="school_name_en" name="school_name_en" value="<?php echo htmlspecialchars($settings['school_name_en'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
                         </div>
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่อย่อโรงเรียน (ภาษาไทย เช่น พช.)</label>
-                            <input type="text" name="school_short_name" value="<?php echo htmlspecialchars($settings['school_short_name'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                            <label for="school_short_name" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่อย่อโรงเรียน (ภาษาไทย เช่น พช.)</label>
+                            <input type="text" id="school_short_name" name="school_short_name" value="<?php echo htmlspecialchars($settings['school_short_name'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
                         </div>
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ ตารางเรียนนักเรียน (Google Drive PDF)</label>
-                            <input type="url" name="student_schedule_link" value="<?php echo htmlspecialchars($settings['student_schedule_link'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://drive.google.com/file/d/.../view?usp=sharing">
+                            <label for="student_schedule_link" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ ตารางเรียนนักเรียน (Google Drive PDF)</label>
+                            <input type="url" id="student_schedule_link" name="student_schedule_link" value="<?php echo htmlspecialchars($settings['student_schedule_link'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://drive.google.com/file/d/.../view?usp=sharing">
                             <p class="text-[10px] text-slate-400 dark:text-slate-500">วางลิงก์แชร์ไฟล์ PDF ตารางเรียนจาก Google Drive (ตรวจสอบสิทธิ์การเข้าถึงให้เป็น "ทุกคนที่มีลิงก์มีสิทธิ์อ่าน" ด้วย)</p>
                         </div>
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ ตารางสอนครู (Google Drive PDF)</label>
-                            <input type="url" name="teacher_schedule_link" value="<?php echo htmlspecialchars($settings['teacher_schedule_link'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://drive.google.com/file/d/.../view?usp=sharing">
+                            <label for="teacher_schedule_link" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ ตารางสอนครู (Google Drive PDF)</label>
+                            <input type="url" id="teacher_schedule_link" name="teacher_schedule_link" value="<?php echo htmlspecialchars($settings['teacher_schedule_link'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://drive.google.com/file/d/.../view?usp=sharing">
                             <p class="text-[10px] text-slate-400 dark:text-slate-500">วางลิงก์แชร์ไฟล์ PDF ตารางสอนจาก Google Drive (ตรวจสอบสิทธิ์การเข้าถึงให้เป็น "ทุกคนที่มีลิงก์มีสิทธิ์อ่าน" ด้วย)</p>
                         </div>
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ช่องทางรับฟังความคิดเห็น (Google Form)</label>
-                            <input type="url" name="feedback_form_url" value="<?php echo htmlspecialchars($settings['feedback_form_url'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://docs.google.com/forms/d/e/.../viewform?embedded=true">
+                            <label for="feedback_form_url" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ช่องทางรับฟังความคิดเห็น (Google Form)</label>
+                            <input type="url" id="feedback_form_url" name="feedback_form_url" value="<?php echo htmlspecialchars($settings['feedback_form_url'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://docs.google.com/forms/d/e/.../viewform?embedded=true">
                             <p class="text-[10px] text-slate-400 dark:text-slate-500">วางลิงก์ Google Form สำหรับรับฟังความคิดเห็น (แนะนำลิงก์รูปแบบ ?embedded=true เพื่อให้ฝังในบราวเซอร์ได้อย่างพอดี)</p>
                         </div>
                         <div class="space-y-1.5 md:col-span-2">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ช่องทางรับเรื่องร้องเรียน (Google Form)</label>
-                            <input type="url" name="complaints_form_url" value="<?php echo htmlspecialchars($settings['complaints_form_url'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://docs.google.com/forms/d/e/.../viewform?embedded=true">
+                            <label for="complaints_form_url" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ช่องทางรับเรื่องร้องเรียน (Google Form)</label>
+                            <input type="url" id="complaints_form_url" name="complaints_form_url" value="<?php echo htmlspecialchars($settings['complaints_form_url'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://docs.google.com/forms/d/e/.../viewform?embedded=true">
                             <p class="text-[10px] text-slate-400 dark:text-slate-500">วางลิงก์ Google Form สำหรับรับเรื่องร้องเรียน (แนะนำลิงก์รูปแบบ ?embedded=true เพื่อให้ฝังในบราวเซอร์ได้อย่างพอดี)</p>
                         </div>
                     </div>
@@ -318,32 +359,32 @@
                     
                     <div class="space-y-6">
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ที่อยู่โรงเรียน (ภาษาไทย)</label>
-                            <textarea name="school_address_th" rows="2" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"><?php echo htmlspecialchars($settings['school_address_th'] ?? ''); ?></textarea>
+                            <label for="school_address_th" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ที่อยู่โรงเรียน (ภาษาไทย)</label>
+                            <textarea id="school_address_th" name="school_address_th" rows="2" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"><?php echo htmlspecialchars($settings['school_address_th'] ?? ''); ?></textarea>
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ที่อยู่โรงเรียน (ภาษาอังกฤษ)</label>
-                            <textarea name="school_address_en" rows="2" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"><?php echo htmlspecialchars($settings['school_address_en'] ?? ''); ?></textarea>
+                            <label for="school_address_en" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ที่อยู่โรงเรียน (ภาษาอังกฤษ)</label>
+                            <textarea id="school_address_en" name="school_address_en" rows="2" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"><?php echo htmlspecialchars($settings['school_address_en'] ?? ''); ?></textarea>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="space-y-1.5">
-                                <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">เบอร์โทรศัพท์ติดต่อ</label>
-                                <input type="text" name="school_phone" value="<?php echo htmlspecialchars($settings['school_phone'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                                <label for="school_phone" class="text-xs font-semibold text-slate-700 dark:text-slate-300">เบอร์โทรศัพท์ติดต่อ</label>
+                                <input type="text" id="school_phone" name="school_phone" value="<?php echo htmlspecialchars($settings['school_phone'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
                             </div>
                             <div class="space-y-1.5">
-                                <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">เบอร์โทรสาร (แฟกซ์)</label>
-                                <input type="text" name="school_fax" value="<?php echo htmlspecialchars($settings['school_fax'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                                <label for="school_fax" class="text-xs font-semibold text-slate-700 dark:text-slate-300">เบอร์โทรสาร (แฟกซ์)</label>
+                                <input type="text" id="school_fax" name="school_fax" value="<?php echo htmlspecialchars($settings['school_fax'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
                             </div>
                             <div class="space-y-1.5">
-                                <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">อีเมลโรงเรียน</label>
-                                <input type="email" name="school_email" value="<?php echo htmlspecialchars($settings['school_email'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                                <label for="school_email" class="text-xs font-semibold text-slate-700 dark:text-slate-300">อีเมลโรงเรียน</label>
+                                <input type="email" id="school_email" name="school_email" value="<?php echo htmlspecialchars($settings['school_email'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
                             </div>
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ Google Map Embed (สำหรับแผนที่หน้าติดต่อเรา)</label>
-                            <input type="url" name="google_map_embed" value="<?php echo htmlspecialchars($settings['google_map_embed'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://www.google.com/maps/embed?...">
+                            <label for="google_map_embed" class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลิงก์ Google Map Embed (สำหรับแผนที่หน้าติดต่อเรา)</label>
+                            <input type="url" id="google_map_embed" name="google_map_embed" value="<?php echo htmlspecialchars($settings['google_map_embed'] ?? ''); ?>" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="https://www.google.com/maps/embed?...">
                             <p class="text-[10px] text-slate-400 dark:text-slate-500">นำลิงก์มาจากตัวเลือกแชร์แผนที่ -> ฝังแผนที่ (Embed Map) คัดลอกเฉพาะลิงก์ที่อยู่ในแท็ก `src` ของ iframe มากรอก</p>
                         </div>
                     </div>
@@ -355,16 +396,16 @@
                     
                     <div class="space-y-5">
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><i class="fab fa-facebook text-indigo-500 mr-1 text-sm"></i> Facebook Page URL</label>
-                            <input type="url" name="school_facebook" value="<?php echo htmlspecialchars($settings['school_facebook'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all">
+                            <label for="school_facebook" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><i class="fab fa-facebook text-indigo-500 mr-1 text-sm"></i> Facebook Page URL</label>
+                            <input type="url" id="school_facebook" name="school_facebook" value="<?php echo htmlspecialchars($settings['school_facebook'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><i class="fab fa-youtube text-red-500 mr-1 text-sm"></i> YouTube Channel URL</label>
-                            <input type="url" name="school_youtube" value="<?php echo htmlspecialchars($settings['school_youtube'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all">
+                            <label for="school_youtube" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><i class="fab fa-youtube text-red-500 mr-1 text-sm"></i> YouTube Channel URL</label>
+                            <input type="url" id="school_youtube" name="school_youtube" value="<?php echo htmlspecialchars($settings['school_youtube'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300"><i class="fab fa-line text-green-500 mr-1 text-sm"></i> Line Official Account URL</label>
-                            <input type="url" name="school_line" value="<?php echo htmlspecialchars($settings['school_line'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all">
+                            <label for="school_line" class="text-xs font-semibold text-slate-700 dark:text-slate-300"><i class="fab fa-line text-green-500 mr-1 text-sm"></i> Line Official Account URL</label>
+                            <input type="url" id="school_line" name="school_line" value="<?php echo htmlspecialchars($settings['school_line'] ?? ''); ?>" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 transition-all">
                         </div>
                     </div>
                 </div>

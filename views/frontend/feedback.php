@@ -44,13 +44,13 @@
 
         <!-- Google Form Embed Container -->
         <?php if (!empty($feedbackUrl)): ?>
-            <div class="relative w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 bg-white dark:bg-slate-950 shadow-inner" style="height: 90vh;" id="form-container">
-                <iframe src="<?php echo htmlspecialchars($feedbackUrl); ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy">
+            <div class="relative w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 bg-white dark:bg-slate-950 shadow-inner" style="height: 80dvh; min-height: 500px; max-height: 800px;" id="form-container">
+                <iframe src="<?php echo htmlspecialchars($feedbackUrl); ?>" class="absolute inset-0 w-full h-full border-0" allow="autoplay" loading="lazy" title="แบบฟอร์มรับฟังความคิดเห็นออนไลน์ของโรงเรียนพิชัย">
                     กำลังโหลดแบบฟอร์ม...
                 </iframe>
             </div>
         <?php else: ?>
-            <div class="max-w-2xl mx-auto bg-slate-50/50 dark:bg-slate-950/20 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center space-y-6 shadow-inner">
+            <div class="max-w-2xl mx-auto bg-slate-50/50 dark:bg-slate-955/20 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center space-y-6 shadow-inner">
                 <div class="w-20 h-20 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
                     <i class="fa-solid fa-triangle-exclamation text-3xl animate-bounce"></i>
                 </div>
@@ -65,7 +65,7 @@
 
         <!-- Support Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/10">
+            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 h-full">
                 <div class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 shrink-0">
                     <i class="fa-solid fa-shield-halved text-base"></i>
                 </div>
@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 h-full">
                 <div class="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 shrink-0">
                     <i class="fa-solid fa-square-poll-vertical text-base"></i>
                 </div>
@@ -89,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-amber-500/5 border border-amber-500/10">
+            <div class="flex items-start gap-3.5 p-5 rounded-2xl bg-amber-500/5 border border-amber-500/10 h-full">
                 <div class="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 dark:text-amber-400 shrink-0">
                     <i class="fa-solid fa-circle-question text-base"></i>
                 </div>
