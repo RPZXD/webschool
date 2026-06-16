@@ -6,18 +6,44 @@
     <div class="absolute w-[300px] h-[300px] bg-indigo-500/5 dark:bg-indigo-500/10 blur-[90px] rounded-full top-20 left-[-150px] pointer-events-none"></div>
     <div class="absolute w-[300px] h-[300px] bg-purple-500/5 dark:bg-purple-500/10 blur-[90px] rounded-full bottom-20 right-[-150px] pointer-events-none"></div>
 
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 relative z-10">
-        <div class="space-y-2 text-center md:text-left">
+    <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 relative z-10">
+        <div class="space-y-2 text-center lg:text-left">
             <span class="text-xs font-bold text-amber-500 dark:text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/20 inline-block">รางวัลและความภาคภูมิใจ</span>
             <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Awards & Achievements</h1>
             <p class="text-slate-500 dark:text-slate-400 text-xs max-w-lg">ผลงานเกียรติบัตรและรางวัลแห่งความสำเร็จของครู นักเรียน และสถานศึกษา</p>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+        <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full lg:w-auto">
             <!-- Live Search Input -->
-            <div class="relative w-full sm:w-64">
+            <div class="relative w-full sm:w-60">
                 <input type="text" id="awards-search" oninput="filterAwards()" placeholder="ค้นหารายชื่อ/รางวัล..." class="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition-all shadow-sm" aria-label="ค้นหารายชื่อหรือรางวัล">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"><i class="fa-solid fa-magnifying-glass text-xs"></i></span>
+            </div>
+
+            <!-- Level Select Filter -->
+            <div class="relative w-full sm:w-44">
+                <select id="awards-level-select" onchange="filterAwards()" class="w-full pl-3.5 pr-8 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-all shadow-sm cursor-pointer appearance-none">
+                    <option value="all">ระดับทั้งหมด (All Levels)</option>
+                    <option value="6">ระดับนานาชาติ (International)</option>
+                    <option value="5">ระดับประเทศ (National)</option>
+                    <option value="4">ระดับภาค (Regional)</option>
+                    <option value="3">ระดับจังหวัด/เขตพื้นที่ฯ (Provincial/Area)</option>
+                    <option value="2">ระดับอำเภอ (District)</option>
+                    <option value="1">ระดับโรงเรียน/สถาบัน (School/Local)</option>
+                </select>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 pointer-events-none text-[9px]"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+
+            <!-- Type Select Filter -->
+            <div class="relative w-full sm:w-44">
+                <select id="awards-type-select" onchange="filterAwards()" class="w-full pl-3.5 pr-8 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-all shadow-sm cursor-pointer appearance-none">
+                    <option value="all">ประเภททั้งหมด (All Types)</option>
+                    <option value="winner">ชนะเลิศ (Winner / Gold Medal)</option>
+                    <option value="runner_up">รองชนะเลิศ (Runners-Up)</option>
+                    <option value="other_award">รางวัลชมเชย/รางวัลพิเศษ</option>
+                    <option value="certificate">เกียรติบัตรเข้าร่วม/อื่นๆ</option>
+                </select>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 pointer-events-none text-[9px]"><i class="fa-solid fa-chevron-down"></i></span>
             </div>
 
             <!-- Tabs Filters -->
@@ -34,7 +60,7 @@
         <?php if (empty($awards)): ?>
             <div class="col-span-full text-center py-20 bg-slate-100/50 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-3xl">
                 <i class="fa-regular fa-folder-open text-4xl text-slate-400 dark:text-slate-500 mb-4"></i>
-                <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ยังไม่มีบันทึกข้อมูลรางวัลและผลงานเด่นในขณะนี้</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ยังไม่มีบันทึกข้อมูลรางวัลและผลงานเด่นในระบบขณะนี้</p>
             </div>
         <?php else: 
             foreach ($awards as $index => $item): 
@@ -45,6 +71,8 @@
         ?>
             <div class="award-card glass-card rounded-2xl overflow-hidden flex flex-col h-full hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-1.5 shadow-lg group cursor-pointer relative" 
                  data-type="<?php echo htmlspecialchars($item['type']); ?>"
+                 data-level="<?php echo htmlspecialchars($item['level_score']); ?>"
+                 data-result-type="<?php echo htmlspecialchars($item['result_type']); ?>"
                  data-title="<?php echo htmlspecialchars(mb_strtolower($item['title'])); ?>"
                  data-content="<?php echo htmlspecialchars(mb_strtolower($item['content'])); ?>"
                  onclick="openLightbox('<?php echo htmlspecialchars($item['image_url'] ? $item['image_url'] : 'https://cktech.phichai.ac.th/'); ?>', '<?php echo htmlspecialchars($item['title']); ?>', '<?php echo htmlspecialchars(str_replace("\n", '\\n', $item['content'])); ?>')">
@@ -54,7 +82,7 @@
                     <?php if (!empty($item['image_url'])): ?>
                         <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                     <?php else: ?>
-                        <div class="w-full h-full bg-gradient-to-br from-amber-950/40 to-slate-950 flex items-center justify-center p-4">
+                        <div class="w-full h-full bg-gradient-to-br from-amber-955/40 to-slate-950 flex items-center justify-center p-4">
                             <span class="text-amber-500/40 text-4xl"><i class="fa-solid fa-trophy"></i></span>
                         </div>
                     <?php endif; ?>
@@ -153,19 +181,27 @@
 
     function filterAwards() {
         const query = document.getElementById('awards-search').value.trim().toLowerCase();
+        const activeLevel = document.getElementById('awards-level-select').value;
+        const activeType = document.getElementById('awards-type-select').value;
+        
         const cards = document.querySelectorAll('.award-card');
         const noResults = document.getElementById('no-results');
         let visibleCount = 0;
 
         cards.forEach(card => {
             const cardType = card.dataset.type;
+            const cardLevel = card.dataset.level;
+            const cardResultType = card.dataset.resultType;
+            
             const titleText = card.dataset.title;
             const contentText = card.dataset.content;
 
             const matchesTab = (activeAwardsTab === 'all' || cardType === activeAwardsTab);
+            const matchesLevel = (activeLevel === 'all' || cardLevel === activeLevel);
+            const matchesType = (activeType === 'all' || cardResultType === activeType);
             const matchesSearch = (!query || titleText.includes(query) || contentText.includes(query));
 
-            if (matchesTab && matchesSearch) {
+            if (matchesTab && matchesLevel && matchesType && matchesSearch) {
                 card.style.display = 'flex';
                 visibleCount++;
             } else {

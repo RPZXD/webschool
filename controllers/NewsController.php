@@ -31,7 +31,7 @@ class NewsController {
         try {
             $pdoCktech = Database::connect('phichaia_cktech');
             if ($pdoCktech) {
-                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at, award_level FROM certificates ORDER BY award_date DESC, id DESC LIMIT 50");
+                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at, award_level, award_type FROM certificates ORDER BY award_date DESC, id DESC LIMIT 50");
                 $stmt->execute();
                 $certs = $stmt->fetchAll();
                 
@@ -62,6 +62,16 @@ class NewsController {
                         $levelScore = 2;
                     }
 
+                    $typeStr = isset($c['award_type']) ? $c['award_type'] : '';
+                    $resType = 'certificate';
+                    if (mb_strpos($typeStr, 'ชนะเลิศ') !== false && mb_strpos($typeStr, 'รองชนะเลิศ') === false) {
+                        $resType = 'winner';
+                    } elseif (mb_strpos($typeStr, 'รองชนะเลิศ') !== false) {
+                        $resType = 'runner_up';
+                    } elseif (mb_strpos($typeStr, 'ชมเชย') !== false || mb_strpos($typeStr, 'พิเศษ') !== false) {
+                        $resType = 'other_award';
+                    }
+
                     $tempAwards[] = array(
                         'id' => $c['id'],
                         'type' => 'student',
@@ -69,7 +79,8 @@ class NewsController {
                         'content' => $fullContent,
                         'image_url' => $imageUrl,
                         'date' => isset($c['award_date']) && !empty($c['award_date']) ? $c['award_date'] : (isset($c['created_at']) && !empty($c['created_at']) ? $c['created_at'] : date('Y-m-d')),
-                        'level_score' => $levelScore
+                        'level_score' => $levelScore,
+                        'result_type' => $resType
                     );
                 }
             }
@@ -110,6 +121,16 @@ class NewsController {
                         $levelScore = 3;
                     }
 
+                    $awardText = isset($tc['award']) ? $tc['award'] : '';
+                    $resType = 'certificate';
+                    if (mb_strpos($awardText, 'ชนะเลิศ') !== false && mb_strpos($awardText, 'รองชนะเลิศ') === false) {
+                        $resType = 'winner';
+                    } elseif (mb_strpos($awardText, 'รองชนะเลิศ') !== false || mb_strpos($awardText, 'เหรียญทอง') !== false || mb_strpos($awardText, 'เหรียญเงิน') !== false || mb_strpos($awardText, 'เหรียญทองแดง') !== false) {
+                        $resType = 'runner_up';
+                    } elseif (mb_strpos($awardText, 'ชมเชย') !== false || mb_strpos($awardText, 'พิเศษ') !== false || mb_strpos($awardText, 'ดีเด่น') !== false) {
+                        $resType = 'other_award';
+                    }
+
                     $tempAwards[] = array(
                         'id' => $tc['awid'],
                         'type' => 'teacher',
@@ -117,7 +138,8 @@ class NewsController {
                         'content' => $teacherInfo,
                         'image_url' => $imageUrl,
                         'date' => isset($tc['date1']) && !empty($tc['date1']) ? $tc['date1'] : date('Y-m-d'),
-                        'level_score' => $levelScore
+                        'level_score' => $levelScore,
+                        'result_type' => $resType
                     );
                 }
             }
@@ -546,7 +568,7 @@ class NewsController {
         try {
             $pdoCktech = Database::connect('phichaia_cktech');
             if ($pdoCktech) {
-                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at, award_level FROM certificates ORDER BY award_date DESC, id DESC LIMIT 150");
+                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at, award_level, award_type FROM certificates ORDER BY award_date DESC, id DESC LIMIT 150");
                 $stmt->execute();
                 $certs = $stmt->fetchAll();
                 
@@ -577,6 +599,16 @@ class NewsController {
                         $levelScore = 2;
                     }
 
+                    $typeStr = isset($c['award_type']) ? $c['award_type'] : '';
+                    $resType = 'certificate';
+                    if (mb_strpos($typeStr, 'ชนะเลิศ') !== false && mb_strpos($typeStr, 'รองชนะเลิศ') === false) {
+                        $resType = 'winner';
+                    } elseif (mb_strpos($typeStr, 'รองชนะเลิศ') !== false) {
+                        $resType = 'runner_up';
+                    } elseif (mb_strpos($typeStr, 'ชมเชย') !== false || mb_strpos($typeStr, 'พิเศษ') !== false) {
+                        $resType = 'other_award';
+                    }
+
                     $tempAwards[] = array(
                         'id' => $c['id'],
                         'type' => 'student',
@@ -584,7 +616,8 @@ class NewsController {
                         'content' => $fullContent,
                         'image_url' => $imageUrl,
                         'date' => isset($c['award_date']) && !empty($c['award_date']) ? $c['award_date'] : (isset($c['created_at']) && !empty($c['created_at']) ? $c['created_at'] : date('Y-m-d')),
-                        'level_score' => $levelScore
+                        'level_score' => $levelScore,
+                        'result_type' => $resType
                     );
                 }
             }
@@ -625,6 +658,16 @@ class NewsController {
                         $levelScore = 3;
                     }
 
+                    $awardText = isset($tc['award']) ? $tc['award'] : '';
+                    $resType = 'certificate';
+                    if (mb_strpos($awardText, 'ชนะเลิศ') !== false && mb_strpos($awardText, 'รองชนะเลิศ') === false) {
+                        $resType = 'winner';
+                    } elseif (mb_strpos($awardText, 'รองชนะเลิศ') !== false || mb_strpos($awardText, 'เหรียญทอง') !== false || mb_strpos($awardText, 'เหรียญเงิน') !== false || mb_strpos($awardText, 'เหรียญทองแดง') !== false) {
+                        $resType = 'runner_up';
+                    } elseif (mb_strpos($awardText, 'ชมเชย') !== false || mb_strpos($awardText, 'พิเศษ') !== false || mb_strpos($awardText, 'ดีเด่น') !== false) {
+                        $resType = 'other_award';
+                    }
+
                     $tempAwards[] = array(
                         'id' => $tc['awid'],
                         'type' => 'teacher',
@@ -632,7 +675,8 @@ class NewsController {
                         'content' => $teacherInfo,
                         'image_url' => $imageUrl,
                         'date' => isset($tc['date1']) && !empty($tc['date1']) ? $tc['date1'] : date('Y-m-d'),
-                        'level_score' => $levelScore
+                        'level_score' => $levelScore,
+                        'result_type' => $resType
                     );
                 }
             }
