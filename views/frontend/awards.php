@@ -6,7 +6,7 @@
     <div class="absolute w-[300px] h-[300px] bg-indigo-500/5 dark:bg-indigo-500/10 blur-[90px] rounded-full top-20 left-[-150px] pointer-events-none"></div>
     <div class="absolute w-[300px] h-[300px] bg-purple-500/5 dark:bg-purple-500/10 blur-[90px] rounded-full bottom-20 right-[-150px] pointer-events-none"></div>
 
-    <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 relative z-10">
+    <div id="awards-section-top" class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 border-b border-slate-200 dark:border-white/5 pb-8 relative z-10">
         <div class="space-y-2 text-center lg:text-left">
             <span class="text-xs font-bold text-amber-500 dark:text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/20 inline-block">รางวัลและความภาคภูมิใจ</span>
             <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Awards & Achievements</h1>
@@ -16,13 +16,13 @@
         <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full lg:w-auto">
             <!-- Live Search Input -->
             <div class="relative w-full sm:w-60">
-                <input type="text" id="awards-search" oninput="filterAwards()" placeholder="ค้นหารายชื่อ/รางวัล..." class="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition-all shadow-sm" aria-label="ค้นหารายชื่อหรือรางวัล">
+                <input type="text" id="awards-search" oninput="resetPageAndFilter()" placeholder="ค้นหารายชื่อ/รางวัล..." class="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 transition-all shadow-sm" aria-label="ค้นหารายชื่อหรือรางวัล">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"><i class="fa-solid fa-magnifying-glass text-xs"></i></span>
             </div>
 
             <!-- Level Select Filter -->
             <div class="relative w-full sm:w-44">
-                <select id="awards-level-select" onchange="filterAwards()" class="w-full pl-3.5 pr-8 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-all shadow-sm cursor-pointer appearance-none">
+                <select id="awards-level-select" onchange="resetPageAndFilter()" class="w-full pl-3.5 pr-8 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-all shadow-sm cursor-pointer appearance-none">
                     <option value="all">ระดับทั้งหมด (All Levels)</option>
                     <option value="6">ระดับนานาชาติ (International)</option>
                     <option value="5">ระดับประเทศ (National)</option>
@@ -36,7 +36,7 @@
 
             <!-- Type Select Filter -->
             <div class="relative w-full sm:w-44">
-                <select id="awards-type-select" onchange="filterAwards()" class="w-full pl-3.5 pr-8 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-all shadow-sm cursor-pointer appearance-none">
+                <select id="awards-type-select" onchange="resetPageAndFilter()" class="w-full pl-3.5 pr-8 py-2.5 text-xs rounded-xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-amber-500 transition-all shadow-sm cursor-pointer appearance-none">
                     <option value="all">ประเภททั้งหมด (All Types)</option>
                     <option value="winner">ชนะเลิศ (Winner / Gold Medal)</option>
                     <option value="runner_up">รองชนะเลิศ (Runners-Up)</option>
@@ -47,7 +47,7 @@
             </div>
 
             <!-- Tabs Filters -->
-            <div class="flex gap-1 bg-slate-200/80 dark:bg-slate-900/60 border border-slate-300 dark:border-white/10 p-1.5 rounded-2xl transition-all shadow-inner w-full sm:w-auto overflow-x-auto">
+            <div class="flex gap-1 bg-slate-200/80 dark:bg-slate-900/60 border border-slate-300 dark:border-white/10 p-1.5 rounded-2xl transition-all shadow-inner w-full sm:w-auto overflow-x-auto select-none">
                 <button onclick="changeAwardsTab('all')" id="tab-all" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-white bg-indigo-600 shadow-md flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงทั้งหมด">ทั้งหมด</button>
                 <button onclick="changeAwardsTab('student')" id="tab-student" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงของนักเรียน">ผลงานนักเรียน</button>
                 <button onclick="changeAwardsTab('teacher')" id="tab-teacher" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงครูและบุคลากร">ผลงานครู</button>
@@ -80,7 +80,8 @@
                 <!-- Cover Image & Trophy Badge -->
                 <div class="h-44 overflow-hidden bg-slate-950 relative">
                     <?php if (!empty($item['image_url'])): ?>
-                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                        <!-- SVG data uri is used as a 1x1 transparent placeholder, actual image is lazy-loaded by Javascript -->
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'></svg>" data-src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="award-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                     <?php else: ?>
                         <div class="w-full h-full bg-gradient-to-br from-amber-955/40 to-slate-950 flex items-center justify-center p-4">
                             <span class="text-amber-500/40 text-4xl"><i class="fa-solid fa-trophy"></i></span>
@@ -119,6 +120,11 @@
     <div id="no-results" class="hidden text-center py-20 bg-slate-100/50 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-3xl mt-6 relative z-10">
         <i class="fa-regular fa-folder-open text-4xl text-slate-400 dark:text-slate-500 mb-4"></i>
         <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ไม่พบข้อมูลเกียรติบัตรหรือรางวัลที่ท่านค้นหา</p>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div id="awards-pagination" class="flex flex-wrap justify-center items-center gap-1.5 mt-12 relative z-10 select-none">
+        <!-- Pagination links will be populated dynamically by JavaScript -->
     </div>
 </section>
 
@@ -159,6 +165,8 @@
 
 <script>
     let activeAwardsTab = 'all';
+    let currentPage = 1;
+    const PAGE_SIZE = 16; // 16 items per page (fits 4-column rows nicely)
 
     function changeAwardsTab(tab) {
         activeAwardsTab = tab;
@@ -176,6 +184,11 @@
             currentTab.classList.remove('text-slate-500', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-white');
         }
 
+        resetPageAndFilter();
+    }
+
+    function resetPageAndFilter() {
+        currentPage = 1;
         filterAwards();
     }
 
@@ -186,8 +199,11 @@
         
         const cards = document.querySelectorAll('.award-card');
         const noResults = document.getElementById('no-results');
-        let visibleCount = 0;
+        const paginationContainer = document.getElementById('awards-pagination');
+        
+        let matchingCards = [];
 
+        // 1. Determine matches based on all filters
         cards.forEach(card => {
             const cardType = card.dataset.type;
             const cardLevel = card.dataset.level;
@@ -202,19 +218,113 @@
             const matchesSearch = (!query || titleText.includes(query) || contentText.includes(query));
 
             if (matchesTab && matchesLevel && matchesType && matchesSearch) {
-                card.style.display = 'flex';
-                visibleCount++;
+                matchingCards.push(card);
             } else {
                 card.style.display = 'none';
             }
         });
 
-        if (visibleCount === 0) {
+        const totalItems = matchingCards.length;
+        const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+
+        // Clamp page index
+        if (currentPage > totalPages) {
+            currentPage = totalPages || 1;
+        }
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
+
+        // 2. Paginate: display only cards on the active page, lazy-load their images
+        const startIndex = (currentPage - 1) * PAGE_SIZE;
+        const endIndex = startIndex + PAGE_SIZE;
+
+        matchingCards.forEach((card, index) => {
+            if (index >= startIndex && index < endIndex) {
+                card.style.display = 'flex';
+                
+                // Lazy-load dynamic image
+                const img = card.querySelector('img.award-img');
+                if (img && img.dataset.src && !img.src.startsWith('http')) {
+                    img.src = img.dataset.src;
+                }
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // 3. Render empty states
+        if (totalItems === 0) {
             noResults.classList.remove('hidden');
+            paginationContainer.innerHTML = '';
         } else {
             noResults.classList.add('hidden');
+            renderPagination(totalPages);
         }
     }
+
+    function renderPagination(totalPages) {
+        const container = document.getElementById('awards-pagination');
+        container.innerHTML = '';
+
+        if (totalPages <= 1) return;
+
+        const maxButtons = 5;
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+        if (endPage - startPage < maxButtons - 1) {
+            startPage = Math.max(1, endPage - maxButtons + 1);
+        }
+
+        // Prev Button
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
+        prevBtn.className = `px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border select-none cursor-pointer ${
+            currentPage === 1 
+                ? 'bg-slate-100/30 dark:bg-slate-800/30 text-slate-400 dark:text-slate-600 border-slate-200 dark:border-white/5 pointer-events-none' 
+                : 'bg-white dark:bg-slate-900 border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 active:scale-95'
+        }`;
+        prevBtn.onclick = () => goToPage(currentPage - 1);
+        container.appendChild(prevBtn);
+
+        // Page Numbers
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            if (i === currentPage) {
+                pageBtn.className = 'px-4 py-2.5 rounded-xl text-xs font-black bg-indigo-600 text-white border border-indigo-600 shadow-md select-none pointer-events-none';
+            } else {
+                pageBtn.className = 'px-4 py-2.5 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 active:scale-95 cursor-pointer select-none';
+                pageBtn.onclick = () => goToPage(i);
+            }
+            container.appendChild(pageBtn);
+        }
+
+        // Next Button
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '<i class="fa-solid fa-angle-right"></i>';
+        nextBtn.className = `px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border select-none cursor-pointer ${
+            currentPage === totalPages 
+                ? 'bg-slate-100/30 dark:bg-slate-800/30 text-slate-400 dark:text-slate-600 border-slate-200 dark:border-white/5 pointer-events-none' 
+                : 'bg-white dark:bg-slate-900 border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 active:scale-95'
+        }`;
+        nextBtn.onclick = () => goToPage(currentPage + 1);
+        container.appendChild(nextBtn);
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        filterAwards();
+        
+        // Smooth scroll back to grid top to avoid disorientation
+        document.getElementById('awards-section-top').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize on document load
+    document.addEventListener('DOMContentLoaded', () => {
+        filterAwards();
+    });
 
     // Lightbox modal operations
     function openLightbox(imgUrl, title, descText) {
