@@ -10,7 +10,7 @@
         <div class="space-y-2 text-center md:text-left">
             <span class="text-xs font-bold text-amber-500 dark:text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/20 inline-block">รางวัลและความภาคภูมิใจ</span>
             <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Awards & Achievements</h1>
-            <p class="text-slate-500 dark:text-slate-400 text-xs max-w-lg">ผลงานเกียรติยศและรางวัลแห่งความสำเร็จของครู นักเรียน และสถานศึกษา</p>
+            <p class="text-slate-500 dark:text-slate-400 text-xs max-w-lg">ผลงานเกียรติบัตรและรางวัลแห่งความสำเร็จของครู นักเรียน และสถานศึกษา</p>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
@@ -22,9 +22,9 @@
 
             <!-- Tabs Filters -->
             <div class="flex gap-1 bg-slate-200/80 dark:bg-slate-900/60 border border-slate-300 dark:border-white/10 p-1.5 rounded-2xl transition-all shadow-inner w-full sm:w-auto overflow-x-auto">
-                <button onclick="changeAwardsTab('all')" id="tab-all" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-white bg-indigo-600 shadow-md flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงเกียรติบัตรทั้งหมด">ทั้งหมด</button>
-                <button onclick="changeAwardsTab('student')" id="tab-student" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงเกียรติบัตรของนักเรียน">เกียรติบัตรนักเรียน</button>
-                <button onclick="changeAwardsTab('teacher')" id="tab-teacher" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงเกียรติบัตรครูและบุคลากร">เกียรติบัตรครู</button>
+                <button onclick="changeAwardsTab('all')" id="tab-all" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-white bg-indigo-600 shadow-md flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงทั้งหมด">ทั้งหมด</button>
+                <button onclick="changeAwardsTab('student')" id="tab-student" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงของนักเรียน">ผลงานนักเรียน</button>
+                <button onclick="changeAwardsTab('teacher')" id="tab-teacher" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงครูและบุคลากร">ผลงานครู</button>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
             </div>
         <?php else: 
             foreach ($awards as $index => $item): 
-                $badgeText = $item['type'] === 'student' ? 'เกียรติบัตรนักเรียน' : 'เกียรติบัตรครู';
+                $badgeText = $item['type'] === 'student' ? 'ผลงานนักเรียน' : 'ผลงานครู';
                 $badgeClass = $item['type'] === 'student' 
                     ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' 
                     : 'bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 border-indigo-600/20'; // Indigo-600 is Crimson in config
@@ -90,7 +90,7 @@
     <!-- Empty State for JS Filter -->
     <div id="no-results" class="hidden text-center py-20 bg-slate-100/50 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-3xl mt-6 relative z-10">
         <i class="fa-regular fa-folder-open text-4xl text-slate-400 dark:text-slate-500 mb-4"></i>
-        <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ไม่พบข้อมูลเกียรติยศหรือรางวัลที่ท่านค้นหา</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold">ไม่พบข้อมูลเกียรติบัตรหรือรางวัลที่ท่านค้นหา</p>
     </div>
 </section>
 

@@ -21,17 +21,17 @@ class NewsController {
         $generalNews = $this->newsModel->getAll('general', 4);
         
         // Fetch latest combined awards (Students & Teachers) for homepage showcase
-        $awards = [];
-        $tempAwards = [];
+        $awards = array();
+        $tempAwards = array();
         
         // Lookup prefix helper for teachers
-        $prefixes = [1 => 'นาย', 2 => 'นาง', 3 => 'นางสาว', 4 => 'ดร.', 5 => 'อาจารย์', 6 => 'ดร.'];
+        $prefixes = array(1 => 'นาย', 2 => 'นาง', 3 => 'นางสาว', 4 => 'ดร.', 5 => 'อาจารย์', 6 => 'ดร.');
 
-        // 1. Fetch latest student certificates
+        // 1. Fetch student certificates (limit increased to get a pool for level sorting)
         try {
             $pdoCktech = Database::connect('phichaia_cktech');
             if ($pdoCktech) {
-                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at FROM certificates ORDER BY award_date DESC, id DESC LIMIT 4");
+                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at, award_level FROM certificates ORDER BY award_date DESC, id DESC LIMIT 50");
                 $stmt->execute();
                 $certs = $stmt->fetchAll();
                 
@@ -45,28 +45,43 @@ class NewsController {
                     $roomText = (!empty($c['student_room']) && !empty($c['student_class'])) ? "/{$c['student_room']}" : "";
                     $studentInfo = !empty($c['student_name']) ? "ผู้รับรางวัล: {$c['student_name']}{$classText}{$roomText}" : "";
                     
-                    $detailText = $c['award_detail'] ?? '';
+                    $detailText = isset($c['award_detail']) ? $c['award_detail'] : '';
                     $fullContent = $studentInfo ? $studentInfo . "\n" . $detailText : $detailText;
 
-                    $tempAwards[] = [
+                    $levelStr = isset($c['award_level']) ? $c['award_level'] : '';
+                    $levelScore = 1;
+                    if ($levelStr === 'ระดับนานาชาติ') {
+                        $levelScore = 6;
+                    } elseif ($levelStr === 'ระดับประเทศ') {
+                        $levelScore = 5;
+                    } elseif ($levelStr === 'ระดับภาค') {
+                        $levelScore = 4;
+                    } elseif ($levelStr === 'ระดับจังหวัด') {
+                        $levelScore = 3;
+                    } elseif ($levelStr === 'ระดับอำเภอ') {
+                        $levelScore = 2;
+                    }
+
+                    $tempAwards[] = array(
                         'id' => $c['id'],
                         'type' => 'student',
                         'title' => !empty($c['award_name']) ? $c['award_name'] : 'รางวัลเกียรติยศนักเรียน',
                         'content' => $fullContent,
                         'image_url' => $imageUrl,
-                        'date' => $c['award_date'] ?? $c['created_at'] ?? date('Y-m-d')
-                    ];
+                        'date' => isset($c['award_date']) && !empty($c['award_date']) ? $c['award_date'] : (isset($c['created_at']) && !empty($c['created_at']) ? $c['created_at'] : date('Y-m-d')),
+                        'level_score' => $levelScore
+                    );
                 }
             }
         } catch (Exception $e) {
             error_log("NewsController index fetch student certificates error: " . $e->getMessage());
         }
 
-        // 2. Fetch latest teacher awards
+        // 2. Fetch teacher awards (limit increased to get a pool for level sorting)
         try {
             $pdoPerson = Database::connect('phichaia_person');
             if ($pdoPerson) {
-                $stmt = $pdoPerson->prepare("SELECT a.awid, a.award, a.date1, a.certificate, a.department, t.pname, t.tname FROM tb_award a LEFT JOIN tb_teacher t ON a.tid = t.tid ORDER BY a.date1 DESC, a.awid DESC LIMIT 4");
+                $stmt = $pdoPerson->prepare("SELECT a.awid, a.award, a.date1, a.certificate, a.department, a.level, t.pname, t.tname FROM tb_award a LEFT JOIN tb_teacher t ON a.tid = t.tid ORDER BY a.date1 DESC, a.awid DESC LIMIT 50");
                 $stmt->execute();
                 $teacherCerts = $stmt->fetchAll();
                 
@@ -76,29 +91,45 @@ class NewsController {
                         $imageUrl = 'https://person.phichai.ac.th/uploads/file_award/' . ltrim($tc['certificate'], '/');
                     }
                     
-                    $prefId = (int)($tc['pname'] ?? 0);
-                    $prefStr = $prefixes[$prefId] ?? '';
+                    $prefId = (int)(isset($tc['pname']) ? $tc['pname'] : 0);
+                    $prefStr = isset($prefixes[$prefId]) ? $prefixes[$prefId] : '';
                     $teacherName = !empty($tc['tname']) ? $prefStr . $tc['tname'] : 'บุคลากรโรงเรียน';
                     
                     $deptText = !empty($tc['department']) ? " ({$tc['department']})" : "";
                     $teacherInfo = "ผู้รับรางวัล: {$teacherName}{$deptText}";
                     
-                    $tempAwards[] = [
+                    $levelStr = isset($tc['level']) ? $tc['level'] : '';
+                    $levelScore = 1;
+                    if ($levelStr === '4') {
+                        $levelScore = 6;
+                    } elseif ($levelStr === '3') {
+                        $levelScore = 5;
+                    } elseif ($levelStr === '2') {
+                        $levelScore = 4;
+                    } elseif ($levelStr === '1') {
+                        $levelScore = 3;
+                    }
+
+                    $tempAwards[] = array(
                         'id' => $tc['awid'],
                         'type' => 'teacher',
                         'title' => !empty($tc['award']) ? $tc['award'] : 'รางวัลเกียรติยศครู/บุคลากร',
                         'content' => $teacherInfo,
                         'image_url' => $imageUrl,
-                        'date' => $tc['date1'] ?? date('Y-m-d')
-                    ];
+                        'date' => isset($tc['date1']) && !empty($tc['date1']) ? $tc['date1'] : date('Y-m-d'),
+                        'level_score' => $levelScore
+                    );
                 }
             }
         } catch (Exception $e) {
             error_log("NewsController index fetch teacher awards error: " . $e->getMessage());
         }
 
-        // 3. Sort combined awards by date descending
+        // 3. Sort combined awards by highest level (level_score) first, then date descending
         usort($tempAwards, function($a, $b) {
+            if ($a['level_score'] !== $b['level_score']) {
+                return $b['level_score'] - $a['level_score'];
+            }
             return strcmp($b['date'], $a['date']);
         });
 
@@ -511,11 +542,11 @@ class NewsController {
         // Lookup prefix helper for teachers
         $prefixes = array(1 => 'นาย', 2 => 'นาง', 3 => 'นางสาว', 4 => 'ดร.', 5 => 'อาจารย์', 6 => 'ดร.');
 
-        // 1. Fetch latest student certificates
+        // 1. Fetch student certificates
         try {
             $pdoCktech = Database::connect('phichaia_cktech');
             if ($pdoCktech) {
-                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at FROM certificates ORDER BY award_date DESC, id DESC LIMIT 150");
+                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at, award_level FROM certificates ORDER BY award_date DESC, id DESC LIMIT 150");
                 $stmt->execute();
                 $certs = $stmt->fetchAll();
                 
@@ -532,13 +563,28 @@ class NewsController {
                     $detailText = isset($c['award_detail']) ? $c['award_detail'] : '';
                     $fullContent = $studentInfo ? $studentInfo . "\n" . $detailText : $detailText;
 
+                    $levelStr = isset($c['award_level']) ? $c['award_level'] : '';
+                    $levelScore = 1;
+                    if ($levelStr === 'ระดับนานาชาติ') {
+                        $levelScore = 6;
+                    } elseif ($levelStr === 'ระดับประเทศ') {
+                        $levelScore = 5;
+                    } elseif ($levelStr === 'ระดับภาค') {
+                        $levelScore = 4;
+                    } elseif ($levelStr === 'ระดับจังหวัด') {
+                        $levelScore = 3;
+                    } elseif ($levelStr === 'ระดับอำเภอ') {
+                        $levelScore = 2;
+                    }
+
                     $tempAwards[] = array(
                         'id' => $c['id'],
                         'type' => 'student',
                         'title' => !empty($c['award_name']) ? $c['award_name'] : 'รางวัลเกียรติยศนักเรียน',
                         'content' => $fullContent,
                         'image_url' => $imageUrl,
-                        'date' => isset($c['award_date']) && !empty($c['award_date']) ? $c['award_date'] : (isset($c['created_at']) && !empty($c['created_at']) ? $c['created_at'] : date('Y-m-d'))
+                        'date' => isset($c['award_date']) && !empty($c['award_date']) ? $c['award_date'] : (isset($c['created_at']) && !empty($c['created_at']) ? $c['created_at'] : date('Y-m-d')),
+                        'level_score' => $levelScore
                     );
                 }
             }
@@ -546,11 +592,11 @@ class NewsController {
             error_log("NewsController awards fetch student certificates error: " . $e->getMessage());
         }
 
-        // 2. Fetch latest teacher awards
+        // 2. Fetch teacher awards
         try {
             $pdoPerson = Database::connect('phichaia_person');
             if ($pdoPerson) {
-                $stmt = $pdoPerson->prepare("SELECT a.awid, a.award, a.date1, a.certificate, a.department, t.pname, t.tname FROM tb_award a LEFT JOIN tb_teacher t ON a.tid = t.tid ORDER BY a.date1 DESC, a.awid DESC LIMIT 150");
+                $stmt = $pdoPerson->prepare("SELECT a.awid, a.award, a.date1, a.certificate, a.department, a.level, t.pname, t.tname FROM tb_award a LEFT JOIN tb_teacher t ON a.tid = t.tid ORDER BY a.date1 DESC, a.awid DESC LIMIT 150");
                 $stmt->execute();
                 $teacherCerts = $stmt->fetchAll();
                 
@@ -567,13 +613,26 @@ class NewsController {
                     $deptText = !empty($tc['department']) ? " ({$tc['department']})" : "";
                     $teacherInfo = "ผู้รับรางวัล: {$teacherName}{$deptText}";
                     
+                    $levelStr = isset($tc['level']) ? $tc['level'] : '';
+                    $levelScore = 1;
+                    if ($levelStr === '4') {
+                        $levelScore = 6;
+                    } elseif ($levelStr === '3') {
+                        $levelScore = 5;
+                    } elseif ($levelStr === '2') {
+                        $levelScore = 4;
+                    } elseif ($levelStr === '1') {
+                        $levelScore = 3;
+                    }
+
                     $tempAwards[] = array(
                         'id' => $tc['awid'],
                         'type' => 'teacher',
                         'title' => !empty($tc['award']) ? $tc['award'] : 'รางวัลเกียรติยศครู/บุคลากร',
                         'content' => $teacherInfo,
                         'image_url' => $imageUrl,
-                        'date' => isset($tc['date1']) && !empty($tc['date1']) ? $tc['date1'] : date('Y-m-d')
+                        'date' => isset($tc['date1']) && !empty($tc['date1']) ? $tc['date1'] : date('Y-m-d'),
+                        'level_score' => $levelScore
                     );
                 }
             }
@@ -581,8 +640,11 @@ class NewsController {
             error_log("NewsController awards fetch teacher awards error: " . $e->getMessage());
         }
 
-        // 3. Sort combined awards by date descending
+        // 3. Sort combined awards by highest level (level_score) first, then date descending
         usort($tempAwards, function($a, $b) {
+            if ($a['level_score'] !== $b['level_score']) {
+                return $b['level_score'] - $a['level_score'];
+            }
             return strcmp($b['date'], $a['date']);
         });
 

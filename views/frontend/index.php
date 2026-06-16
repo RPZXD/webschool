@@ -321,7 +321,7 @@
     <div class="text-center space-y-3 mb-12">
         <span class="text-xs font-bold text-amber-500 dark:text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/20 inline-block">รางวัลและความภาคภูมิใจ</span>
         <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Awards & Achievements</h2>
-        <p class="text-slate-500 dark:text-slate-400 text-xs">ผลงานเกียรติยศและรางวัลแห่งความสำเร็จของครู นักเรียน และสถานศึกษา</p>
+        <p class="text-slate-500 dark:text-slate-400 text-xs">ผลงานเกียรติบัตรและรางวัลแห่งความสำเร็จของครู นักเรียน และสถานศึกษา</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
