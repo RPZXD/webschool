@@ -13,26 +13,41 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6, .font-english {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-english {
     font-family: var(--font-eng), var(--font-thai);
 }
 
 /* Base Transition */
-body, header, footer, table, tr, td, th, input, select, textarea {
+body,
+header,
+footer,
+table,
+tr,
+td,
+th,
+input,
+select,
+textarea {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 /* Background mesh configuration */
 .bg-gradient-mesh {
     background-color: #f8fafc;
-    background-image: 
+    background-image:
         radial-gradient(at 10% 20%, rgba(190, 18, 60, 0.04) 0px, transparent 50%),
         radial-gradient(at 90% 80%, rgba(217, 119, 6, 0.04) 0px, transparent 50%);
 }
 
 .dark .bg-gradient-mesh {
     background-color: #0b0f19;
-    background-image: 
+    background-image:
         radial-gradient(at 10% 20%, rgba(190, 18, 60, 0.08) 0px, transparent 50%),
         radial-gradient(at 90% 80%, rgba(217, 119, 6, 0.08) 0px, transparent 50%);
 }
@@ -197,6 +212,7 @@ body, header, footer, table, tr, td, th, input, select, textarea {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -205,4 +221,12 @@ body, header, footer, table, tr, td, th, input, select, textarea {
 
 .animate-fade-in-up {
     animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Force Hero Slide Images to maintain proper scale (object-fit: cover) */
+.slide img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
 }

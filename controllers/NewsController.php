@@ -28,6 +28,48 @@ class NewsController {
         $heroModel = new Hero();
         $slides = $heroModel->getAll(true);
 
+        // Fetch latest journals for Activity Gallery
+        $journalsForGallery = [];
+        try {
+            $pdoGeneral = Database::connect('phichaia_general');
+            if ($pdoGeneral) {
+                // Fetch the latest 50 newsletters to find items with images
+                $stmt = $pdoGeneral->prepare("SELECT id, title, images, news_date, created_at FROM newsletters ORDER BY news_date DESC, id DESC LIMIT 50");
+                $stmt->execute();
+                $allJournals = $stmt->fetchAll();
+                
+                foreach ($allJournals as $j) {
+                    if (!empty($j['images'])) {
+                        $imagesArray = json_decode($j['images'], true);
+                        if (is_array($imagesArray) && !empty($imagesArray)) {
+                            // Resolve the first image path
+                            $firstImage = $imagesArray[0];
+                            $imageUrl = null;
+                            if (strpos($firstImage, 'http') === 0) {
+                                $imageUrl = $firstImage;
+                            } else {
+                                $fileName = str_replace(['uploads/newsletter/', 'uploads/newsletters/'], '', $firstImage);
+                                $fileName = ltrim($fileName, '/');
+                                $imageUrl = rtrim(GENERAL_ASSETS_URL, '/') . '/uploads/newsletter/' . $fileName;
+                            }
+                            
+                            $journalsForGallery[] = [
+                                'id' => $j['id'],
+                                'title' => $j['title'],
+                                'image_url' => $imageUrl
+                            ];
+                            
+                            if (count($journalsForGallery) >= 8) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController index fetch journals error: " . $e->getMessage());
+        }
+
         // Render main landing page
         $title = SCHOOL_NAME . " | หน้าแรก";
         require ROOT_PATH . 'views/layouts/header.php';

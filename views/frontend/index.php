@@ -375,19 +375,19 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <?php 
         $activityImagesCount = 0;
-        foreach ($activities as $act) {
-            if (!empty($act['image_url'])) {
+        if (!empty($journalsForGallery)):
+            foreach ($journalsForGallery as $j):
                 $activityImagesCount++;
         ?>
-                <div onclick="location.href='<?php echo BASE_URL; ?>news/detail?id=<?php echo $act['id']; ?>'" class="relative group aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-200 dark:border-white/5 bg-slate-900">
-                    <img src="<?php echo htmlspecialchars($act['image_url']); ?>" alt="activity photo" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                <div onclick="location.href='<?php echo BASE_URL; ?>journal/detail?id=<?php echo $j['id']; ?>'" class="relative group aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-slate-200 dark:border-white/5 bg-slate-900">
+                    <img src="<?php echo htmlspecialchars($j['image_url']); ?>" alt="<?php echo htmlspecialchars($j['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 z-10">
-                        <span class="text-[10px] font-bold text-white line-clamp-1"><?php echo htmlspecialchars($act['title']); ?></span>
+                        <span class="text-[10px] font-bold text-white line-clamp-2"><?php echo htmlspecialchars($j['title']); ?></span>
                     </div>
                 </div>
         <?php 
-            }
-        }
+            endforeach;
+        endif;
         if ($activityImagesCount === 0):
         ?>
             <div class="col-span-full text-center py-12 text-slate-400 italic text-xs">ยังไม่มีข้อมูลรูปภาพกิจกรรมในขณะนี้</div>

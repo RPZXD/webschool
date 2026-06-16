@@ -451,7 +451,7 @@ $internalGroups = [
                             </a>
                         </div>
                     <?php else: ?>
-                        <a href="<?php echo BASE_URL; ?>login" class="px-4.5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 transform hover:-translate-y-0.5">
+                        <a href="<?php echo BASE_URL; ?>login" class="px-6 py-2.5  bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-semibold shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 transform hover:-translate-y-0.5">
                             <i class="fa-solid fa-lock mr-1.5"></i><?php echo __('admin_panel'); ?>
                         </a>
                     <?php endif; ?>
