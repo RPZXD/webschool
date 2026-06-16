@@ -141,6 +141,9 @@ class UserController {
         $heroModel = new Hero();
         $allHeroes = $heroModel->getAll();
 
+        $landingModel = new LandingSlide();
+        $allLandingSlides = $landingModel->getAll();
+
         $urgentModel = new UrgentNews();
         $allTickers = $urgentModel->getAll();
 

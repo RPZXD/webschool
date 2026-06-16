@@ -190,6 +190,11 @@ $activeTab = $_GET['tab'] ?? 'news';
                     <span>รูปสไลด์หน้าแรก (Hero)</span>
                 </a>
                 
+                <a href="?tab=landing" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'landing' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
+                    <i class="fa-solid fa-images text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'landing' ? '!text-white' : ''; ?>"></i>
+                    <span>รูปสไลด์หน้าก่อนเข้า (Home)</span>
+                </a>
+                
                 <a href="?tab=ticker" class="flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-2xl transition-all <?php echo $activeTab === 'ticker' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5 hover:text-white'; ?>">
                     <i class="fa-solid fa-bullhorn text-sm shrink-0 w-5 text-center text-indigo-400 <?php echo $activeTab === 'ticker' ? '!text-white' : ''; ?>"></i>
                     <span>ข่าวด่วนตัววิ่ง (Ticker)</span>
@@ -313,7 +318,8 @@ $activeTab = $_GET['tab'] ?? 'news';
             <select onchange="window.location.href=this.value" class="glass-input rounded-xl px-3 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold cursor-pointer">
                 <option value="?tab=news" <?php echo $activeTab === 'news' ? 'selected' : ''; ?>>📰 จัดการข่าวสารและกิจกรรม</option>
                 <option value="?tab=ita" <?php echo $activeTab === 'ita' ? 'selected' : ''; ?>>📊 ระบบประเมิน ITA Online</option>
-                <option value="?tab=hero" <?php echo $activeTab === 'hero' ? 'selected' : ''; ?>>🖼️ จัดการรูปสไลด์แนะนำ</option>
+                <option value="?tab=hero" <?php echo $activeTab === 'hero' ? 'selected' : ''; ?>>🖼️ จัดการรูปสไลด์แนะนำ (Hero)</option>
+                <option value="?tab=landing" <?php echo $activeTab === 'landing' ? 'selected' : ''; ?>>🖼️ จัดการรูปสไลด์หน้าก่อนเข้า (Home)</option>
                 <option value="?tab=ticker" <?php echo $activeTab === 'ticker' ? 'selected' : ''; ?>>📢 จัดการข้อความวิ่งด่วน</option>
                 <option value="?tab=about" <?php echo $activeTab === 'about' ? 'selected' : ''; ?>>ℹ️ จัดการข้อมูลแนะนำโรงเรียน</option>
                 <option value="?tab=stats" <?php echo $activeTab === 'stats' ? 'selected' : ''; ?>>📈 จัดการข้อมูลและสถิติพื้นฐาน</option>
@@ -343,6 +349,11 @@ $activeTab = $_GET['tab'] ?? 'news';
                     <a href="?tab=hero" class="flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 <?php echo $activeTab === 'hero' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 transform -translate-y-0.5 scale-[1.02]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 border border-transparent hover:border-slate-200 dark:hover:border-white/5'; ?>">
                         <i class="fa-regular fa-images text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400 <?php echo $activeTab === 'hero' ? '!text-white' : ''; ?>"></i>
                         <span>รูปสไลด์หน้าแรก (Hero)</span>
+                    </a>
+
+                    <a href="?tab=landing" class="flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 <?php echo $activeTab === 'landing' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 transform -translate-y-0.5 scale-[1.02]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 border border-transparent hover:border-slate-200 dark:hover:border-white/5'; ?>">
+                        <i class="fa-solid fa-images text-sm shrink-0 w-5 text-center text-indigo-500 dark:text-indigo-400 <?php echo $activeTab === 'landing' ? '!text-white' : ''; ?>"></i>
+                        <span>รูปสไลด์หน้าก่อนเข้า (Home)</span>
                     </a>
 
                     <a href="?tab=ticker" class="flex items-center gap-3 px-4 py-3.5 text-xs font-bold rounded-2xl transition-all duration-300 <?php echo $activeTab === 'ticker' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 transform -translate-y-0.5 scale-[1.02]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-white/5 border border-transparent hover:border-slate-200 dark:hover:border-white/5'; ?>">
@@ -786,6 +797,146 @@ $activeTab = $_GET['tab'] ?? 'news';
                                             <i class="fa-solid fa-edit text-xs"></i> แก้ไข
                                         </button>
                                         <a href="<?php echo BASE_URL; ?>admin/hero/delete?id=<?php echo $hero['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบรูปภาพสไลด์แนะนำนี้ใช่หรือไม่? ไฟล์รูปภาพจะถูกลบออกจากเซิร์ฟเวอร์ด้วย')" class="px-3 py-1.5 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="ลบ">
+                                            <i class="fa-solid fa-trash text-xs"></i> ลบ
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Tab: Landing Page Slides (Home) Management -->
+        <?php if ($activeTab === 'landing'): ?>
+            <div class="space-y-6">
+                <!-- Action Header -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white">ตารางข้อมูลสไลด์หน้าก่อนเข้าเว็บไซต์หลัก (Landing Page Swiper)</h2>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs">คุณสามารถ เพิ่ม ลบ แก้ไข หรือลากสลับลำดับรูปภาพสไลด์ที่จะแสดงในหน้าแรกของ www.phichai.ac.th (/home) ได้จากที่นี่</p>
+                    </div>
+                    <button onclick="openCreateLandingModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl shadow-lg hover:shadow-indigo-500/20 transition-all duration-200">
+                        <i class="fa-solid fa-plus mr-1.5"></i> เพิ่มรูปภาพสไลด์หน้าแรก
+                    </button>
+                </div>
+
+                <!-- Landing slides List -->
+                <div class="glass-card rounded-3xl overflow-hidden shadow-xl">
+                    <div class="hidden md:block overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
+                                    <th class="py-4 px-4 text-center w-12">ย้าย</th>
+                                    <th class="py-4 px-6 text-center w-24">รูปภาพ</th>
+                                    <th class="py-4 px-6">ชื่ออ้างอิงสไลด์</th>
+                                    <th class="py-4 px-6 text-center w-32">ลำดับการแสดงผล</th>
+                                    <th class="py-4 px-6 text-center w-36">สถานะการแสดงผล</th>
+                                    <th class="py-4 px-6 text-center w-36">การจัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="landingTableBody" class="divide-y divide-slate-100 dark:divide-white/5 text-xs text-slate-600 dark:text-slate-300">
+                                <?php if (empty($allLandingSlides)): ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center py-16">
+                                            <i class="fa-regular fa-images text-3xl text-slate-400 mb-3"></i>
+                                            <p class="text-slate-500 dark:text-slate-400">ยังไม่มีข้อมูลรูปภาพสไลด์หน้าก่อนเข้าในระบบ</p>
+                                        </td>
+                                    </tr>
+                                <?php else: 
+                                    foreach ($allLandingSlides as $slide): 
+                                ?>
+                                    <tr draggable="true" data-id="<?php echo $slide['id']; ?>" class="landing-row hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-move">
+                                        <!-- Drag Handle -->
+                                        <td class="py-3 px-4 text-center text-slate-450 dark:text-slate-400">
+                                            <i class="fa-solid fa-grip-vertical"></i>
+                                        </td>
+                                        <!-- Slide Image Thumbnail -->
+                                        <td class="py-3 px-6 text-center">
+                                            <div class="w-20 h-10 rounded-lg bg-slate-200 dark:bg-slate-950 border border-slate-300 dark:border-white/10 overflow-hidden mx-auto flex items-center justify-center shadow-inner">
+                                                <?php if (strpos($slide['image_url'], 'http') === 0): ?>
+                                                    <img src="<?php echo htmlspecialchars($slide['image_url']); ?>" alt="slide thumbnail" class="w-full h-full object-cover">
+                                                <?php else: ?>
+                                                    <!-- Seed image url fallback (relative to landing page) -->
+                                                    <img src="<?php echo BASE_URL . '../home/' . htmlspecialchars($slide['image_url']); ?>" alt="slide thumbnail" class="w-full h-full object-cover">
+                                                <?php endif; ?>
+                                            </div>
+                                        </td>
+                                        <!-- Slide Title -->
+                                        <td class="py-3 px-6 font-semibold text-slate-800 dark:text-white max-w-sm truncate">
+                                            <?php echo !empty($slide['title']) ? htmlspecialchars($slide['title']) : '<span class="text-slate-400 italic">ไม่ระบุชื่อสไลด์</span>'; ?>
+                                        </td>
+                                        <!-- Display Order -->
+                                        <td class="py-3 px-6 text-center font-english font-semibold display-order-cell">
+                                            <?php echo (int)$slide['display_order']; ?>
+                                        </td>
+                                        <!-- Display Status Badge / Toggle Link -->
+                                        <td class="py-3 px-6 text-center">
+                                            <a href="<?php echo BASE_URL; ?>admin/landing/toggle?id=<?php echo $slide['id']; ?>" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-semibold border transition-all duration-300 <?php echo $slide['status'] === 'active' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20' : 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20 hover:bg-slate-500/20'; ?>" title="คลิกเพื่อเปิด/ปิดการแสดงผลสไลด์">
+                                                <span class="flex h-1.5 w-1.5 relative">
+                                                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 <?php echo $slide['status'] === 'active' ? 'bg-emerald-500' : 'bg-slate-400'; ?>"></span>
+                                                </span>
+                                                <?php echo $slide['status'] === 'active' ? 'แสดงผล (Active)' : 'ซ่อนไว้ (Inactive)'; ?>
+                                            </a>
+                                        </td>
+                                        <!-- Actions -->
+                                        <td class="py-3 px-6 text-center">
+                                            <div class="flex items-center justify-center gap-2">
+                                                <button onclick="openEditLandingModal(<?php echo htmlspecialchars(json_encode($slide)); ?>)" class="p-2 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl hover:text-indigo-700 dark:hover:text-indigo-300 transition-all duration-200" title="แก้ไข">
+                                                    <i class="fa-solid fa-edit"></i>
+                                                </button>
+                                                <a href="<?php echo BASE_URL; ?>admin/landing/delete?id=<?php echo $slide['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบรูปภาพสไลด์หน้าแรกนี้ใช่หรือไม่? ไฟล์รูปภาพจะถูกลบออกจากเซิร์ฟเวอร์ด้วย')" class="p-2 bg-red-650/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl hover:text-red-700 dark:hover:text-red-300 transition-all duration-200" title="ลบ">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                    endforeach; 
+                                    endif; 
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile Card List -->
+                    <div class="block md:hidden space-y-4 p-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-b-3xl">
+                        <?php if (empty($allLandingSlides)): ?>
+                            <div class="text-center py-12">
+                                <i class="fa-regular fa-images text-3xl text-slate-400 mb-2"></i>
+                                <p class="text-slate-500 dark:text-slate-400 text-xs">ยังไม่มีข้อมูลรูปภาพสไลด์หน้าก่อนเข้าในระบบ</p>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($allLandingSlides as $slide): ?>
+                                <div class="p-4 bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 shadow-sm hover:border-indigo-500/30 transition-all duration-300">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-24 h-12 rounded-lg bg-slate-200 dark:bg-slate-950 border border-slate-300 dark:border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center shadow-inner">
+                                            <?php if (strpos($slide['image_url'], 'http') === 0): ?>
+                                                <img src="<?php echo htmlspecialchars($slide['image_url']); ?>" alt="slide thumbnail" class="w-full h-full object-cover">
+                                            <?php else: ?>
+                                                <img src="<?php echo BASE_URL . '../home/' . htmlspecialchars($slide['image_url']); ?>" alt="slide thumbnail" class="w-full h-full object-cover">
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="flex-grow min-w-0">
+                                            <h4 class="font-bold text-slate-800 dark:text-white text-xs truncate">
+                                                <?php echo !empty($slide['title']) ? htmlspecialchars($slide['title']) : '<span class="text-slate-400 italic">ไม่ระบุชื่อสไลด์</span>'; ?>
+                                            </h4>
+                                            <div class="flex items-center justify-between mt-2">
+                                                <span class="text-[10px] text-slate-500 dark:text-slate-450 font-semibold font-english">
+                                                    ลำดับ: <?php echo (int)$slide['display_order']; ?>
+                                                </span>
+                                                <a href="<?php echo BASE_URL; ?>admin/landing/toggle?id=<?php echo $slide['id']; ?>" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-[9px] font-bold border transition-all duration-300 <?php echo $slide['status'] === 'active' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20'; ?>">
+                                                    <?php echo $slide['status'] === 'active' ? 'แสดงผล' : 'ซ่อน'; ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                                        <button onclick="openEditLandingModal(<?php echo htmlspecialchars(json_encode($slide)); ?>)" class="px-3 py-1.5 bg-indigo-600/10 hover:bg-indigo-600/30 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="แก้ไข">
+                                            <i class="fa-solid fa-edit text-xs"></i> แก้ไข
+                                        </button>
+                                        <a href="<?php echo BASE_URL; ?>admin/landing/toggle?id=<?php echo $slide['id']; ?>" onclick="confirmDelete(event, 'คุณต้องการลบรูปภาพสไลด์หน้าแรกนี้ใช่หรือไม่? ไฟล์รูปภาพจะถูกลบออกจากเซิร์ฟเวอร์ด้วย')" class="px-3 py-1.5 bg-red-600/10 hover:bg-red-600/30 text-red-600 dark:text-red-400 border border-red-500/20 rounded-xl text-[10px] font-bold transition-all flex items-center gap-1" title="ลบ">
                                             <i class="fa-solid fa-trash text-xs"></i> ลบ
                                         </a>
                                     </div>
@@ -1766,6 +1917,85 @@ $activeTab = $_GET['tab'] ?? 'news';
         </div>
     </div>
 
+    <!-- MODAL: Create Landing Slide -->
+    <div id="create-landing-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-full max-w-lg rounded-3xl shadow-2xl glass-modal p-6 scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-md font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-plus text-indigo-500 dark:text-indigo-400 mr-1.5"></i>เพิ่มรูปภาพสไลด์หน้าก่อนเข้าใหม่</h3>
+                <button onclick="closeCreateLandingModal()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white transition-colors">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <form action="<?php echo BASE_URL; ?>admin/landing/create" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่ออ้างอิงสไลด์ (ไม่บังคับ)</label>
+                    <input type="text" name="title" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all" placeholder="เช่น สไลด์ข่าวรับสมัครเรียน">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">รูปภาพสไลด์ (จำเป็น)</label>
+                    <input type="file" name="slide_image" accept="image/*" required class="w-full glass-input rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-indigo-500 transition-all">
+                    <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">รองรับสกุลไฟล์ .jpg, .png, .webp ขนาดสูงสุดไม่เกิน 5MB</p>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลำดับการแสดงผล</label>
+                    <input type="number" name="display_order" value="<?php echo count($allLandingSlides) + 1; ?>" readonly class="w-full bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 rounded-xl px-4 py-3 text-xs border border-slate-300 dark:border-white/10 focus:outline-none cursor-not-allowed transition-all" title="ระบบกำหนดให้ลำดับการแสดงผลเป็นลำดับสุดท้ายโดยอัตโนมัติ สามารถลากสลับลำดับได้ในตาราง">
+                    <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">ระบบจะจัดให้อยู่ลำดับล่าสุดโดยอัตโนมัติ (คุณสามารถลากสลับจัดลำดับในตารางได้)</p>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">สถานะการแสดงผล</label>
+                    <select name="status" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        <option value="active">แสดงผล (Active)</option>
+                        <option value="inactive">ซ่อนไว้ (Inactive)</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2.5 pt-4">
+                    <button type="button" onclick="closeCreateLandingModal()" class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">ยกเลิก</button>
+                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg transition-all">บันทึกข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Edit Landing Slide -->
+    <div id="edit-landing-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-full max-w-lg rounded-3xl shadow-2xl glass-modal p-6 scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-md font-bold text-slate-900 dark:text-white"><i class="fa-solid fa-edit text-indigo-500 dark:text-indigo-400 mr-1.5"></i>แก้ไขข้อมูลสไลด์หน้าก่อนเข้า</h3>
+                <button onclick="closeEditLandingModal()" class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white transition-colors">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <form action="<?php echo BASE_URL; ?>admin/landing/edit" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <input type="hidden" name="id" id="edit-landing-id">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ชื่ออ้างอิงสไลด์ (ไม่บังคับ)</label>
+                    <input type="text" name="title" id="edit-landing-title" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">เปลี่ยนรูปภาพสไลด์ (ไม่บังคับ)</label>
+                    <input type="file" name="slide_image" accept="image/*" class="w-full glass-input rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-indigo-500 transition-all">
+                    <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">เลือกไฟล์ใหม่หากต้องการเปลี่ยนรูปสไลด์เดิม ขนาดสูงสุด 5MB</p>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลำดับการแสดงผล</label>
+                    <input type="number" name="display_order" id="edit-landing-order" readonly class="w-full bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 rounded-xl px-4 py-3 text-xs border border-slate-300 dark:border-white/10 focus:outline-none cursor-not-allowed transition-all" title="สามารถสลับตำแหน่งได้โดยการลากสลับแถวในตารางโดยตรง">
+                    <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">จัดลำดับการแสดงผลโดยการลากสลับแถวในตารางหลัก</p>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">สถานะการแสดงผล</label>
+                    <select name="status" id="edit-landing-status" class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        <option value="active">แสดงผล (Active)</option>
+                        <option value="inactive">ซ่อนไว้ (Inactive)</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2.5 pt-4">
+                    <button type="button" onclick="closeEditLandingModal()" class="px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition-all">ยกเลิก</button>
+                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg transition-all">บันทึกข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MODAL: Edit About Section -->
     <div id="edit-about-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
         <div class="w-full max-w-5xl rounded-3xl shadow-2xl glass-modal p-6 scale-95 transition-transform duration-300">
@@ -1923,6 +2153,26 @@ $activeTab = $_GET['tab'] ?? 'news';
         }
         function closeEditHeroModal() {
             closeModalHelper('edit-hero-modal');
+        }
+
+        // Create Landing Modal
+        function openCreateLandingModal() {
+            openModalHelper('create-landing-modal');
+        }
+        function closeCreateLandingModal() {
+            closeModalHelper('create-landing-modal');
+        }
+
+        // Edit Landing Modal
+        function openEditLandingModal(slide) {
+            document.getElementById('edit-landing-id').value = slide.id;
+            document.getElementById('edit-landing-title').value = slide.title || '';
+            document.getElementById('edit-landing-order').value = slide.display_order;
+            document.getElementById('edit-landing-status').value = slide.status;
+            openModalHelper('edit-landing-modal');
+        }
+        function closeEditLandingModal() {
+            closeModalHelper('edit-landing-modal');
         }
 
         // Ticker Modal Functions
@@ -2168,6 +2418,109 @@ $activeTab = $_GET['tab'] ?? 'news';
                         heroTableBody.appendChild(draggedRow);
                     } else {
                         heroTableBody.insertBefore(draggedRow, afterElement);
+                    }
+                });
+            }
+
+            // Drag and Drop for Landing Carousel rows
+            const landingTableBody = document.getElementById('landingTableBody');
+            if (landingTableBody) {
+                let draggedLandingRow = null;
+
+                // Helper to find the element we should insert before
+                const getDragAfterLandingElement = (container, y) => {
+                    const draggableElements = [...container.querySelectorAll('.landing-row:not(.dragging)')];
+                    return draggableElements.reduce((closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: child };
+                        } else {
+                            return closest;
+                        }
+                    }, { offset: Number.NEGATIVE_INFINITY }).element;
+                };
+
+                const setupLandingRowDragListeners = (row) => {
+                    row.addEventListener('dragstart', (e) => {
+                        draggedLandingRow = row;
+                        row.classList.add('dragging', 'opacity-50', 'bg-indigo-50', 'dark:bg-indigo-950/40');
+                        e.dataTransfer.effectAllowed = 'move';
+                    });
+
+                    row.addEventListener('dragend', () => {
+                        row.classList.remove('dragging', 'opacity-50', 'bg-indigo-50', 'dark:bg-indigo-950/40');
+                        draggedLandingRow = null;
+
+                        // Visual update of orders
+                        const displayCells = landingTableBody.querySelectorAll('.display-order-cell');
+                        displayCells.forEach((cell, idx) => {
+                            cell.textContent = idx + 1;
+                        });
+
+                        // Send AJAX request
+                        const newOrder = [...landingTableBody.querySelectorAll('.landing-row')].map(r => r.getAttribute('data-id'));
+                        
+                        fetch('<?php echo BASE_URL; ?>admin/landing/reorder', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ order: newOrder })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Flash background
+                                landingTableBody.classList.add('bg-emerald-500/10');
+                                setTimeout(() => {
+                                    landingTableBody.classList.remove('bg-emerald-500/10');
+                                }, 500);
+
+                                // SweetAlert Toast
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    ...getSwalThemeOptions()
+                                });
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'จัดเรียงลำดับรูปภาพสไลด์หน้าก่อนเข้าสำเร็จ'
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'เกิดข้อผิดพลาด',
+                                    text: data.message || 'ไม่สามารถบันทึกลำดับได้',
+                                    ...getSwalThemeOptions()
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error saving reorder:', err);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'เกิดข้อผิดพลาดในการส่งข้อมูลไปยังเซิร์ฟเวอร์',
+                                ...getSwalThemeOptions()
+                            });
+                        });
+                    });
+                };
+
+                landingTableBody.querySelectorAll('.landing-row').forEach(setupLandingRowDragListeners);
+
+                landingTableBody.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!draggedLandingRow) return;
+                    const afterElement = getDragAfterLandingElement(landingTableBody, e.clientY);
+                    if (afterElement == null) {
+                        landingTableBody.appendChild(draggedLandingRow);
+                    } else {
+                        landingTableBody.insertBefore(draggedLandingRow, afterElement);
                     }
                 });
             }
