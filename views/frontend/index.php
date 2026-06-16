@@ -40,7 +40,7 @@
 </section>
 
 <!-- 2. Why Choose Us Section -->
-<section class="py-16 relative overflow-hidden">
+<section class="py-16 relative overflow-hidden scroll-reveal">
     <!-- Decorative Blurs -->
     <div class="absolute w-[250px] h-[250px] bg-indigo-500/5 blur-[80px] rounded-full top-20 left-[-100px] pointer-events-none"></div>
     <div class="absolute w-[250px] h-[250px] bg-emerald-500/5 blur-[80px] rounded-full bottom-20 right-[-100px] pointer-events-none"></div>
@@ -90,7 +90,7 @@
 </section>
 
 <!-- 3. School Statistics section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-reveal-scale">
     <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-indigo-800 rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden border border-indigo-500/20">
         <!-- Background light glows -->
         <div class="absolute w-[300px] h-[300px] bg-blue-500/20 blur-[80px] rounded-full top-[-50px] left-[-50px]"></div>
@@ -126,7 +126,7 @@
 </section>
 
 <!-- 4. Executive Message Section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-reveal">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <!-- Director Image Left Column (cols 5) -->
         <div class="lg:col-span-5 flex justify-center">
@@ -191,7 +191,7 @@
 </section>
 
 <!-- 5. News Board (3-column layout) -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5 scroll-reveal">
     <div class="text-center space-y-3 mb-12">
         <span class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20 inline-block">กระดานข่าวสารสารสนเทศ</span>
         <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">News & Board</h2>
@@ -317,7 +317,7 @@
 </section>
 
 <!-- 6. Awards & Achievements section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5 scroll-reveal">
     <div class="text-center space-y-3 mb-12">
         <span class="text-xs font-bold text-amber-500 dark:text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/20 inline-block">รางวัลและความภาคภูมิใจ</span>
         <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Awards & Achievements</h2>
@@ -377,7 +377,7 @@
 
 
 <!-- 7. Activity Gallery section -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5 scroll-reveal">
     <div class="text-center space-y-3 mb-12">
         <span class="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/20 inline-block">แกลเลอรีภาพกิจกรรม</span>
         <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Activity Gallery</h2>
@@ -408,7 +408,7 @@
 </section>
 
 <!-- 8. ITA Online Dashboard -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5 scroll-reveal">
     <div class="glass-card rounded-3xl p-8 border border-slate-200 dark:border-white/10 shadow-2xl relative overflow-hidden">
         
         <!-- Decoration circles -->
@@ -470,7 +470,7 @@
 </section>
 
 <!-- 9. Portals / External Quick System Portals -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5 scroll-reveal">
     <div class="text-center space-y-3 mb-12">
         <span class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20 inline-block">ระบบสารสนเทศออนไลน์</span>
         <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white"><?php echo __('external_portals'); ?></h2>
