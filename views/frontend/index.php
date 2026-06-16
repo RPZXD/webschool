@@ -351,7 +351,7 @@
 
                 <!-- Content info -->
                 <div class="p-5 flex flex-col flex-grow space-y-2">
-                    <span class="text-[9px] text-slate-400 dark:text-slate-500 font-english"><i class="fa-regular fa-clock mr-1"></i><?php echo date('d M Y', strtotime($item['created_at'])); ?></span>
+                    <span class="text-[9px] text-slate-400 dark:text-slate-500 font-english"><i class="fa-regular fa-clock mr-1"></i><?php echo date('d M Y', strtotime($item['date'])); ?></span>
                     <h3 class="text-xs font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 hover:text-amber-500 transition-colors">
                         <?php echo htmlspecialchars($item['title']); ?>
                     </h3>
@@ -365,7 +365,16 @@
             endif; 
         ?>
     </div>
+
+    <!-- See More CTA Button -->
+    <div class="flex justify-center mt-10">
+        <a href="<?php echo BASE_URL; ?>awards" class="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-2xl text-xs font-bold shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">
+            <i class="fa-solid fa-trophy text-sm"></i>
+            <span>ดูเกียรติยศและรางวัลทั้งหมด</span>
+        </a>
+    </div>
 </section>
+
 
 <!-- 7. Activity Gallery section -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5">

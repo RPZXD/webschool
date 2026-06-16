@@ -20,24 +20,27 @@ class NewsController {
         $activities = $this->newsModel->getAll('activity', 4);
         $generalNews = $this->newsModel->getAll('general', 4);
         
-        // Fetch latest certificates from phichaia_cktech database
+        // Fetch latest combined awards (Students & Teachers) for homepage showcase
         $awards = [];
+        $tempAwards = [];
+        
+        // Lookup prefix helper for teachers
+        $prefixes = [1 => 'นาย', 2 => 'นาง', 3 => 'นางสาว', 4 => 'ดร.', 5 => 'อาจารย์', 6 => 'ดร.'];
+
+        // 1. Fetch latest student certificates
         try {
             $pdoCktech = Database::connect('phichaia_cktech');
             if ($pdoCktech) {
                 $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at FROM certificates ORDER BY award_date DESC, id DESC LIMIT 4");
                 $stmt->execute();
                 $certs = $stmt->fetchAll();
-
-                $cktechCertBaseUrl = 'https://cktech.phichai.ac.th/uploads/certificates/';
-
+                
                 foreach ($certs as $c) {
                     $imageUrl = null;
                     if (!empty($c['certificate_image'])) {
-                        $imageUrl = $cktechCertBaseUrl . ltrim($c['certificate_image'], '/');
+                        $imageUrl = 'https://cktech.phichai.ac.th/uploads/certificates/' . ltrim($c['certificate_image'], '/');
                     }
                     
-                    // Construct a clean display content
                     $classText = !empty($c['student_class']) ? " ชั้น ม.{$c['student_class']}" : "";
                     $roomText = (!empty($c['student_room']) && !empty($c['student_class'])) ? "/{$c['student_room']}" : "";
                     $studentInfo = !empty($c['student_name']) ? "ผู้รับรางวัล: {$c['student_name']}{$classText}{$roomText}" : "";
@@ -45,20 +48,63 @@ class NewsController {
                     $detailText = $c['award_detail'] ?? '';
                     $fullContent = $studentInfo ? $studentInfo . "\n" . $detailText : $detailText;
 
-                    $awards[] = [
+                    $tempAwards[] = [
                         'id' => $c['id'],
-                        'title' => !empty($c['award_name']) ? $c['award_name'] : 'รางวัลเกียรติยศ',
+                        'type' => 'student',
+                        'title' => !empty($c['award_name']) ? $c['award_name'] : 'รางวัลเกียรติยศนักเรียน',
                         'content' => $fullContent,
                         'image_url' => $imageUrl,
-                        'created_at' => $c['award_date'] ?? $c['created_at'] ?? date('Y-m-d')
+                        'date' => $c['award_date'] ?? $c['created_at'] ?? date('Y-m-d')
                     ];
                 }
             }
         } catch (Exception $e) {
-            error_log("NewsController index fetch certificates error: " . $e->getMessage());
-            $awards = [];
+            error_log("NewsController index fetch student certificates error: " . $e->getMessage());
         }
-        
+
+        // 2. Fetch latest teacher awards
+        try {
+            $pdoPerson = Database::connect('phichaia_person');
+            if ($pdoPerson) {
+                $stmt = $pdoPerson->prepare("SELECT a.awid, a.award, a.date1, a.certificate, a.department, t.pname, t.tname FROM tb_award a LEFT JOIN tb_teacher t ON a.tid = t.tid ORDER BY a.date1 DESC, a.awid DESC LIMIT 4");
+                $stmt->execute();
+                $teacherCerts = $stmt->fetchAll();
+                
+                foreach ($teacherCerts as $tc) {
+                    $imageUrl = null;
+                    if (!empty($tc['certificate'])) {
+                        $imageUrl = 'https://person.phichai.ac.th/uploads/file_award/' . ltrim($tc['certificate'], '/');
+                    }
+                    
+                    $prefId = (int)($tc['pname'] ?? 0);
+                    $prefStr = $prefixes[$prefId] ?? '';
+                    $teacherName = !empty($tc['tname']) ? $prefStr . $tc['tname'] : 'บุคลากรโรงเรียน';
+                    
+                    $deptText = !empty($tc['department']) ? " ({$tc['department']})" : "";
+                    $teacherInfo = "ผู้รับรางวัล: {$teacherName}{$deptText}";
+                    
+                    $tempAwards[] = [
+                        'id' => $tc['awid'],
+                        'type' => 'teacher',
+                        'title' => !empty($tc['award']) ? $tc['award'] : 'รางวัลเกียรติยศครู/บุคลากร',
+                        'content' => $teacherInfo,
+                        'image_url' => $imageUrl,
+                        'date' => $tc['date1'] ?? date('Y-m-d')
+                    ];
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController index fetch teacher awards error: " . $e->getMessage());
+        }
+
+        // 3. Sort combined awards by date descending
+        usort($tempAwards, function($a, $b) {
+            return strcmp($b['date'], $a['date']);
+        });
+
+        // 4. Slice to get the top 4
+        $awards = array_slice($tempAwards, 0, 4);
+
         // Fetch active ITA indicator metrics for progress bar
         $itaMetrics = $this->itaModel->getMetrics();
 
@@ -454,4 +500,98 @@ class NewsController {
 
         return false;
     }
+
+    /**
+     * Frontend Awards Archive: Displays filterable combined awards & achievements
+     */
+    public function awards() {
+        $awards = array();
+        $tempAwards = array();
+        
+        // Lookup prefix helper for teachers
+        $prefixes = array(1 => 'นาย', 2 => 'นาง', 3 => 'นางสาว', 4 => 'ดร.', 5 => 'อาจารย์', 6 => 'ดร.');
+
+        // 1. Fetch latest student certificates
+        try {
+            $pdoCktech = Database::connect('phichaia_cktech');
+            if ($pdoCktech) {
+                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at FROM certificates ORDER BY award_date DESC, id DESC LIMIT 150");
+                $stmt->execute();
+                $certs = $stmt->fetchAll();
+                
+                foreach ($certs as $c) {
+                    $imageUrl = null;
+                    if (!empty($c['certificate_image'])) {
+                        $imageUrl = 'https://cktech.phichai.ac.th/uploads/certificates/' . ltrim($c['certificate_image'], '/');
+                    }
+                    
+                    $classText = !empty($c['student_class']) ? " ชั้น ม.{$c['student_class']}" : "";
+                    $roomText = (!empty($c['student_room']) && !empty($c['student_class'])) ? "/{$c['student_room']}" : "";
+                    $studentInfo = !empty($c['student_name']) ? "ผู้รับรางวัล: {$c['student_name']}{$classText}{$roomText}" : "";
+                    
+                    $detailText = isset($c['award_detail']) ? $c['award_detail'] : '';
+                    $fullContent = $studentInfo ? $studentInfo . "\n" . $detailText : $detailText;
+
+                    $tempAwards[] = array(
+                        'id' => $c['id'],
+                        'type' => 'student',
+                        'title' => !empty($c['award_name']) ? $c['award_name'] : 'รางวัลเกียรติยศนักเรียน',
+                        'content' => $fullContent,
+                        'image_url' => $imageUrl,
+                        'date' => isset($c['award_date']) && !empty($c['award_date']) ? $c['award_date'] : (isset($c['created_at']) && !empty($c['created_at']) ? $c['created_at'] : date('Y-m-d'))
+                    );
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController awards fetch student certificates error: " . $e->getMessage());
+        }
+
+        // 2. Fetch latest teacher awards
+        try {
+            $pdoPerson = Database::connect('phichaia_person');
+            if ($pdoPerson) {
+                $stmt = $pdoPerson->prepare("SELECT a.awid, a.award, a.date1, a.certificate, a.department, t.pname, t.tname FROM tb_award a LEFT JOIN tb_teacher t ON a.tid = t.tid ORDER BY a.date1 DESC, a.awid DESC LIMIT 150");
+                $stmt->execute();
+                $teacherCerts = $stmt->fetchAll();
+                
+                foreach ($teacherCerts as $tc) {
+                    $imageUrl = null;
+                    if (!empty($tc['certificate'])) {
+                        $imageUrl = 'https://person.phichai.ac.th/uploads/file_award/' . ltrim($tc['certificate'], '/');
+                    }
+                    
+                    $prefId = (int)(isset($tc['pname']) ? $tc['pname'] : 0);
+                    $prefStr = isset($prefixes[$prefId]) ? $prefixes[$prefId] : '';
+                    $teacherName = !empty($tc['tname']) ? $prefStr . $tc['tname'] : 'บุคลากรโรงเรียน';
+                    
+                    $deptText = !empty($tc['department']) ? " ({$tc['department']})" : "";
+                    $teacherInfo = "ผู้รับรางวัล: {$teacherName}{$deptText}";
+                    
+                    $tempAwards[] = array(
+                        'id' => $tc['awid'],
+                        'type' => 'teacher',
+                        'title' => !empty($tc['award']) ? $tc['award'] : 'รางวัลเกียรติยศครู/บุคลากร',
+                        'content' => $teacherInfo,
+                        'image_url' => $imageUrl,
+                        'date' => isset($tc['date1']) && !empty($tc['date1']) ? $tc['date1'] : date('Y-m-d')
+                    );
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController awards fetch teacher awards error: " . $e->getMessage());
+        }
+
+        // 3. Sort combined awards by date descending
+        usort($tempAwards, function($a, $b) {
+            return strcmp($b['date'], $a['date']);
+        });
+
+        $awards = $tempAwards;
+
+        $title = "รางวัลและความภาคภูมิใจ | " . SCHOOL_NAME;
+        require ROOT_PATH . 'views/layouts/header.php';
+        require ROOT_PATH . 'views/frontend/awards.php';
+        require ROOT_PATH . 'views/layouts/footer.php';
+    }
 }
+

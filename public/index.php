@@ -71,6 +71,7 @@ $routes = [
     '/' => ['NewsController', 'index'],
     '/news' => ['NewsController', 'archive'],
     '/news/detail' => ['NewsController', 'detail'],
+    '/awards' => ['NewsController', 'awards'],
     '/search' => ['SearchController', 'index'],
     '/journal' => ['JournalController', 'index'],
     '/journal/detail' => ['JournalController', 'detail'],
