@@ -329,12 +329,15 @@
             <div class="col-span-full text-center py-12 text-slate-400 italic text-xs">ยังไม่มีบันทึกข้อมูลรางวัลและผลงานเด่นในระบบขณะนี้</div>
         <?php else: 
             foreach ($awards as $item): 
+                $clickAction = !empty($item['image_url']) 
+                    ? "window.open('".htmlspecialchars($item['image_url'])."', '_blank')" 
+                    : "window.open('https://cktech.phichai.ac.th/', '_blank')";
         ?>
-            <div onclick="location.href='<?php echo BASE_URL; ?>news/detail?id=<?php echo $item['id']; ?>'" class="glass-card rounded-2xl overflow-hidden flex flex-col h-full hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-1.5 shadow-lg group cursor-pointer relative">
+            <div onclick="<?php echo $clickAction; ?>" class="glass-card rounded-2xl overflow-hidden flex flex-col h-full hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-1.5 shadow-lg group cursor-pointer relative">
                 <!-- Cover Image & Trophy badge -->
                 <div class="h-44 overflow-hidden bg-slate-950 relative">
                     <?php if (!empty($item['image_url'])): ?>
-                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                     <?php else: ?>
                         <div class="w-full h-full bg-gradient-to-br from-amber-950/40 to-slate-950 flex items-center justify-center p-4">
                             <span class="text-amber-500/40 text-4xl"><i class="fa-solid fa-trophy"></i></span>
@@ -352,7 +355,7 @@
                     <h3 class="text-xs font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 hover:text-amber-500 transition-colors">
                         <?php echo htmlspecialchars($item['title']); ?>
                     </h3>
-                    <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
+                    <p class="text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 whitespace-pre-line">
                         <?php echo htmlspecialchars($item['content']); ?>
                     </p>
                 </div>

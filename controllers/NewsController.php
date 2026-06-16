@@ -19,7 +19,45 @@ class NewsController {
         $announcements = $this->newsModel->getAll('announcement', 4);
         $activities = $this->newsModel->getAll('activity', 4);
         $generalNews = $this->newsModel->getAll('general', 4);
-        $awards = $this->newsModel->getAll('award', 4);
+        
+        // Fetch latest certificates from phichaia_cktech database
+        $awards = [];
+        try {
+            $pdoCktech = Database::connect('phichaia_cktech');
+            if ($pdoCktech) {
+                $stmt = $pdoCktech->prepare("SELECT id, student_name, student_class, student_room, award_name, award_detail, award_date, certificate_image, created_at FROM certificates ORDER BY award_date DESC, id DESC LIMIT 4");
+                $stmt->execute();
+                $certs = $stmt->fetchAll();
+
+                $cktechCertBaseUrl = 'https://cktech.phichai.ac.th/uploads/certificates/';
+
+                foreach ($certs as $c) {
+                    $imageUrl = null;
+                    if (!empty($c['certificate_image'])) {
+                        $imageUrl = $cktechCertBaseUrl . ltrim($c['certificate_image'], '/');
+                    }
+                    
+                    // Construct a clean display content
+                    $classText = !empty($c['student_class']) ? " ชั้น ม.{$c['student_class']}" : "";
+                    $roomText = (!empty($c['student_room']) && !empty($c['student_class'])) ? "/{$c['student_room']}" : "";
+                    $studentInfo = !empty($c['student_name']) ? "ผู้รับรางวัล: {$c['student_name']}{$classText}{$roomText}" : "";
+                    
+                    $detailText = $c['award_detail'] ?? '';
+                    $fullContent = $studentInfo ? $studentInfo . "\n" . $detailText : $detailText;
+
+                    $awards[] = [
+                        'id' => $c['id'],
+                        'title' => !empty($c['award_name']) ? $c['award_name'] : 'รางวัลเกียรติยศ',
+                        'content' => $fullContent,
+                        'image_url' => $imageUrl,
+                        'created_at' => $c['award_date'] ?? $c['created_at'] ?? date('Y-m-d')
+                    ];
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController index fetch certificates error: " . $e->getMessage());
+            $awards = [];
+        }
         
         // Fetch active ITA indicator metrics for progress bar
         $itaMetrics = $this->itaModel->getMetrics();
