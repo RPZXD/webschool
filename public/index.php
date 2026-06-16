@@ -116,6 +116,7 @@ $routes = [
     '/admin/hero/edit' => ['HeroController', 'edit'],
     '/admin/hero/delete' => ['HeroController', 'delete'],
     '/admin/hero/toggle' => ['HeroController', 'toggleStatus'],
+    '/admin/hero/reorder' => ['HeroController', 'reorder'],
     '/admin/ticker/create' => ['UrgentNewsController', 'create'],
     '/admin/ticker/edit' => ['UrgentNewsController', 'edit'],
     '/admin/ticker/delete' => ['UrgentNewsController', 'delete'],

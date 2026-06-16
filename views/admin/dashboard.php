@@ -686,6 +686,7 @@ $activeTab = $_GET['tab'] ?? 'news';
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 dark:bg-slate-950/60 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tracking-wider">
+                                    <th class="py-4 px-4 text-center w-12">ย้าย</th>
                                     <th class="py-4 px-6 text-center w-24">รูปภาพ</th>
                                     <th class="py-4 px-6">ชื่ออ้างอิงสไลด์</th>
                                     <th class="py-4 px-6 text-center w-32">ลำดับการแสดงผล</th>
@@ -693,10 +694,10 @@ $activeTab = $_GET['tab'] ?? 'news';
                                     <th class="py-4 px-6 text-center w-36">การจัดการ</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-white/5 text-xs text-slate-600 dark:text-slate-300">
+                            <tbody id="heroTableBody" class="divide-y divide-slate-100 dark:divide-white/5 text-xs text-slate-600 dark:text-slate-300">
                                 <?php if (empty($allHeroes)): ?>
                                     <tr>
-                                        <td colspan="5" class="text-center py-16">
+                                        <td colspan="6" class="text-center py-16">
                                             <i class="fa-regular fa-images text-3xl text-slate-400 mb-3"></i>
                                             <p class="text-slate-500 dark:text-slate-400">ยังไม่มีข้อมูลรูปภาพสไลด์ในระบบ</p>
                                         </td>
@@ -704,7 +705,11 @@ $activeTab = $_GET['tab'] ?? 'news';
                                 <?php else: 
                                     foreach ($allHeroes as $hero): 
                                 ?>
-                                    <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                                    <tr draggable="true" data-id="<?php echo $hero['id']; ?>" class="hero-row hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-move">
+                                        <!-- Drag Handle -->
+                                        <td class="py-3 px-4 text-center text-slate-450 dark:text-slate-400">
+                                            <i class="fa-solid fa-grip-vertical"></i>
+                                        </td>
                                         <!-- Slide Image Thumbnail -->
                                         <td class="py-3 px-6 text-center">
                                             <div class="w-20 h-10 rounded-lg bg-slate-200 dark:bg-slate-950 border border-slate-300 dark:border-white/10 overflow-hidden mx-auto flex items-center justify-center shadow-inner">
@@ -716,7 +721,7 @@ $activeTab = $_GET['tab'] ?? 'news';
                                             <?php echo !empty($hero['title']) ? htmlspecialchars($hero['title']) : '<span class="text-slate-400 italic">ไม่ระบุชื่อสไลด์</span>'; ?>
                                         </td>
                                         <!-- Display Order -->
-                                        <td class="py-3 px-6 text-center font-english font-semibold">
+                                        <td class="py-3 px-6 text-center font-english font-semibold display-order-cell">
                                             <?php echo (int)$hero['display_order']; ?>
                                         </td>
                                         <!-- Display Status Badge / Toggle Link -->
@@ -1702,8 +1707,9 @@ $activeTab = $_GET['tab'] ?? 'news';
                     <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">รองรับสกุลไฟล์ .jpg, .png, .webp ขนาดสูงสุดไม่เกิน 5MB</p>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลำดับการแสดงผล (ตัวเลข)</label>
-                    <input type="number" name="display_order" value="1" min="1" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลำดับการแสดงผล</label>
+                    <input type="number" name="display_order" value="<?php echo count($allHeroes) + 1; ?>" readonly class="w-full bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 rounded-xl px-4 py-3 text-xs border border-slate-300 dark:border-white/10 focus:outline-none cursor-not-allowed transition-all" title="ระบบกำหนดให้ลำดับการแสดงผลเป็นลำดับสุดท้ายโดยอัตโนมัติ สามารถลากสลับลำดับได้ในตาราง">
+                    <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">ระบบจะจัดให้อยู่ลำดับล่าสุดโดยอัตโนมัติ (คุณสามารถลากสลับจัดลำดับในตารางได้)</p>
                 </div>
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">สถานะการแสดงผล</label>
@@ -1741,8 +1747,9 @@ $activeTab = $_GET['tab'] ?? 'news';
                     <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">เลือกไฟล์ใหม่หากต้องการเปลี่ยนรูปสไลด์เดิม ขนาดสูงสุด 5MB</p>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลำดับการแสดงผล (ตัวเลข)</label>
-                    <input type="number" name="display_order" id="edit-hero-order" required class="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                    <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">ลำดับการแสดงผล</label>
+                    <input type="number" name="display_order" id="edit-hero-order" readonly class="w-full bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 rounded-xl px-4 py-3 text-xs border border-slate-300 dark:border-white/10 focus:outline-none cursor-not-allowed transition-all" title="สามารถสลับตำแหน่งได้โดยการลากสลับแถวในตารางโดยตรง">
+                    <p class="text-[9px] text-slate-400 dark:text-slate-500 leading-tight">จัดลำดับการแสดงผลโดยการลากสลับแถวในตารางหลัก</p>
                 </div>
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">สถานะการแสดงผล</label>
@@ -2059,6 +2066,109 @@ $activeTab = $_GET['tab'] ?? 'news';
             if (editCategorySelect) {
                 editCategorySelect.addEventListener('change', function(e) {
                     toggleProcurementFields('edit', e.target.value);
+                });
+            }
+
+            // Drag and Drop for Hero Carousel rows
+            const heroTableBody = document.getElementById('heroTableBody');
+            if (heroTableBody) {
+                let draggedRow = null;
+
+                // Helper to find the element we should insert before
+                const getDragAfterElement = (container, y) => {
+                    const draggableElements = [...container.querySelectorAll('.hero-row:not(.dragging)')];
+                    return draggableElements.reduce((closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: child };
+                        } else {
+                            return closest;
+                        }
+                    }, { offset: Number.NEGATIVE_INFINITY }).element;
+                };
+
+                const setupRowDragListeners = (row) => {
+                    row.addEventListener('dragstart', (e) => {
+                        draggedRow = row;
+                        row.classList.add('dragging', 'opacity-50', 'bg-indigo-50', 'dark:bg-indigo-950/40');
+                        e.dataTransfer.effectAllowed = 'move';
+                    });
+
+                    row.addEventListener('dragend', () => {
+                        row.classList.remove('dragging', 'opacity-50', 'bg-indigo-50', 'dark:bg-indigo-950/40');
+                        draggedRow = null;
+
+                        // Visual update of orders
+                        const displayCells = heroTableBody.querySelectorAll('.display-order-cell');
+                        displayCells.forEach((cell, idx) => {
+                            cell.textContent = idx + 1;
+                        });
+
+                        // Send AJAX request
+                        const newOrder = [...heroTableBody.querySelectorAll('.hero-row')].map(r => r.getAttribute('data-id'));
+                        
+                        fetch('<?php echo BASE_URL; ?>admin/hero/reorder', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ order: newOrder })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Flash background
+                                heroTableBody.classList.add('bg-emerald-500/10');
+                                setTimeout(() => {
+                                    heroTableBody.classList.remove('bg-emerald-500/10');
+                                }, 500);
+
+                                // SweetAlert Toast
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    ...getSwalThemeOptions()
+                                });
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'จัดเรียงลำดับรูปภาพสไลด์ใหม่สำเร็จ'
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'เกิดข้อผิดพลาด',
+                                    text: data.message || 'ไม่สามารถบันทึกลำดับได้',
+                                    ...getSwalThemeOptions()
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Error saving reorder:', err);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'เกิดข้อผิดพลาดในการส่งข้อมูลไปยังเซิร์ฟเวอร์',
+                                ...getSwalThemeOptions()
+                            });
+                        });
+                    });
+                };
+
+                heroTableBody.querySelectorAll('.hero-row').forEach(setupRowDragListeners);
+
+                heroTableBody.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!draggedRow) return;
+                    const afterElement = getDragAfterElement(heroTableBody, e.clientY);
+                    if (afterElement == null) {
+                        heroTableBody.appendChild(draggedRow);
+                    } else {
+                        heroTableBody.insertBefore(draggedRow, afterElement);
+                    }
                 });
             }
         });

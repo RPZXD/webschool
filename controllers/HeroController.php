@@ -233,4 +233,49 @@ class HeroController {
 
         return false;
     }
+
+    /**
+     * Reorders hero slides via AJAX
+     */
+    public function reorder() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (!isset($_SESSION['user_id'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $input = json_decode(file_get_contents('php://input'), true);
+            $order = $input['order'] ?? [];
+
+            if (is_array($order) && !empty($order)) {
+                $db = Database::connect();
+                try {
+                    $db->beginTransaction();
+                    $stmt = $db->prepare("UPDATE hero_slides SET display_order = :display_order WHERE id = :id");
+                    foreach ($order as $index => $id) {
+                        $stmt->execute([
+                            'display_order' => $index + 1,
+                            'id' => (int)$id
+                        ]);
+                    }
+                    $db->commit();
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => true]);
+                    exit();
+                } catch (Exception $e) {
+                    $db->rollBack();
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+                    exit();
+                }
+            }
+        }
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Invalid request']);
+        exit();
+    }
 }
