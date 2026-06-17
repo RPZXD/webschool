@@ -27,6 +27,70 @@ class ScheduleController {
         $embedUrl = $this->getGoogleDriveEmbedUrl($scheduleUrl);
         $title = __('info_schedule_teacher') . " | " . SCHOOL_NAME;
 
+        // Instantiate TeacherSchedule model
+        $scheduleModel = new TeacherSchedule();
+        $departments = $scheduleModel->getDepartments();
+        $teachersGrouped = $scheduleModel->getAllTeachersGroupedByDepartment();
+
+        // Get filter inputs
+        $selectedTeacherId = isset($_GET['teacher_id']) ? trim($_GET['teacher_id']) : '';
+        $selectedDept = isset($_GET['dept']) ? trim($_GET['dept']) : '';
+        $viewMode = isset($_GET['view_mode']) ? trim($_GET['view_mode']) : 'interactive';
+
+        $selectedTeacherName = '';
+        $scheduleGrid = [];
+        $rawSchedule = [];
+
+        $days = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'];
+        $periods = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        if (!empty($selectedTeacherId)) {
+            $selectedTeacherName = $scheduleModel->getTeacherName($selectedTeacherId);
+            $rawSchedule = $scheduleModel->getTeacherSchedule($selectedTeacherId);
+
+            // Initialize empty weekly schedule grid
+            foreach ($days as $day) {
+                foreach ($periods as $p) {
+                    $scheduleGrid[$day][$p] = null;
+                }
+            }
+
+            // Populate the weekly schedule grid
+            foreach ($rawSchedule as $class) {
+                $day = trim($class['day_of_week']);
+                $pStart = intval($class['period_start']);
+                $pEnd = intval($class['period_end']);
+
+                if (!in_array($day, $days)) {
+                    continue;
+                }
+
+                // Standardize periods within 1 to 8 range
+                $pStart = max(1, min(8, $pStart));
+                $pEnd = max(1, min(8, $pEnd));
+
+                $span = $pEnd - $pStart + 1;
+                if ($span < 1) $span = 1;
+
+                if (isset($scheduleGrid[$day]) && array_key_exists($pStart, $scheduleGrid[$day])) {
+                    // If slot is occupied by a simpler record, or empty, set it
+                    if ($scheduleGrid[$day][$pStart] === null || $scheduleGrid[$day][$pStart] === 'occupied') {
+                        $scheduleGrid[$day][$pStart] = [
+                            'class' => $class,
+                            'span' => $span
+                        ];
+
+                        // Mark subsequent spanned cells as occupied
+                        for ($i = $pStart + 1; $i <= $pEnd; $i++) {
+                            if (isset($scheduleGrid[$day]) && array_key_exists($i, $scheduleGrid[$day])) {
+                                $scheduleGrid[$day][$i] = 'occupied';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Render views
         require ROOT_PATH . 'views/layouts/header.php';
         require ROOT_PATH . 'views/frontend/schedule.php';
