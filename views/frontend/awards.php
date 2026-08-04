@@ -51,6 +51,7 @@
                 <button onclick="changeAwardsTab('all')" id="tab-all" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-white bg-indigo-600 shadow-md flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงทั้งหมด">ทั้งหมด</button>
                 <button onclick="changeAwardsTab('student')" id="tab-student" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงของนักเรียน">ผลงานนักเรียน</button>
                 <button onclick="changeAwardsTab('teacher')" id="tab-teacher" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงครูและบุคลากร">ผลงานครู</button>
+                <button onclick="changeAwardsTab('school')" id="tab-school" class="category-tab px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex-1 sm:flex-initial text-center whitespace-nowrap" aria-label="แสดงของโรงเรียน">ผลงานโรงเรียน</button>
             </div>
         </div>
     </div>
@@ -64,10 +65,16 @@
             </div>
         <?php else: 
             foreach ($awards as $index => $item): 
-                $badgeText = $item['type'] === 'student' ? 'ผลงานนักเรียน' : 'ผลงานครู';
-                $badgeClass = $item['type'] === 'student' 
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' 
-                    : 'bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 border-indigo-600/20'; // Indigo-600 is Crimson in config
+                if ($item['type'] === 'student') {
+                    $badgeText = 'ผลงานนักเรียน';
+                    $badgeClass = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+                } elseif ($item['type'] === 'school') {
+                    $badgeText = 'ผลงานโรงเรียน';
+                    $badgeClass = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+                } else {
+                    $badgeText = 'ผลงานครู';
+                    $badgeClass = 'bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 border-indigo-600/20';
+                }
         ?>
             <div class="award-card glass-card rounded-2xl overflow-hidden flex flex-col h-full hover:border-amber-500/30 transition-all duration-300 hover:-translate-y-1.5 shadow-lg group cursor-pointer relative" 
                  data-type="<?php echo htmlspecialchars($item['type']); ?>"

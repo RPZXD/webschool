@@ -147,7 +147,64 @@ class NewsController {
             error_log("NewsController index fetch teacher awards error: " . $e->getMessage());
         }
 
-        // 3. Sort combined awards by highest level (level_score) first, then date descending
+        // 3. Fetch school awards from Database phichaia_person table `tb_school_award`
+        try {
+            $pdoPerson = Database::connect('phichaia_person');
+            if ($pdoPerson) {
+                $stmt = $pdoPerson->prepare("SELECT id, award_name, level, date_received, term, year, department, certificate FROM tb_school_award ORDER BY date_received DESC, id DESC LIMIT 50");
+                $stmt->execute();
+                $schoolCerts = $stmt->fetchAll();
+
+                foreach ($schoolCerts as $sc) {
+                    $imageUrl = null;
+                    if (!empty($sc['certificate'])) {
+                        $imageUrl = 'https://person.phichai.ac.th/uploads/file_award/' . ltrim($sc['certificate'], '/');
+                    }
+
+                    $deptText = !empty($sc['department']) ? "หน่วยงาน: {$sc['department']}" : "";
+                    $yearText = !empty($sc['year']) ? "ปีการศึกษา {$sc['year']}" : "";
+                    $detailInfo = array_filter([$deptText, $yearText]);
+                    $contentStr = !empty($detailInfo) ? implode(' | ', $detailInfo) : 'รางวัลและความภาคภูมิใจของสถานศึกษา';
+
+                    $levelStr = isset($sc['level']) ? $sc['level'] : '';
+                    $levelScore = 5;
+                    if ($levelStr === '4' || $levelStr === 'ระดับนานาชาติ') {
+                        $levelScore = 6;
+                    } elseif ($levelStr === '3' || $levelStr === 'ระดับประเทศ') {
+                        $levelScore = 5;
+                    } elseif ($levelStr === '2' || $levelStr === 'ระดับภาค') {
+                        $levelScore = 4;
+                    } elseif ($levelStr === '1' || $levelStr === 'ระดับจังหวัด') {
+                        $levelScore = 3;
+                    }
+
+                    $awardText = isset($sc['award_name']) ? $sc['award_name'] : '';
+                    $resType = 'winner';
+                    if (mb_strpos($awardText, 'ชนะเลิศ') !== false && mb_strpos($awardText, 'รองชนะเลิศ') === false) {
+                        $resType = 'winner';
+                    } elseif (mb_strpos($awardText, 'รองชนะเลิศ') !== false || mb_strpos($awardText, 'เหรียญทอง') !== false || mb_strpos($awardText, 'เหรียญเงิน') !== false) {
+                        $resType = 'runner_up';
+                    } elseif (mb_strpos($awardText, 'ชมเชย') !== false || mb_strpos($awardText, 'เกียรติบัตร') !== false) {
+                        $resType = 'certificate';
+                    }
+
+                    $tempAwards[] = array(
+                        'id' => $sc['id'],
+                        'type' => 'school',
+                        'title' => !empty($sc['award_name']) ? $sc['award_name'] : 'รางวัลเกียรติยศโรงเรียน',
+                        'content' => $contentStr,
+                        'image_url' => $imageUrl,
+                        'date' => isset($sc['date_received']) && !empty($sc['date_received']) ? $sc['date_received'] : date('Y-m-d'),
+                        'level_score' => $levelScore,
+                        'result_type' => $resType
+                    );
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController index fetch school awards error: " . $e->getMessage());
+        }
+
+        // 4. Sort combined awards by highest level (level_score) first, then date descending
         usort($tempAwards, function($a, $b) {
             if ($a['level_score'] !== $b['level_score']) {
                 return $b['level_score'] - $a['level_score'];
@@ -155,7 +212,7 @@ class NewsController {
             return strcmp($b['date'], $a['date']);
         });
 
-        // 4. Slice to get the top 4
+        // 5. Slice to get the top 4
         $awards = array_slice($tempAwards, 0, 4);
 
         // Fetch active ITA indicator metrics for progress bar
@@ -716,7 +773,64 @@ class NewsController {
             error_log("NewsController awards fetch teacher awards error: " . $e->getMessage());
         }
 
-        // 3. Sort combined awards by highest level (level_score) first, then date descending
+        // 3. Fetch school awards from Database phichaia_person table `tb_school_award`
+        try {
+            $pdoPerson = Database::connect('phichaia_person');
+            if ($pdoPerson) {
+                $stmt = $pdoPerson->prepare("SELECT id, award_name, level, date_received, term, year, department, certificate FROM tb_school_award ORDER BY date_received DESC, id DESC LIMIT 150");
+                $stmt->execute();
+                $schoolCerts = $stmt->fetchAll();
+
+                foreach ($schoolCerts as $sc) {
+                    $imageUrl = null;
+                    if (!empty($sc['certificate'])) {
+                        $imageUrl = 'https://person.phichai.ac.th/uploads/file_award/' . ltrim($sc['certificate'], '/');
+                    }
+
+                    $deptText = !empty($sc['department']) ? "หน่วยงาน: {$sc['department']}" : "";
+                    $yearText = !empty($sc['year']) ? "ปีการศึกษา {$sc['year']}" : "";
+                    $detailInfo = array_filter([$deptText, $yearText]);
+                    $contentStr = !empty($detailInfo) ? implode(' | ', $detailInfo) : 'รางวัลและความภาคภูมิใจของสถานศึกษา';
+
+                    $levelStr = isset($sc['level']) ? $sc['level'] : '';
+                    $levelScore = 5; // Default national/school level
+                    if ($levelStr === '4' || $levelStr === 'ระดับนานาชาติ') {
+                        $levelScore = 6;
+                    } elseif ($levelStr === '3' || $levelStr === 'ระดับประเทศ') {
+                        $levelScore = 5;
+                    } elseif ($levelStr === '2' || $levelStr === 'ระดับภาค') {
+                        $levelScore = 4;
+                    } elseif ($levelStr === '1' || $levelStr === 'ระดับจังหวัด') {
+                        $levelScore = 3;
+                    }
+
+                    $awardText = isset($sc['award_name']) ? $sc['award_name'] : '';
+                    $resType = 'winner';
+                    if (mb_strpos($awardText, 'ชนะเลิศ') !== false && mb_strpos($awardText, 'รองชนะเลิศ') === false) {
+                        $resType = 'winner';
+                    } elseif (mb_strpos($awardText, 'รองชนะเลิศ') !== false || mb_strpos($awardText, 'เหรียญทอง') !== false || mb_strpos($awardText, 'เหรียญเงิน') !== false) {
+                        $resType = 'runner_up';
+                    } elseif (mb_strpos($awardText, 'ชมเชย') !== false || mb_strpos($awardText, 'เกียรติบัตร') !== false) {
+                        $resType = 'certificate';
+                    }
+
+                    $tempAwards[] = array(
+                        'id' => $sc['id'],
+                        'type' => 'school',
+                        'title' => !empty($sc['award_name']) ? $sc['award_name'] : 'รางวัลเกียรติยศโรงเรียน',
+                        'content' => $contentStr,
+                        'image_url' => $imageUrl,
+                        'date' => isset($sc['date_received']) && !empty($sc['date_received']) ? $sc['date_received'] : date('Y-m-d'),
+                        'level_score' => $levelScore,
+                        'result_type' => $resType
+                    );
+                }
+            }
+        } catch (Exception $e) {
+            error_log("NewsController awards fetch school awards error: " . $e->getMessage());
+        }
+
+        // 4. Sort combined awards by highest level (level_score) first, then date descending
         usort($tempAwards, function($a, $b) {
             if ($a['level_score'] !== $b['level_score']) {
                 return $b['level_score'] - $a['level_score'];
