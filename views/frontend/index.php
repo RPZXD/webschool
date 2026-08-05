@@ -473,8 +473,8 @@
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 dark:border-white/5 scroll-reveal">
     <div class="text-center space-y-3 mb-12">
         <span class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20 inline-block">ระบบสารสนเทศออนไลน์</span>
-        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white"><?php echo __('external_portals'); ?></h2>
-        <p class="text-slate-500 dark:text-slate-400 text-xs max-w-md mx-auto"><?php echo __('external_portals_desc'); ?></p>
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white"><?php echo __('internal_portals'); ?></h2>
+        <p class="text-slate-500 dark:text-slate-400 text-xs max-w-md mx-auto"><?php echo __('internal_portals_desc'); ?></p>
     </div>
 
     <?php
